@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { FormGroup, FormControl } from '@angular/forms';
-
 import { UserService } from '../shared/user/user.service';
 
 class LoginData {
@@ -15,7 +13,7 @@ class LoginData {
     moduleId: module.id,
     templateUrl: 'login.component.html',
     styleUrls: ['login.component.css'],
-}) 
+})
 export class LoginComponent {
     login: LoginData = {
         email: '',
@@ -23,11 +21,11 @@ export class LoginComponent {
     };
 
     constructor(
-        private userService: UserService, 
+        private userService: UserService,
         private router: Router
     ) {}
 
     onSubmit() {
-        this.userService.logIn(this.login.email, this.login.password)
+        this.userService.logIn(this.login.email, this.login.password);
     }
-}
+};

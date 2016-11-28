@@ -5,7 +5,7 @@ describe('Home', () => {
   });
 
   it('should have an image', () => {
-    expect(element(by.css('sd-home .home__img')).isPresent()).toEqual(true);
+    expect(element(by.css('sd-home div')).isPresent()).toEqual(true);
   });
 
 });

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
-import { CookieService}  from 'angular2-cookie/core';
+import { CookieService }  from 'angular2-cookie/core';
 
 @Injectable()
 export class UserService {
@@ -19,8 +19,8 @@ export class UserService {
 
         return this.http
             .post(
-                'http://localhost:8080/v1/users/login', 
-                JSON.stringify({ email, password }), 
+                'http://localhost:8080/v1/users/login',
+                JSON.stringify({ email, password }),
                 options
             )
             .subscribe(
@@ -38,12 +38,11 @@ export class UserService {
                     if (error) {
                         let errBody = error.json();
                         if (errBody && errBody.message) {
-                            alert(errBody.message)
+                            alert(errBody.message);
                         }
                     }
                 }
             );
-    
     }
 
     logOut(): void {

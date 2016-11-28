@@ -8,7 +8,6 @@ import { routes } from './app.routes';
 import { FormsModule } from '@angular/forms';
 
 import { LoginModule } from './login/login.module';
-import { AboutModule } from './about/about.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -19,11 +18,10 @@ import { LoggedInGuard } from './shared/user/logged-in.guard';
 
 @NgModule({
   imports: [
-    BrowserModule, 
-    HttpModule, 
+    BrowserModule,
+    HttpModule,
     RouterModule.forRoot(routes),
-    LoginModule, 
-    AboutModule, 
+    LoginModule,
     HomeModule,
     SharedModule.forRoot(),
     FormsModule

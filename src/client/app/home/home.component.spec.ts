@@ -45,7 +45,7 @@ export function main() {
             // let homeInstance = fixture.debugElement.children[0].componentInstance;
             let homeDOMEl = fixture.debugElement.children[0].nativeElement;
 
-            expect(homeDOMEl.querySelectorAll('.home__img').length).toEqual(1);
+            expect(homeDOMEl.querySelectorAll('div').length).toEqual(1);
           });
 
       }));
