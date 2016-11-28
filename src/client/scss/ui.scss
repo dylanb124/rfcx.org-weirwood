@@ -26,3 +26,35 @@
         }
     }
 }
+
+.button {
+    background: $color-green;
+    outline: none;
+    width: 100%;
+    max-width: 176px;
+    padding: .8rem;
+    border: 1px solid rgba(50, 58, 69, 0.1);
+    border-radius: .4rem;
+    font-size: 1.4rem;
+    height: 3.2rem;
+    line-height: 1;
+    @include box-shadow(0 1px 4px 0 rgba(0, 0, 0, 0.1));
+    &_block {
+        max-width: none;
+    }
+    &:hover,
+    &:active {
+        background: #309849;
+    }
+    &:hover {
+        @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
+    }
+    &:active {
+        @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));
+    }
+    &:disabled {
+        background: $color-grey-05;
+        color: #a2a2a2;
+        @include box-shadow(none);
+    }
+}

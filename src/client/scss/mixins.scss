@@ -24,3 +24,9 @@
   &::-moz-placeholder { @content; }
   &::-webkit-input-placeholder { @content; }
 }
+
+@mixin box-shadow($content) {
+    -webkit-box-shadow: $content;
+    -moz-box-shadow: $content;
+    box-shadow: $content;
+}

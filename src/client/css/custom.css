@@ -1,9 +1,11 @@
 html {
+    font-family: 'Source Sans Pro', sans-serif;
     font-size: 62.5%;
     touch-action: manipulation;
 }
 
 body {
+    font-family: 'Source Sans Pro', sans-serif;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: subpixel-antialiased;
     -moz-font-smoothing: subpixel-antialiased;
