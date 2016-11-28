@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { FormsModule } from '@angular/forms';
 
+import { StyleguideModule } from './styleguide/styleguide.module';
 import { LoginModule } from './login/login.module';
 import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
@@ -21,6 +22,7 @@ import { LoggedInGuard } from './shared/user/logged-in.guard';
     BrowserModule,
     HttpModule,
     RouterModule.forRoot(routes),
+    StyleguideModule,
     LoginModule,
     HomeModule,
     SharedModule.forRoot(),
