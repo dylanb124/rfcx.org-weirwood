@@ -3,7 +3,7 @@
 
 .input {
     display: block;
-    border: 1px solid $color-grey-20;
+    border: 1px solid $pinkish-grey;
     height: 3.2rem;
     border-radius: .4rem;
     background-color: #ffffff;
@@ -13,22 +13,22 @@
     max-width: none;
     &:hover,
     &:focus {
-        border-color: $color-grey-30;
+        border-color: $warm-grey;
         outline: none;
     }
     &.error {
-        border-color: $color-red;
+        border-color: $watermelon;
     }
     &:disabled {
-        border-color: $color-grey-10;
+        border-color: $white-two;
         @include placeholder {
-            color: $color-grey-10;
+            color: $white-two;
         }
     }
 }
 
 .button {
-    background: $color-green;
+    background: $medium-green;
     outline: none;
     width: 100%;
     max-width: 176px;
@@ -53,8 +53,55 @@
         @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));
     }
     &:disabled {
-        background: $color-grey-05;
+        background: $white-three;
         color: #a2a2a2;
         @include box-shadow(none);
     }
+}
+
+h1 {
+    font-size: 6.8rem;
+    line-height: 7.2rem;
+}
+
+h2 {
+    font-size: 4.2rem;
+    line-height: 4.8rem;
+}
+
+h3 {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    letter-spacing: -0.1px;
+}
+
+p {
+    font-size: 1.6rem;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 2.4rem;
+    letter-spacing: -0.1px;
+}
+
+label {
+    font-size: 1.4rem;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.6rem;
+    letter-spacing: -0.1px;
+}
+
+h1, h2, h3, p, label {
+    color: $charcoal-grey;
+    &.inverted {
+        color: $white;
+    }
+}
+
+h1, h2, h3 {
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
 }

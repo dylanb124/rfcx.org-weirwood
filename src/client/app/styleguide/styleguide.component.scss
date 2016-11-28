@@ -11,6 +11,9 @@
         &:before {
             content: "| ";
         }
+        &_inverted {
+            color: rgba(255,255,255,0.7);
+        }
     }
 }
 
@@ -31,34 +34,34 @@
         color: #fff;
     }
     &.color-red {
-        background: $color-red;
+        background: $watermelon;
     }
     &.color-orange {
-        background: $color-orange;
+        background: $squash;
     }
     &.color-green {
-        background: $color-green;
+        background: $medium-green;
     }
     &.color-teal {
-        background: $color-teal;
+        background: $tealish;
     }
     &.color-blue {
-        background: $color-blue;
+        background: $dodger-blue;
     }
     &.color-blue-grey {
-        background: $color-blue-grey;
+        background: $charcoal-grey;
     }
     &.color-grey-05 {
-        background: $color-grey-05;
+        background: $white-three;
     }
     &.color-grey-10 {
-        background: $color-grey-10;
+        background: $white-two;
     }
     &.color-grey-20 {
-        background: $color-grey-20;
+        background: $pinkish-grey;
     }
     &.color-grey-30 {
-        background: $color-grey-30;
+        background: $warm-grey;
     }
     &.color-grey-05,
     &.color-grey-10,
