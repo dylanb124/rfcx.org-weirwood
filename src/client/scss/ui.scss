@@ -1,0 +1,28 @@
+@import "colors";
+@import "mixins";
+
+.input {
+    display: block;
+    border: 1px solid $color-grey-20;
+    height: 3.2rem;
+    border-radius: .4rem;
+    background-color: #ffffff;
+    font-size: 1.4rem;
+    padding: .8rem 1.6rem;
+    width: 100%;
+    max-width: none;
+    &:hover,
+    &:focus {
+        border-color: $color-grey-30;
+        outline: none;
+    }
+    &.error {
+        border-color: $color-red;
+    }
+    &:disabled {
+        border-color: $color-grey-10;
+        @include placeholder {
+            color: $color-grey-10;
+        }
+    }
+}

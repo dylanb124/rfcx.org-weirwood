@@ -1,8 +1,17 @@
-@import "../shared/styles/colors";
-@import "../shared/styles/mixins";
+@import "../../scss/main";
 
-.color-swatches {
-
+.styleguide {
+    &__row {
+        margin-bottom: 20px;
+    }
+    &__code {
+        display: block;
+        color: rgba(0,0,0,0.3);
+        margin: 1rem 0 0;
+        &:before {
+            content: "| ";
+        }
+    }
 }
 
 .color-swatch {

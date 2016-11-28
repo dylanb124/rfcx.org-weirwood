@@ -1,10 +1,11 @@
-@import "../shared/styles/mixins";
+// @import "../shared/styles/mixins";
+@import "../../scss/main";
 
 .login {
     padding: 100px 20px;
     text-align: center;
     &__content {
-        
+
     }
     &__title {
         font-size: 18px;

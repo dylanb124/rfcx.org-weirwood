@@ -1,0 +1,16 @@
+html {
+    font-size: 62.5%;
+    touch-action: manipulation;
+}
+
+body {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-font-smoothing: subpixel-antialiased;
+    -ms-font-smoothing: subpixel-antialiased;
+    -o-font-smoothing: subpixel-antialiased;
+    -webkit-perspective-origin: top left;
+    /* fallback for old browsers */
+    font-size: 14px;
+    font-size: 1.4rem;
+}
