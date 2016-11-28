@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  padding: 0 16px;
+  background: #119911;
+  text-align: right;
+}
+
+.nav {
+  padding: 10px 0;
+  &__link {
+    display: inline-block;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 10px;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 5px 10px;
+    &.router-link-active {
+      font-weight: bold;
+      border-color: #fff;
+    }
+    &_disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  }
+}

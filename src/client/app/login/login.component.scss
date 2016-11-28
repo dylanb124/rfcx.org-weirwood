@@ -1,0 +1,47 @@
+@import "../shared/styles/mixins";
+
+.login {
+    padding: 100px 20px;
+    text-align: center;
+    &__content {
+        
+    }
+    &__title {
+        font-size: 18px;
+        color: #000;
+        text-align: center;
+        margin: 0 auto 15px;
+    }
+    .login-form {
+        display: block;
+        max-width: 400px;
+        border: 1px solid lightgray;
+        padding: 20px;
+        margin: 0 auto;
+        &__row {
+            display: block;
+            position: relative;
+            margin: 0 auto 24px;
+        }
+        &__input {
+            display: block;
+            width: 100%;
+        }
+        &__input-alert {
+            font-size: 12px;
+            position: absolute;
+            top: 105%;
+            left: 50%;
+            @include translate(-50%, 0);
+            &.alert-danger {
+                color: red;
+            }
+        }
+        &__btn-submit {
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        }
+    }
+}

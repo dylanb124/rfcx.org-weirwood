@@ -1,0 +1,10 @@
+<nav class="nav">
+  <a class="nav__link" [routerLink]="['/']" [routerLinkActive]="['router-link-active']" 
+    [routerLinkActiveOptions]="{exact:true}">HOME</a>
+  <a class="nav__link" [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" 
+    [routerLinkActiveOptions]="{exact:true}">ABOUT</a>
+  <a class="nav__link nav__link_disabled">GET INVOLVED</a>
+  <a class="nav__link nav__link_disabled">MEDIA</a>
+  <a class="nav__link nav__link_disabled">CONTACT</a>
+  <a class="nav__link" (click)="logOut()">LOG OUT</a>
+</nav>

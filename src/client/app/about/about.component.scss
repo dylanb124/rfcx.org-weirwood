@@ -1,0 +1,39 @@
+@import "../shared/styles/mixins";
+
+:host {
+  display: block;
+  padding: 0 16px;
+}
+
+.about {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  &__content {
+    @include clearfix;
+  }
+  &__content-left,
+  &__content-right {
+    float: left;
+  }
+  &__content-left {
+    width: 55%;
+    margin-right: 5%;
+  }
+  &__content-right {
+    width: 40%;
+  }
+  &__title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0 auto 15px;
+  }
+  &__text {
+    text-align: justify;
+  }
+  &__img {
+    display: block;
+    max-width: 100%;
+  }
+}
