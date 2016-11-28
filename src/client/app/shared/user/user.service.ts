@@ -19,7 +19,7 @@ export class UserService {
 
         return this.http
             .post(
-                'https://staging-api.rfcx.org/v1/users/login', 
+                'http://localhost:8080/v1/users/login', 
                 JSON.stringify({ email, password }), 
                 options
             )
