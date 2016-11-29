@@ -1,20 +1,28 @@
 <div class="login">
     <div class="login__content">
-        <h2 class="login__title">Login</h2>
-        <form class="login-form" (ngSubmit)="onSubmit()" #loginForm="ngForm">
-            <div class="form-group login-form__row">
-                <input type="email" class="form-control login-form__input" id="email" [(ngModel)]="login.email" 
-                        name="email" #email="ngModel" placeholder="E-mail" required autofocus>
-                <label for="email" [hidden]="email.valid || email.pristine" 
-                        class="alert alert-danger login-form__input-alert">E-mail is required</label>
+        <i class="icon-logo login__logo"></i>
+        <h2 class="login__title">Sign in to RFCX</h2>
+        <form class="form form-login" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+            <div class="form-group form__row">
+                <label for="email" class="form__label">Email</label>
+                <input type="email" class="input form-login__input" id="email" [(ngModel)]="login.email"
+                        [ngClass]="{'error': !email.valid && !email.pristine}"
+                        name="email" #email="ngModel" placeholder="your@email.com" required autofocus>
+                <label for="email" [hidden]="email.valid || email.pristine"
+                        class="form__input-alert">E-mail is required</label>
             </div>
-            <div class="form-group login-form__row">
-                <input type="password" class="form-control login-form__input" id="password" [(ngModel)]="login.password" 
+            <div class="form-group form__row">
+                <label for="email" class="form__label">Password</label>
+                <input type="password" class="input form-login__input" id="password" [(ngModel)]="login.password"
+                        [ngClass]="{'error': !password.valid && !password.pristine}"
                         name="password" #password="ngModel" placeholder="Password" required>
-                <label for="password" [hidden]="password.valid || password.pristine" 
-                        class="alert alert-danger login-form__input-alert">Password is required</label>
+                <label for="password" [hidden]="password.valid || password.pristine"
+                        class="form__input-alert">Password is required</label>
             </div>
-            <button type="submit" class="btn btn-default login-form__btn-submit" [disabled]="!loginForm.form.valid">Submit</button>
+            <div class="form-group form__row form-login__row form-login__row_controls align-right">
+                <spinner *ngIf="isLoading"></spinner>
+                <button type="submit" class="button" [disabled]="!loginForm.form.valid">Sign In</button>
+            </div>
         </form>
     </div>
 </div>

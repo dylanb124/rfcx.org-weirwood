@@ -15,6 +15,8 @@ class LoginData {
     styleUrls: ['login.component.css'],
 })
 export class LoginComponent {
+
+    isLoading:boolean = false;
     login: LoginData = {
         email: '',
         password: ''
@@ -25,7 +27,16 @@ export class LoginComponent {
         private router: Router
     ) {}
 
+    onFinally() {
+        this.isLoading = false;
+    }
+
     onSubmit() {
-        this.userService.logIn(this.login.email, this.login.password);
+        this.isLoading = true;
+        this.userService.logIn(this.login.email, this.login.password)
+        .subscribe(
+            res => this.onFinally(),
+            err => this.onFinally()
+        );
     }
 };

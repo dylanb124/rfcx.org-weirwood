@@ -17,32 +17,34 @@ export class UserService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http
+        let request = this.http
             .post(
                 'http://localhost:8080/v1/users/login',
                 JSON.stringify({ email, password }),
                 options
-            )
-            .subscribe(
-                (res) => {
-                    let body = res.json();
-                    if (body) {
-                        // response is wrapped in array
-                        body = body[0];
-                        console.log('body', body);
-                        this.saveCookies(body.guid, body.tokens[0].token, body.tokens[0].token_expires_at);
-                        this.router.navigate(['/']);
-                    }
-                },
-                (error) =>  {
-                    if (error) {
-                        let errBody = error.json();
-                        if (errBody && errBody.message) {
-                            alert(errBody.message);
-                        }
+            );
+        request.subscribe(
+            (res) => {
+                let body = res.json();
+                if (body) {
+                    // response is wrapped in array
+                    body = body[0];
+                    console.log('body', body);
+                    this.saveCookies(body.guid, body.tokens[0].token, body.tokens[0].token_expires_at);
+                    this.router.navigate(['/']);
+                }
+            },
+            (error) =>  {
+                if (error) {
+                    let errBody = error.json();
+                    if (errBody && errBody.message) {
+                        // alert(errBody.message);
+                        console.log('Error', errBody);
                     }
                 }
-            );
+            }
+        );
+        return request;
     }
 
     logOut(): void {

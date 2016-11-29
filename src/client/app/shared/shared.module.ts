@@ -4,16 +4,28 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { NavbarComponent } from './navbar/index';
+import { SpinnerComponent } from './spinner/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
-  declarations: [NavbarComponent],
-  exports: [NavbarComponent,
-    CommonModule, FormsModule, RouterModule]
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
+  declarations: [
+    NavbarComponent,
+    SpinnerComponent
+  ],
+  exports: [
+    NavbarComponent,
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    SpinnerComponent
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
