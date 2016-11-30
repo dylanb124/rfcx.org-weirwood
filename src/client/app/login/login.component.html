@@ -12,6 +12,7 @@
                         class="form__input-alert">E-mail is required</label>
             </div>
             <div class="form-group form__row">
+                <a class="form-login__forgot-link">Forgot password?</a>
                 <label for="email" class="form__label">Password</label>
                 <input type="password" class="input form-login__input" id="password" [(ngModel)]="login.password"
                         [ngClass]="{'error': !password.valid && !password.pristine}"
@@ -24,5 +25,8 @@
                 <button type="submit" class="button" [disabled]="!loginForm.form.valid">Sign In</button>
             </div>
         </form>
+    </div>
+    <div class="login__get-in-touch">
+        <p class="login__get-in-touch-text">Don't have an account? <a class="login__get-in-touch-link">Get in touch</a></p>
     </div>
 </div>

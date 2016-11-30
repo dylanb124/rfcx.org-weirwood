@@ -105,3 +105,11 @@ h1, h2, h3 {
     font-style: normal;
     font-stretch: normal;
 }
+
+a {
+    text-decoration: none;
+    &:hover {
+        text-decoration: none;
+        cursor: pointer;
+    }
+}

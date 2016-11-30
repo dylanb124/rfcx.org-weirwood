@@ -14,6 +14,22 @@
         top: 20%;
         left: 41.8%;
     }
+    &__get-in-touch {
+        position: absolute;
+        left: 41.8%;
+        bottom: 8.4%;
+    }
+    &__get-in-touch-text {
+        font-size: 1.4rem;
+        line-height: 1.6rem;
+        letter-spacing: -0.1px;
+        color: $charcoal-grey;
+        margin: 0;
+    }
+    &__get-in-touch-link {
+        color: $dodger-blue;
+        text-decoration: underline;
+    }
     &__logo {
         display: block;
         color: $medium-green;
@@ -22,41 +38,25 @@
         margin-left: 3.1%;
     }
     &__title {
-        // text-align: center;
         margin: 0 auto 3.2rem;
     }
     .form-login {
         display: block;
         max-width: 352px;
-        // border: 1px solid lightgray;
-        // padding: 20px;
         margin: 0 auto;
-        &__row {
-            // display: block;
-            // position: relative;
-            // margin: 0 auto 2.4rem;
-            &_controls {
-                margin-top: 2.6rem;
-                margin-bottom: 0;
-                spinner {
-                    display: block;
-                    margin-right: 5%;
-                }
-            }
+        .form__row {
+            position: relative;
         }
-        // &__input {
-        //     display: block;
-        //     width: 100%;
-        // }
-        &__input-alert {
-            font-size: 12px;
+        &__forgot-link {
             position: absolute;
-            top: 105%;
-            left: 50%;
-            @include translate(-50%, 0);
-            &.alert-danger {
-                color: red;
-            }
+            top: 0.6rem;
+            right: 0;
+            font-size: 1.4rem;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            letter-spacing: -0.1px;
+            color: $warm-grey;
         }
         &__btn-submit {
             &:disabled {
