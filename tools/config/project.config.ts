@@ -35,6 +35,7 @@ export class ProjectConfig extends SeedConfig {
       // {src: 'lodash/lodash.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/js/bootstrap.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
+      {src: 'normalize.css/normalize.css', inject: true}
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
