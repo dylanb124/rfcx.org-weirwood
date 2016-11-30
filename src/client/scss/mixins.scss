@@ -30,3 +30,24 @@
     -moz-box-shadow: $content;
     box-shadow: $content;
 }
+
+@mixin mq($media) {
+  @if $media == phone {
+    @media only screen and (max-width: 767px) { @content; }
+  }
+  @else if $media == phoneAndTablet {
+    @media only screen and (max-width: 1024) { @content; }
+  }
+  @else if $media == tablet {
+    @media only screen and (min-width: 768px) and (max-width: 1024px) { @content; }
+  }
+  @else if $media == tabletAndDesktop {
+    @media only screen and (min-width: 768px) { @content; }
+  }
+  @else if $media == desktop {
+    @media only screen and (min-width: 1025px) { @content; }
+  }
+  @else if $media == desktopWide {
+    @media only screen and (min-width: 1600px) { @content; }
+  }
+}

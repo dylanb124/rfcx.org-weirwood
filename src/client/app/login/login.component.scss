@@ -2,22 +2,56 @@
 
 .login {
     height: 100vh;
-    // min-height: 900px;
+    min-height: 600px;
     background: url(assets/img/login/background.png) no-repeat left center;
     background-size: auto 100%;
     position: relative;
+    @include mq(tablet) {
+        background-position: -100px center;
+    }
+    @include mq(phone) {
+        background: none;
+        min-height: none;
+        height: auto;
+    }
     &__content {
         display: block;
-        width: 90%;
+        width: 86.6%;
         max-width: 352px;
         position: absolute;
         top: 20%;
         left: 41.8%;
+        @include mq(tablet) {
+            left: 50%;
+        }
+        @include mq(phone) {
+            position: static;
+            left: auto;
+            top: auto;
+            margin: 0 auto;
+            max-width: 312px;
+            text-align: center;
+            padding-top: 8rem;
+        }
     }
     &__get-in-touch {
+        width: 86.6%;
+        max-width: 352px;
         position: absolute;
         left: 41.8%;
         bottom: 8.4%;
+        @include mq(tablet) {
+            left: 50%;
+        }
+        @include mq(phone) {
+            position: static;
+            left: auto;
+            top: auto;
+            margin: 0 auto;
+            max-width: 312px;
+            text-align: center;
+            margin-top: 4rem;
+        }
     }
     &__get-in-touch-text {
         font-size: 1.4rem;
@@ -29,6 +63,9 @@
     &__get-in-touch-link {
         color: $dodger-blue;
         text-decoration: underline;
+        &:hover {
+            text-decoration: underline;
+        }
     }
     &__logo {
         display: block;
@@ -36,6 +73,10 @@
         font-size: 6.4rem;
         margin-bottom: 2.44rem;
         margin-left: 3.1%;
+        @include mq(phone) {
+            margin-left: 0;
+            display: inline-block;
+        }
     }
     &__title {
         margin: 0 auto 3.2rem;
@@ -44,8 +85,32 @@
         display: block;
         max-width: 352px;
         margin: 0 auto;
-        .form__row {
+        text-align: left;
+        &__row {
             position: relative;
+            &_controls {
+                margin-top: 2.6rem;
+                margin-bottom: 0;
+                spinner {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: 5%;
+                    @include mq(phone) {
+                        margin: 0;
+                        position: absolute;
+                        top: 50%;
+                        left: 2%;
+                        @include translate(0, -50%);
+                    }
+                }
+                .button {
+                    @include mq(phone) {
+                        display: block;
+                        width: 100%;
+                        max-width: none;
+                    }
+                }
+            }
         }
         &__forgot-link {
             position: absolute;
@@ -57,12 +122,6 @@
             font-stretch: normal;
             letter-spacing: -0.1px;
             color: $warm-grey;
-        }
-        &__btn-submit {
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
         }
     }
 }

@@ -67,6 +67,9 @@ h1 {
 h2 {
     font-size: 4.2rem;
     line-height: 4.8rem;
+    @include mq(phone) {
+        font-size: 3.2rem;
+    }
 }
 
 h3 {
