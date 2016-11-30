@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
 import { CookieService }  from 'angular2-cookie/core';
+import { Config } from '../config/env.config.js';
 
 @Injectable()
 export class UserService {
@@ -19,7 +20,7 @@ export class UserService {
 
         let request = this.http
             .post(
-                'http://localhost:8080/v1/users/login',
+                Config.API + 'users/login',
                 JSON.stringify({ email, password }),
                 options
             );
