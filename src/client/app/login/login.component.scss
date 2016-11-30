@@ -91,6 +91,9 @@
             &_controls {
                 margin-top: 2.6rem;
                 margin-bottom: 0;
+                @include mq(phone) {
+                    text-align: left;
+                }
                 spinner {
                     display: inline-block;
                     vertical-align: middle;

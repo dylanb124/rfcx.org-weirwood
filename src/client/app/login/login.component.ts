@@ -21,22 +21,33 @@ export class LoginComponent {
         email: '',
         password: ''
     };
+    message:string;
 
     constructor(
         private userService: UserService,
         private router: Router
     ) {}
 
-    onFinally() {
+    onKey(event:any) {
+        // reset error message when user started to edit data
+        this.message = null;
+    }
+
+    onFinally(err:any) {
         this.isLoading = false;
+        this.message = null;
+        if (err) {
+            let error = err.json();
+            this.message = error.message || 'Error in process of login.';
+        }
     }
 
     onSubmit() {
         this.isLoading = true;
         this.userService.logIn(this.login.email, this.login.password)
         .subscribe(
-            res => this.onFinally(),
-            err => this.onFinally()
+            res => this.onFinally(null),
+            err => this.onFinally(err)
         );
     }
 };
