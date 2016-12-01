@@ -1,3 +1,5 @@
+@import "mixins";
+
 .align-left {
     text-align: left;
 }
@@ -8,4 +10,22 @@
 
 .align-center {
     text-align: center;
+}
+
+.hide-on-phone{
+    @include mq(phone) {
+        display: none;
+    }
+}
+
+.hide-on-tablet {
+    @include mq(tablet) {
+        display: none;
+    }
+}
+
+.hide-on-desktop {
+    @include mq(desktop) {
+        display: none;
+    }
 }

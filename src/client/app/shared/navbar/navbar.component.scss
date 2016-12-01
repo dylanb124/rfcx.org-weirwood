@@ -1,30 +1,131 @@
+@import "../../../scss/main";
+
 :host {
   display: block;
-  padding: 0 16px;
-  background: #119911;
-  text-align: right;
+  background: rgba(255, 255, 255, 0.96);
+  @include box-shadow(0 2px 0 0 rgba(0, 0, 0, 0.05));
 }
 
-.nav {
-  padding: 10px 0;
-  &__link {
+.navbar-rfcx {
+  background: rgba(255, 255, 255, 0.96);
+  min-height: 0;
+  margin: 0;
+  li {
+    margin-top: 0;
+  }
+  .container-fluid {
+    padding: 0 12.6% 0 13.4%;
+    @include mq(tablet) {
+      padding: 0 5%;
+    }
+    @include mq(phone) {
+      padding: 1.1rem 11.7% 1.1rem 9.2%;
+    }
+  }
+  &__mobile-title {
+    font-size: 1.6rem;
+    line-height: 3.2rem;
+    font-weight: bold;
+    position: absolute;
+    top: 1.5rem;
+    left: 50%;
+    text-transform: uppercase;
+    @include translate(-50%, 0);
+  }
+  .navbar-brand {
+    font-size: 3.2rem;
+    color: $medium-green;
+  }
+  &__site-name {
     display: inline-block;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    margin: 0 10px;
-    text-decoration: none;
     vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid transparent;
-    padding: 5px 10px;
-    &.router-link-active {
+    font-weight: bold;
+    letter-spacing: -0.1px;
+    color: $charcoal-grey;
+    padding: 1.5rem 2.0rem 1.5rem 1.5rem;
+    @include mq(tablet) {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+  &__user-name {
+    font-size: 1.6rem;
+    line-height: 3.2rem;
+    color: $charcoal-grey;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+    letter-spacing: -0.1px;
+  }
+  &__site-name,
+  .nav__link,
+  .dropdown-toggle {
+    font-size: 1.6rem;
+    line-height: 3.2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .nav__link {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    &.active {
       font-weight: bold;
-      border-color: #fff;
     }
-    &_disabled {
-      opacity: 0.5;
-      cursor: default;
+    @include mq(tablet) {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
     }
+  }
+  &__avatar {
+    display: inline-block;
+    vertical-align: middle;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    margin-left: 0.3rem;
+  }
+  &__messages-link-wrapper {
+    margin: 2.1rem 1rem 2.1rem 0.2rem !important;
+  }
+  &__messages-link {
+    display: inline-block;
+    background: $watermelon;
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+    padding: 0;
+    text-align: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    color: $white !important;
+    border-radius: 50%;
+    &:hover,
+    &:focus {
+      outline: none;
+      background: $watermelon !important;
+    }
+  }
+  .navbar-toggle {
+    float: left;
+    margin: 0;
+    font-size: 1.6rem;
+    color: $charcoal-grey;
+    border: none;
+    &:hover,
+    &:focus {
+      background: none;
+    }
+  }
+  &__mobile-right-controls {
+    float: right;
+    margin-top: 0.8rem;
+    .navbar-rfcx__messages-link {
+      margin-left: 14px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+  &__mobile-account-link {
+    display: inline-block;
+    vertical-align: middle;
   }
 }

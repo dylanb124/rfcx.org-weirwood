@@ -1,5 +1,67 @@
-<nav class="nav">
-  <a class="nav__link" [routerLink]="['/']" [routerLinkActive]="['router-link-active']" 
-    [routerLinkActiveOptions]="{exact:true}">Incidents</a>
-  <a class="nav__link" (click)="logOut()">Log out</a>
+<nav class="navbar navbar-default navbar-rfcx">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle icon-menu collapsed" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1" aria-expanded="false"></button>
+      <a class="icon-logo navbar-brand hide-on-phone" [routerLink]="['/']"></a>
+      <div class="navbar-rfcx__mobile-title hide-on-tablet hide-on-desktop">
+        <span *ngIf="isRouteActive('incidents')">Incidents</span>
+        <span *ngIf="isRouteActive('wildlife')">Wildlife</span>
+        <span *ngIf="isRouteActive('sectors')">Sectors</span>
+        <span *ngIf="isRouteActive('reports')">Reports</span>
+      </div>
+      <div class="navbar-rfcx__mobile-right-controls hide-on-tablet hide-on-desktop">
+        <a class="navbar-rfcx__mobile-account-link">
+          <img class="navbar-rfcx__avatar" src="assets/img/avatar_sample.jpg" alt="">
+        </a>
+        <a class="navbar-rfcx__messages-link" [routerLink]="['/messages']">4</a>
+      </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="hide-on-phone">
+          <span class="navbar-rfcx__site-name">Borneo Rangers</span>
+        </li>
+        <li class="hide-on-tablet hide-on-desktop">
+          <a class="nav__link" [routerLink]="['/']" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">Home</a>
+        </li>
+        <li>
+          <a class="nav__link" [routerLink]="['/incidents']" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">Incidents</a>
+        </li>
+        <li>
+          <a class="nav__link" [routerLink]="['/wildlife']" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">Wildlife</a>
+        </li>
+        <li>
+          <a class="nav__link" [routerLink]="['/sectors']"  [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">Sectors</a>
+        </li>
+        <li>
+          <a class="nav__link" [routerLink]="['/reports']" [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{exact:true}">Reports</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right hide-on-phone">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="navbar-rfcx__user-name">John Gardenburger</span>
+            <img class="navbar-rfcx__avatar" src="assets/img/avatar_sample.jpg" alt="">
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a (click)="logOut()">Log out</a></li>
+          </ul>
+        </li>
+        <li class="navbar-rfcx__messages-link-wrapper">
+          <a class="navbar-rfcx__messages-link" [routerLink]="['/messages']">4</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>

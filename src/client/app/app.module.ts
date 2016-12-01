@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { StyleguideModule } from './styleguide/styleguide.module';
 import { LoginModule } from './login/login.module';
 import { HomeModule } from './home/home.module';
+import { IncidentsModule } from './incidents/incidents.module';
 import { SharedModule } from './shared/shared.module';
 
 import { UserService } from './shared/user/user.service';
@@ -25,6 +26,7 @@ import { LoggedInGuard } from './shared/user/logged-in.guard';
     StyleguideModule,
     LoginModule,
     HomeModule,
+    IncidentsModule,
     SharedModule.forRoot(),
     FormsModule
   ],
