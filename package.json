@@ -30,6 +30,7 @@
     "serve.staging": "gulp serve.prod --color --config-env staging",
     "serve.e2e": "gulp serve.e2e --color",
     "serve.prod": "gulp serve.prod --color --config-env prod",
+    "serve.conditional": "if test \"$NODE_ENV\" = \"production\" ; then gulp serve.prod --color --config-env prod ; elif test \"$NODE_ENV\" = \"staging\" ; then gulp serve.prod --color --config-env staging ; else gulp serve.dev --color --config-env dev ; fi ",
     "start": "gulp serve.dev --color",
     "start.deving": "gulp start.deving --color",
     "tasks.list": "gulp --tasks-simple --color",
