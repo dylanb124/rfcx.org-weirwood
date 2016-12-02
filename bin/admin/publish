@@ -29,8 +29,7 @@ then
 
 
   echo -e "\nCommiting new distribution.\n"
-  cat ./.gitignore | grep -v 'dist/' > ./.gitignore_ && rm ./.gitignore && mv ./.gitignore_ ./.gitignore;
-  git add .gitignore dist;
+  git add -f .gitignore dist/prod;
   git commit -m "latest dist directory";
   echo -e "\nExecuting deployment script (this may take a few minutes).\n"
 
