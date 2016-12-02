@@ -1,5 +1,6 @@
 @import "colors";
 @import "mixins";
+@import "vars";
 
 .input {
     display: block;
@@ -31,7 +32,7 @@
     background: $medium-green;
     outline: none;
     width: 100%;
-    max-width: 176px;
+    max-width: $el-inline-max-width;
     padding: .8rem;
     border: 1px solid rgba(50, 58, 69, 0.1);
     border-radius: .4rem;
