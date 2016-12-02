@@ -37,7 +37,7 @@ then
   if [[ $REPLY =~ ^[Pp]$ ]]
   then
     #eb deploy rfcx-console-production;
-    echo "eb deploy rfcx-org-weirwood-production\n\n";
+    echo "eb deploy rfcx-org-weirwood-production\n";
   else
     eb deploy rfcx-org-weirwood-staging;
   fi
