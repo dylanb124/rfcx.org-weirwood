@@ -43,6 +43,29 @@
   "author": "Stanislav Rassokhin <sr.rassokhin@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    
+  },
+  "dependencies": {
+    "@angular/common": "~2.2.3",
+    "@angular/compiler": "~2.2.3",
+    "@angular/core": "~2.2.3",
+    "@angular/forms": "~2.2.3",
+    "@angular/http": "~2.2.3",
+    "@angular/platform-browser": "~2.2.3",
+    "@angular/platform-browser-dynamic": "~2.2.3",
+    "@angular/router": "~3.2.0",
+    "angular2-cookie": "^1.2.5",
+    "bootstrap": "^3.3.7",
+    "core-js": "^2.4.1",
+    "intl": "^1.2.5",
+    "jquery": "^3.1.1",
+    "normalize.css": "^5.0.0",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-beta.12",
+    "systemjs": "0.19.40",
+    "zone.js": "0.6.25",
+    // added dev dependencies here
+    // todo: Stas, please check which deps we need for the dev vs deployment on the server
     "@angular/compiler-cli": "~2.2.3",
     "@angular/platform-server": "~2.2.3",
     "@types/async": "^2.0.32",
@@ -125,25 +148,5 @@
     "walk": "^2.3.9",
     "yargs": "^6.0.0",
     "minimatch": "^3.0.3"
-  },
-  "dependencies": {
-    "@angular/common": "~2.2.3",
-    "@angular/compiler": "~2.2.3",
-    "@angular/core": "~2.2.3",
-    "@angular/forms": "~2.2.3",
-    "@angular/http": "~2.2.3",
-    "@angular/platform-browser": "~2.2.3",
-    "@angular/platform-browser-dynamic": "~2.2.3",
-    "@angular/router": "~3.2.0",
-    "angular2-cookie": "^1.2.5",
-    "bootstrap": "^3.3.7",
-    "core-js": "^2.4.1",
-    "intl": "^1.2.5",
-    "jquery": "^3.1.1",
-    "normalize.css": "^5.0.0",
-    "reflect-metadata": "^0.1.8",
-    "rxjs": "5.0.0-beta.12",
-    "systemjs": "0.19.40",
-    "zone.js": "0.6.25"
   }
 }
