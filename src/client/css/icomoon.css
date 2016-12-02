@@ -24,6 +24,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-chevron-up:before {
+  content: "\e908";
+}
+.icon-chevron-down:before {
+  content: "\e909";
+}
 .icon-minus:before {
   content: "\e900";
 }

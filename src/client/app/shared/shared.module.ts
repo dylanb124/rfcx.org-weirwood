@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { NavbarComponent } from './navbar/index';
 import { SpinnerComponent } from './spinner/index';
+import { DropdownComponent } from './dropdown/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -17,14 +18,16 @@ import { SpinnerComponent } from './spinner/index';
   ],
   declarations: [
     NavbarComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    DropdownComponent
   ],
   exports: [
     NavbarComponent,
     CommonModule,
     FormsModule,
     RouterModule,
-    SpinnerComponent
+    SpinnerComponent,
+    DropdownComponent
   ]
 })
 export class SharedModule {
