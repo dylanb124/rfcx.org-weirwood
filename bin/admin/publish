@@ -37,9 +37,9 @@ then
   if [[ $REPLY =~ ^[Pp]$ ]]
   then
     #eb deploy rfcx-console-production;
-    echo "test";
+    echo "eb deploy rfcx-org-weirwood-production";
   else
-    eb deploy rfcx-org-weirwood-staging ;
+    eb deploy rfcx-org-weirwood-staging;
   fi
   
   echo -e "Resetting state of repo\n"
