@@ -52,3 +52,8 @@ gulpfile.js.map
 .DS_Store
 src/client/app/shared/config/env.config.js
 src/client/app/shared/config/env.config.js.map
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

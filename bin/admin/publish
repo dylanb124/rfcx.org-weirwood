@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+export SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+cd $SCRIPT_DIR/../../;
+
+read -p "Are you sure you want to deploy this version to AWS? (y/n): " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  echo -e "\nYou chose 'yes'.\n";
+  read -p "Would you like to deploy to the (s)taging or (p)roduction environment? (s/p): " -n 1 -r
+
+  if [[ $REPLY =~ ^[Pp]$ ]]
+  then
+    echo -e "\nYou chose to deploy to 'production'.\n"
+  else
+    echo -e "\nYou chose to deploy to 'staging'.\n"
+  fi
+
+  echo -e "\nExecuting build scripts (this may take a few minutes).\n"
+  rm -rf ./dist;
+  if [[ $REPLY =~ ^[Pp]$ ]]
+  then
+    echo -e "\nBuilding the 'production' environment.\n"
+    ./node_modules/.bin/gulp build.prod ---config-env prod;
+  else
+    echo -e "\nBuilding the 'staging' environment.\n"
+    ./node_modules/.bin/gulp build.prod ---config-env staging;
+  fi
+
+
+  echo -e "\nCommiting new distribution.\n"
+  cat ./.gitignore | grep -v 'dist/' > ./.gitignore_ && rm ./.gitignore && mv ./.gitignore_ ./.gitignore;
+  git add .gitignore dist;
+  git commit -m "latest dist directory";
+  echo -e "\nExecuting deployment script (this may take a few minutes).\n"
+
+  if [[ $REPLY =~ ^[Pp]$ ]]
+  then
+    #eb deploy rfcx-console-production;
+  else
+    eb deploy rfcx-org-weirwood-staging ;
+  fi
+  
+  echo -e "Resetting state of repo\n"
+  git reset --hard HEAD^1
+  rm -rf ./dist;
+  eb status;
+else
+  echo -e "\nYou chose NOT to deploy the application to AWS.\n";
+fi
