@@ -18,6 +18,7 @@ export class DropdownComponent {
     @Input() private dropup: boolean = false;
     @Input() private disabled: boolean = false;
     @Input() private block: boolean = false;
+    @Input() private download: boolean = false;
     @Output() onChange = new EventEmitter();
 
     constructor() {}

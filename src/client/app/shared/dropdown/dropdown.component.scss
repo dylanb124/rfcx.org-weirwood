@@ -26,12 +26,16 @@
             border-color: $white-two;
             color: $pinkish-grey;
             .icon-chevron-down,
-            .icon-chevron-up {
+            .icon-chevron-up,
+            .icon-download {
                 color: $pinkish-grey;
             }
             &:hover {
                 @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.1));
             }
+        }
+        .icon-download {
+            display: none;
         }
         .icon-chevron-down {
             display: block;
@@ -40,13 +44,17 @@
             display: none;
         }
         .icon-chevron-down,
-        .icon-chevron-up {
+        .icon-chevron-up,
+        .icon-download {
             font-size: .6rem;
             color: $charcoal-grey;
             position: absolute;
             top: 50%;
             right: 12px;
             @include translate(0, -50%);
+        }
+        .icon-download {
+            font-size: 1.5rem;
         }
     }
     .dropdown-menu {
@@ -101,6 +109,37 @@
                     display: block;
                 }
                 .icon-chevron-up {
+                    display: none;
+                }
+            }
+        }
+    }
+    &.download {
+        .dropdown-toggle {
+            .icon-chevron-down {
+                display: none !important;
+            }
+            .icon-download {
+                display: block;
+            }
+        }
+        &.dropup {
+            .dropdown-toggle {
+                .icon-chevron-up {
+                   display: none;
+                }
+            }
+            &.open {
+                .dropdown-toggle {
+                    .icon-chevron-down {
+                        display: block !important;
+                    }
+                }
+            }
+        }
+        &.open {
+            .dropdown-toggle {
+                .icon-download {
                     display: none;
                 }
             }
