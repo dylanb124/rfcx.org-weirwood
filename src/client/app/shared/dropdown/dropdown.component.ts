@@ -15,6 +15,9 @@ export class DropdownComponent {
 
     @Input() private title: string = 'Choose';
     @Input() private items: Array<DropdownItem> = [];
+    @Input() private dropup: boolean = false;
+    @Input() private disabled: boolean = false;
+    @Input() private block: boolean = false;
     @Output() onChange = new EventEmitter();
 
     constructor() {}

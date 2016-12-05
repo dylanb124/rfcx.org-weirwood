@@ -72,13 +72,17 @@
     </div>
     <div class="styleguide__row">
         <div class="row">
-            <div class="col-md-5">
-                <form>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" class="form-control input" id="exampleInputEmail1" placeholder="Email">
-                    </div>
-                </form>
+            <div class="col-md-4">
+                <dropdown title="Download" [items]="dropdownItems" (onChange)="dropDownChanged($event)"></dropdown>
+                <p class="styleguide__code">dropdown[title="Download" [items]="dropdownItems" (onChange)="dropDownChanged(\$event)"]</p>
+            </div>
+            <div class="col-md-4">
+                <dropdown title="Download" [block]="true" [items]="dropdownItems" (onChange)="dropDownChanged($event)"></dropdown>
+                <p class="styleguide__code">dropdown[[block]="true"]</p>
+            </div>
+            <div class="col-md-4">
+                <dropdown [disabled]="true"></dropdown>
+                <p class="styleguide__code">dropdown[[disabled]="true"]</p>
             </div>
         </div>
     </div>

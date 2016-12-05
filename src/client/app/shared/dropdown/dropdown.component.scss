@@ -25,6 +25,13 @@
         &:disabled {
             border-color: $white-two;
             color: $pinkish-grey;
+            .icon-chevron-down,
+            .icon-chevron-up {
+                color: $pinkish-grey;
+            }
+            &:hover {
+                @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.1));
+            }
         }
         .icon-chevron-down {
             display: block;
@@ -74,5 +81,32 @@
                 display: block;
             }
         }
+    }
+    &.dropup {
+        .dropdown-toggle {
+            .icon-chevron-down {
+                display: none;
+            }
+            .icon-chevron-up {
+                display: block;
+            }
+        }
+        .dropdown-menu {
+            top: auto;
+            bottom: calc(100% + 7px);
+        }
+        &.open {
+            .dropdown-toggle {
+                .icon-chevron-down {
+                    display: block;
+                }
+                .icon-chevron-up {
+                    display: none;
+                }
+            }
+        }
+    }
+    &.block {
+        max-width: none;
     }
 }
