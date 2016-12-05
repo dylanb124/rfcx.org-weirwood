@@ -78,6 +78,27 @@
             }
         }
     }
+    &.noborder {
+        display: inline-block;
+        width: auto;
+        .dropdown-toggle {
+            border: none;
+            @include box-shadow(none);
+            padding: .7rem 24px .7rem 7px;
+            text-align: center;
+            &:hover,
+            &:focus,
+            &:active {
+                border: none;
+                @include box-shadow(none);
+            }
+            .icon-chevron-down,
+            .icon-chevron-up,
+            .icon-download {
+                right: 2px;
+            }
+        }
+    }
     &.open {
         .dropdown-toggle {
             @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));

@@ -38,6 +38,25 @@ export class StyleguideComponent {
       }
     ];
 
+    public dropdownDaysItems: Array<DropdownItem> = [
+      {
+        value: '_000_',
+        label: '1 day'
+      },
+      {
+        value: '_111_',
+        label: '3 days'
+      },
+      {
+        value: '_222_',
+        label: '7 days'
+      },
+      {
+        value: '_333_',
+        label: '30 days'
+      }
+    ];
+
     dropDownChanged(event: any){
       console.log('dropDownChanged', event);
     }

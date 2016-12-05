@@ -1,4 +1,5 @@
-<div class="dropdown dropdown-rfcx" [ngClass]="{'dropup': dropup === true, 'block': !!block, 'download': !!download}">
+<div class="dropdown dropdown-rfcx"
+    [ngClass]="{'dropup': dropup === true, 'block': !!block, 'download': !!download, 'noborder': !!noborder}">
   <button class="btn btn-default dropdown-toggle" type="button" id="'dropdownMenu' + elementId"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" [disabled]="!items.length || !!disabled">
     {{items.length? (currentItem? currentItem.label : title) : 'No items'}}
