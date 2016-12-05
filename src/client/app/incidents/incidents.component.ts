@@ -10,4 +10,10 @@ import { Component } from '@angular/core';
   styleUrls: ['incidents.component.css'],
 })
 
-export class IncidentsComponent {}
+export class IncidentsComponent {
+
+  private rfcxMap: any;
+
+  constructor() {}
+
+}
