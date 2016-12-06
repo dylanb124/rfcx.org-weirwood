@@ -1,5 +1,5 @@
 <div class="incidents">
-    <rfcx-map>
+    <rfcx-map [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom">
         <rfcx-basemap layerType="positron"></rfcx-basemap>
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
     </rfcx-map>

@@ -12,9 +12,9 @@ export class RfcxMapComponent {
     // internal id for twitter bootstrap dropdown interaction
     private mapId: number = Math.round(Math.random() * 10000000);
     private rfcxMap: any;
-    private centerLat: number = 37.773972;
-    private centerLon: number = -122.431297;
-    private zoom: number = 13;
+    @Input() private centerLat: number;
+    @Input() private centerLon: number;
+    @Input() private zoom: number;
 
     constructor() {}
 
@@ -23,6 +23,9 @@ export class RfcxMapComponent {
     }
 
     initMap() {
+        if (!this.centerLat || !this.centerLon || !this.zoom) {
+            throw Error('Map does not have all attributes');
+        }
         let mapOptions: L.MapOptions = {
             center: [this.centerLat, this.centerLon],
             zoom: this.zoom

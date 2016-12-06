@@ -13,6 +13,11 @@ import { Component } from '@angular/core';
 export class IncidentsComponent {
 
   private rfcxMap: any;
+  private mapDetails: any = {
+    lat: 37.773972,
+    lon: -122.431297,
+    zoom: 13
+  }
 
   constructor() {}
 
