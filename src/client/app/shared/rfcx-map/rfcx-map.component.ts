@@ -1,12 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-
+import { Component, Input } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
   moduleId: module.id,
   selector: 'rfcx-map',
   templateUrl: 'rfcx-map.component.html',
-  styleUrls: ['rfcx-map.component.css'],
+  styleUrls: ['rfcx-map.component.css']
 })
 export class RfcxMapComponent {
 
@@ -16,7 +15,6 @@ export class RfcxMapComponent {
     private centerLat: number = 37.773972;
     private centerLon: number = -122.431297;
     private zoom: number = 13;
-    // @Output() onChange = new EventEmitter();
 
     constructor() {}
 
@@ -25,17 +23,12 @@ export class RfcxMapComponent {
     }
 
     initMap() {
-        let baseLayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        });
-
         let mapOptions: L.MapOptions = {
             center: [this.centerLat, this.centerLon],
             zoom: this.zoom
         };
 
         this.rfcxMap = L.map('rfcxMapId', mapOptions);
-        this.rfcxMap.addLayer(baseLayer);
     }
 
 }

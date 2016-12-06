@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar/index';
 import { SpinnerComponent } from './spinner/index';
 import { DropdownComponent } from './dropdown/index';
-import { RfcxMapComponent } from './rfcx-map/index';
+import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -21,7 +21,8 @@ import { RfcxMapComponent } from './rfcx-map/index';
     NavbarComponent,
     SpinnerComponent,
     DropdownComponent,
-    RfcxMapComponent
+    RfcxMapComponent,
+    RfcxBaseMapComponent
   ],
   exports: [
     NavbarComponent,
@@ -30,7 +31,8 @@ import { RfcxMapComponent } from './rfcx-map/index';
     RouterModule,
     SpinnerComponent,
     DropdownComponent,
-    RfcxMapComponent
+    RfcxMapComponent,
+    RfcxBaseMapComponent
   ]
 })
 export class SharedModule {
