@@ -35,7 +35,7 @@ export class RfcxBaseMapComponent {
 
     appendLayer() {
         let layerOpts = baseMapType[this.layerType];
-        if (!layerOpts || this.rfcxMapComp === undefined) {
+        if (!layerOpts || this.rfcxMapComp === undefined || this.rfcxMapComp.rfcxMap === undefined) {
             return;
         }
         let layerObj = L.tileLayer(layerOpts.url, { attribution: layerOpts.attribution });

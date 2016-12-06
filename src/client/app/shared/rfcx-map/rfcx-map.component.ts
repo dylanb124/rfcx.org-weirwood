@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -9,20 +9,20 @@ import * as L from 'leaflet';
 })
 export class RfcxMapComponent {
 
-    // internal id for twitter bootstrap dropdown interaction
-    private mapId: number = Math.round(Math.random() * 10000000);
     private rfcxMap: any;
     @Input() private centerLat: number;
     @Input() private centerLon: number;
     @Input() private zoom: number;
 
-    constructor() {}
+    constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
         this.initMap();
     }
 
     initMap() {
+        // get native html object of rfcx-map div, because dynamic id dissapears when leaflet tries to get it
+        let mapHtmlObj = this.elementRef.nativeElement.getElementsByClassName('rfcx-map')[0]
         if (!this.centerLat || !this.centerLon || !this.zoom) {
             throw Error('Map does not have all attributes');
         }
@@ -31,7 +31,7 @@ export class RfcxMapComponent {
             zoom: this.zoom
         };
 
-        this.rfcxMap = L.map('rfcxMapId', mapOptions);
+        this.rfcxMap = L.map(mapHtmlObj, mapOptions);
     }
 
 }
