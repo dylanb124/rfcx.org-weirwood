@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
+import * as L from 'leaflet';
+
 @Component({
   moduleId: module.id,
   selector: 'rfcx-map',
@@ -23,15 +25,16 @@ export class RfcxMapComponent {
     }
 
     initMap() {
-        let baseLayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-            {
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            }
-        );
-        this.rfcxMap = new L.Map('rfcxMapId', {
+        let baseLayer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        });
+
+        let mapOptions: L.MapOptions = {
             center: [this.centerLat, this.centerLon],
             zoom: this.zoom
-        });
+        };
+
+        this.rfcxMap = L.map('rfcxMapId', mapOptions);
         this.rfcxMap.addLayer(baseLayer);
     }
 

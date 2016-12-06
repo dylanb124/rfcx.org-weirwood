@@ -36,8 +36,7 @@ export class ProjectConfig extends SeedConfig {
       {src: 'bootstrap/dist/js/bootstrap.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
       {src: 'normalize.css/normalize.css', inject: true},
-      {src: 'leaflet/dist/leaflet.js', inject: 'libs'},
-      {src: 'leaflet/dist/leaflet.css', inject: true}, // inject into css section
+      {src: 'leaflet/dist/leaflet.css', inject: true}
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
@@ -52,7 +51,11 @@ export class ProjectConfig extends SeedConfig {
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
     this.mergeObject(this.SYSTEM_CONFIG_DEV['paths'], {
-      'angular2-cookie': 'node_modules/angular2-cookie/bundles/angular2-cookie.js'
+      'angular2-cookie': 'node_modules/angular2-cookie/bundles/angular2-cookie.js',
+      'leaflet': 'node_modules/leaflet/dist/leaflet.js'
+    });
+    this.mergeObject(this.SYSTEM_BUILDER_CONFIG['paths'], {
+      'leaflet': 'node_modules/leaflet/dist/leaflet.js'
     });
     this.mergeObject(this.SYSTEM_BUILDER_CONFIG['packages'], {
       'angular2-cookie': {
