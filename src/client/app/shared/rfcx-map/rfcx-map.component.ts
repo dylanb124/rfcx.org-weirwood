@@ -2,9 +2,11 @@ import { Component, Input, ElementRef, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
 import * as d3 from 'd3';
 
+let iconSize: any = [20, 28];
+
 const mapIcon = L.icon({
     iconUrl: 'assets/img/map/location-marker@2x.png',
-    iconSize: [20, 28],
+    iconSize: iconSize,
     iconAnchor: [10, 28]
 });
 
@@ -65,59 +67,66 @@ export class RfcxMapComponent {
     }
 
     createD3Pie() {
-        let width = 960,
-            height = 500,
+        let _this = this;
+
+        let width = 128,
+            height = 128,
             radius = Math.min(width, height) / 2;
 
         let color = d3.scaleOrdinal()
             .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
         let arc:any = d3.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(radius - 70);
+            .outerRadius(radius)
+            .innerRadius(radius - 11);
 
         let pie = d3.pie()
             .sort(null)
             .value((d:any) => { return d.population; });
 
-        let svg = d3.select("body").append("svg")
+        let svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        let svg = d3.select(svgEl);
+        let parentG = svg
             .attr("width", width)
             .attr("height", height)
-        .append("g")
+            .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
         d3.csv("assets/data.csv", type, function(error, data) {
             if (error) throw error;
 
-            let g = svg.selectAll(".arc")
+            let g = parentG.selectAll(".arc")
                 .data(pie(data))
-                .enter().append("g")
+                .enter()
+                .append("g")
                 .attr("class", "arc");
 
             g.append("path")
                 .attr("d", arc)
                 .style("fill", (d:any):any => { return color(d.data.age); });
 
-            g.append("text")
-                .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-                .attr("dy", ".35em")
-                .text((d:any):any => { return d.data.age; });
+            let ic = L.divIcon({
+                html: serializeXmlNode(svgEl),
+                className: 'marker-cluster',
+                iconSize: L.point(width, height + iconSize[1])
+            });
+            L.marker([_this.centerLat, _this.centerLon], {icon: ic}).addTo(_this.rfcxMap);
         });
+
+        function serializeXmlNode(xmlNode:any) {
+            if (typeof (window as any).XMLSerializer != "undefined") {
+                return (new (window as any).XMLSerializer()).serializeToString(xmlNode);
+            } else if (typeof xmlNode.xml != "undefined") {
+                return xmlNode.xml;
+            }
+            return "";
+        }
 
         function type(d:any) {
             d.population = +d.population;
             return d;
         }
 
-
-
-
-        let ic = L.divIcon({
-            html: '<div class="ddddddd" style="background: #ff0000;">aaa</div>"',
-            className: 'marker-cluster',
-            iconSize: L.point(10, 10)
-        });
-        L.marker([this.centerLat, this.centerLon], {icon: ic}).addTo(this.rfcxMap);
     }
 
 }
