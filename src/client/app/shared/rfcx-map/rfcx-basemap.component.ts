@@ -4,11 +4,11 @@ import * as L from 'leaflet';
 
 let baseMapTypes: any = {
     'positron': {
-      'url': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+      'url': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
       'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
     },
     'darkmatter': {
-      'url': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+      'url': 'http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
       'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
     }
   };
