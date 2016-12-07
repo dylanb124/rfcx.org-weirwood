@@ -2,7 +2,7 @@ import { Component, Input, Inject, forwardRef } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
 import * as L from 'leaflet';
 
-let baseMapType: any = {
+let baseMapTypes: any = {
     'positron': {
       'url': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
       'attribution': '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -34,11 +34,14 @@ export class RfcxBaseMapComponent {
     }
 
     appendLayer() {
-        let layerOpts = baseMapType[this.layerType];
+        let layerOpts = baseMapTypes[this.layerType];
         if (!layerOpts || this.rfcxMapComp === undefined || this.rfcxMapComp.rfcxMap === undefined) {
             return;
         }
-        let layerObj = L.tileLayer(layerOpts.url, { attribution: layerOpts.attribution });
+        let layerObj = L.tileLayer(layerOpts.url, {
+            attribution: layerOpts.attribution,
+            type: this.layerType
+        });
         this.rfcxMapComp.rfcxMap.addLayer(layerObj);
     }
 }

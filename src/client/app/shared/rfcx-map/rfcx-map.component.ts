@@ -1,11 +1,12 @@
-import { Component, Input, ElementRef } from '@angular/core';
+import { Component, Input, ElementRef, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
   moduleId: module.id,
   selector: 'rfcx-map',
   templateUrl: 'rfcx-map.component.html',
-  styleUrls: ['rfcx-map.component.css']
+  styleUrls: ['rfcx-map.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class RfcxMapComponent {
 
@@ -18,6 +19,7 @@ export class RfcxMapComponent {
 
     ngOnInit() {
         this.initMap();
+        this.initLayerControls();
     }
 
     initMap() {
@@ -32,6 +34,19 @@ export class RfcxMapComponent {
         };
 
         this.rfcxMap = L.map(mapHtmlObj, mapOptions);
+    }
+
+    initLayerControls() {
+        let controlsObj:any = {};
+        // wait until all nested rfcx-basemap will be added to map
+        setTimeout(() => {
+            // iterate through all map layers
+            this.rfcxMap.eachLayer(function(layer:any){
+                controlsObj[layer.options.type] = layer;
+            });
+            // add layer selection control
+            L.control.layers(controlsObj).addTo(this.rfcxMap);
+        }, 2000)
     }
 
 }
