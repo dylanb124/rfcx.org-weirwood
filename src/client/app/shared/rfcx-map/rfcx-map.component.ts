@@ -1,5 +1,6 @@
 import { Component, Input, ElementRef, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
+import * as d3 from 'd3';
 
 const mapIcon = L.icon({
     iconUrl: 'assets/img/map/location-marker@2x.png',
@@ -24,6 +25,7 @@ export class RfcxMapComponent {
     constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
+        console.log('d3', d3);
         this.initMap();
         this.initLayerControls();
         // temporary demo marker
