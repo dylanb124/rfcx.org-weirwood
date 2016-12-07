@@ -1,6 +1,12 @@
 import { Component, Input, ElementRef, ViewEncapsulation } from '@angular/core';
 import * as L from 'leaflet';
 
+const mapIcon = L.icon({
+    iconUrl: 'assets/img/map/location-marker@2x.png',
+    iconSize: [20, 28],
+    iconAnchor: [10, 28]
+});
+
 @Component({
   moduleId: module.id,
   selector: 'rfcx-map',
@@ -20,6 +26,8 @@ export class RfcxMapComponent {
     ngOnInit() {
         this.initMap();
         this.initLayerControls();
+        // temporary demo marker
+        this.createMarker(this.centerLat, this.centerLon);
     }
 
     initMap() {
@@ -47,6 +55,10 @@ export class RfcxMapComponent {
             // add layer selection control
             L.control.layers(controlsObj).addTo(this.rfcxMap);
         }, 2000)
+    }
+
+    createMarker(lat: number, lon: number) {
+        L.marker([lat, lon], {icon: mapIcon}).addTo(this.rfcxMap);
     }
 
 }
