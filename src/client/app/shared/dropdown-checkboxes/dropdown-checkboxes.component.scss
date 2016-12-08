@@ -3,6 +3,16 @@
 .dropdown-rfcx {
     width: 100%;
     max-width: $el-inline-max-width;
+    &__title {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    &__label {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     .dropdown-toggle {
         display: inline-block;
         width: 100%;

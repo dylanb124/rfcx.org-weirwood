@@ -1,4 +1,8 @@
 <div class="incidents">
+    <div class="incidents__inner">
+        <h3 class="incidents__title">Incident location &amp; frequency</h3>
+        <dropdown-checkboxes title="Choose type" [items]="incidents" [noborder]="true" (onChange)="incidentsTypeChanged($event)"></dropdown-checkboxes>
+    </div>
     <rfcx-map [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom">
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
         <rfcx-basemap layerType="positron"></rfcx-basemap>

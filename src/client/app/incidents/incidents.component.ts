@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DropdownItem } from '../shared/dropdown/dropdown-item';
 
 /**
  * This class represents the lazy loaded IncidentsComponent.
@@ -19,6 +20,16 @@ export class IncidentsComponent {
     zoom: 13
   }
 
+  public incidents: Array<DropdownItem> = [
+      { value: 'vehicles', label: 'Vehicles' },
+      { value: 'shots', label: 'Shots' },
+      { value: 'chainsaws', label: 'Chainsaws' }
+    ];
+
   constructor() {}
+
+  incidentsTypeChanged(event: any) {
+    console.log('incidentsTypeChanged', event);
+  }
 
 }

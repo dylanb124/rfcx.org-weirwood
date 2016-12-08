@@ -1,4 +1,13 @@
+@import "../../scss/main";
+
 .incidents {
+    &__inner {
+        padding-left: 13.125%;
+        padding-right: 13.125%;
+    }
+    &__title {
+        text-transform: uppercase;
+    }
     .rfcx-map {
         height: 384px;
     }

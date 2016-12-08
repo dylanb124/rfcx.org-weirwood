@@ -25,3 +25,7 @@ body {
     -moz-box-sizing: inherit;
     box-sizing: inherit;
 }
+
+input[type="checkbox"] {
+    height: auto;
+}

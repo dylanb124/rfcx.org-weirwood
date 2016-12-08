@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar/index';
 import { SpinnerComponent } from './spinner/index';
 import { DropdownComponent } from './dropdown/index';
+import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
 
 /**
@@ -15,12 +16,14 @@ import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   declarations: [
     NavbarComponent,
     SpinnerComponent,
     DropdownComponent,
+    DropdownCheckboxesComponent,
     RfcxMapComponent,
     RfcxBaseMapComponent
   ],
@@ -31,6 +34,7 @@ import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
     RouterModule,
     SpinnerComponent,
     DropdownComponent,
+    DropdownCheckboxesComponent,
     RfcxMapComponent,
     RfcxBaseMapComponent
   ]
