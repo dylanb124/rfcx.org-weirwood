@@ -30,9 +30,6 @@ export class RfcxMapComponent {
         console.dir(d3);
         this.initMap();
         this.initLayerControls();
-        // temporary demo marker
-        this.createMarker(this.centerLat, this.centerLon);
-        this.createD3Pie();
     }
 
     initMap() {
@@ -59,74 +56,110 @@ export class RfcxMapComponent {
             });
             // add layer selection control
             L.control.layers(controlsObj).addTo(this.rfcxMap);
+
+            this.loadMapData();
         }, 2000)
+    }
+
+    loadMapData() {
+        // temporary demo marker 1
+        this.createMarker(this.centerLat, this.centerLon);
+        // temporary demo marker's pie 1
+        this.createD3Pies(this.centerLat, this.centerLon, [
+            {count: 70, label: 'vehicles'},
+            {count: 19, label: 'shots'},
+            {count: 40, label: 'chainsaws'}
+        ]);
+
+        // temporary demo marker 1
+        this.createMarker(this.centerLat - 0.015, this.centerLon + 0.03);
+        // temporary demo marker's pie 1
+        this.createD3Pies(this.centerLat - 0.015, this.centerLon + 0.03, [
+            {count: 1, label: 'vehicles'},
+            {count: 30, label: 'shots'},
+            {count: 10, label: 'chainsaws'}
+        ]);
     }
 
     createMarker(lat: number, lon: number) {
         L.marker([lat, lon], {icon: mapIcon}).addTo(this.rfcxMap);
     }
 
-    createD3Pie() {
-        let _this = this;
-
+    createD3Pies(lat: number, lon: number, data: any) {
+        // define default pie sizes
         let width = 128,
             height = 128,
             radius = Math.min(width, height) / 2;
 
-        let color = d3.scaleOrdinal()
-            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+        // create svg element object which we will append to leaflet
+        let svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        // get d3 representation of svg object
+        let svg = d3.select(svgEl);
 
+        // define colors for arc
+        let color = d3
+            .scaleOrdinal()
+            .range([
+                "rgba(240, 65, 84, 0.8)",
+                "rgba(34, 176, 163, 0.8)",
+                "rgba(245, 166, 35, 0.8)",
+                "rgba(107, 72, 107, 0.8)",
+                "rgba(160, 93, 86, 0.8)",
+                "rgba(208, 116, 60, 0.8)",
+                "rgba(255, 140, 0, 0.8)"
+            ]);
+
+        // define sizes for arcs
         let arc:any = d3.arc()
             .outerRadius(radius)
             .innerRadius(radius - 11);
 
+        // define method for pie creation
         let pie = d3.pie()
             .sort(null)
-            .value((d:any) => { return d.population; });
+            .value((d:any) => { return d.count; });
 
-        let svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        let svg = d3.select(svgEl);
+        // create g element where we will store our arcs
         let parentG = svg
             .attr("width", width)
             .attr("height", height)
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-        d3.csv("assets/data.csv", type, function(error, data) {
-            if (error) throw error;
+        // append our arcs to parent g element
+        let g = parentG.selectAll(".arc")
+            .data(pie(data))
+            .enter()
+            .append("g")
+            .attr("class", "arc");
 
-            let g = parentG.selectAll(".arc")
-                .data(pie(data))
-                .enter()
-                .append("g")
-                .attr("class", "arc");
+        // fill arcs with colors
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", (d:any):any => { return color(d.data.label); });
 
-            g.append("path")
-                .attr("d", arc)
-                .style("fill", (d:any):any => { return color(d.data.age); });
-
-            let ic = L.divIcon({
-                html: serializeXmlNode(svgEl),
-                className: 'marker-cluster',
-                iconSize: L.point(width, height + iconSize[1])
-            });
-            L.marker([_this.centerLat, _this.centerLon], {icon: ic}).addTo(_this.rfcxMap);
+        // create divIcon object which we will append to leaflet
+        let icon = L.divIcon({
+            // serialize svg to html
+            html: this.serializeXmlNode(svgEl),
+            className: 'marker-cluster',
+            // place pie so leaflet marker is in the middle of a circle
+            iconSize: L.point(width, height + iconSize[1])
         });
 
-        function serializeXmlNode(xmlNode:any) {
-            if (typeof (window as any).XMLSerializer != "undefined") {
-                return (new (window as any).XMLSerializer()).serializeToString(xmlNode);
-            } else if (typeof xmlNode.xml != "undefined") {
-                return xmlNode.xml;
-            }
-            return "";
-        }
+        // append marker to map
+        L.marker([lat, lon], {icon: icon}).addTo(this.rfcxMap);
 
-        function type(d:any) {
-            d.population = +d.population;
-            return d;
-        }
+    }
 
+    // serialize svg
+    serializeXmlNode(xmlNode:any) {
+        if (typeof (window as any).XMLSerializer != "undefined") {
+            return (new (window as any).XMLSerializer()).serializeToString(xmlNode);
+        } else if (typeof xmlNode.xml != "undefined") {
+            return xmlNode.xml;
+        }
+        return "";
     }
 
 }
