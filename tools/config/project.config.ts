@@ -36,7 +36,10 @@ export class ProjectConfig extends SeedConfig {
       {src: 'bootstrap/dist/js/bootstrap.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
       {src: 'normalize.css/normalize.css', inject: true},
-      {src: 'leaflet/dist/leaflet.css', inject: true}
+      {src: 'leaflet/dist/leaflet.css', inject: true},
+      {src: 'moment/moment.js', inject: 'libs'},
+      {src: 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', inject: 'libs'},
+      {src: 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', inject: true}
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
@@ -59,7 +62,6 @@ export class ProjectConfig extends SeedConfig {
     this.mergeObject(this.SYSTEM_BUILDER_CONFIG['paths'], {
       'leaflet': 'node_modules/leaflet/dist/leaflet.js',
       'd3': 'node_modules/d3/build/d3.js',
-      'moment': 'node_modules/moment/moment.js'
     });
     this.mergeObject(this.SYSTEM_BUILDER_CONFIG['packages'], {
       'angular2-cookie': {
