@@ -8,6 +8,7 @@ import { SpinnerComponent } from './spinner/index';
 import { DropdownComponent } from './dropdown/index';
 import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
+import { DateTimePickerComponent } from './date-time-picker/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -25,7 +26,8 @@ import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
     DropdownComponent,
     DropdownCheckboxesComponent,
     RfcxMapComponent,
-    RfcxBaseMapComponent
+    RfcxBaseMapComponent,
+    DateTimePickerComponent
   ],
   exports: [
     NavbarComponent,
@@ -36,7 +38,8 @@ import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
     DropdownComponent,
     DropdownCheckboxesComponent,
     RfcxMapComponent,
-    RfcxBaseMapComponent
+    RfcxBaseMapComponent,
+    DateTimePickerComponent
   ]
 })
 export class SharedModule {

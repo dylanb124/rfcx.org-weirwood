@@ -27,7 +27,6 @@ export class RfcxMapComponent {
     constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
-        console.dir(d3);
         this.initMap();
         this.initLayerControls();
     }
