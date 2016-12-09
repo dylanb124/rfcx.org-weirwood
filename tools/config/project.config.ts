@@ -53,16 +53,22 @@ export class ProjectConfig extends SeedConfig {
     this.mergeObject(this.SYSTEM_CONFIG_DEV['paths'], {
       'angular2-cookie': 'node_modules/angular2-cookie/bundles/angular2-cookie.js',
       'leaflet': 'node_modules/leaflet/dist/leaflet.js',
-      'd3': 'node_modules/d3/build/d3.js'
+      'd3': 'node_modules/d3/build/d3.js',
+      'moment': 'node_modules/moment/moment.js'
     });
     this.mergeObject(this.SYSTEM_BUILDER_CONFIG['paths'], {
       'leaflet': 'node_modules/leaflet/dist/leaflet.js',
-      'd3': 'node_modules/d3/build/d3.js'
+      'd3': 'node_modules/d3/build/d3.js',
+      'moment': 'node_modules/moment/moment.js'
     });
     this.mergeObject(this.SYSTEM_BUILDER_CONFIG['packages'], {
       'angular2-cookie': {
         main: 'core.js',
         defaultExtension: 'js'
+      },
+      'moment': {
+          main: './moment.js',
+          defaultExtension: 'js'
       }
     });
   }
