@@ -5,6 +5,11 @@
         padding-top: 3.6rem;
         padding-left: 13.125%;
         padding-right: 13.125%;
+        @include mq(tablet) {
+            padding-top: 2rem;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
     }
     .incidents-nav {
         @include clearfix;
