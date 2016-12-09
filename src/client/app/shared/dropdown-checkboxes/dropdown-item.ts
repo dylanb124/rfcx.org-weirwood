@@ -1,5 +1,5 @@
 export interface DropdownCheckboxItem {
-  value: string;
+  value: any;
   label: string;
   checked: boolean;
 }

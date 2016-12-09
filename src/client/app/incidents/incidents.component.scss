@@ -2,11 +2,44 @@
 
 .incidents {
     &__inner {
+        padding-top: 3.6rem;
         padding-left: 13.125%;
         padding-right: 13.125%;
     }
+    .incidents-nav {
+        @include clearfix;
+        margin-bottom: 2rem;
+        font-size: 0;
+        &__left {
+            padding-top: 0.4rem;
+            float: left;
+            width: 40%;
+        }
+        &__right {
+            float: right;
+            width: 60%;
+            text-align: right;
+        }
+        &__inline-dropdown-wrapper {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+            &_type {
+                width: 130px;
+                margin-right: 8px;
+            }
+            &_range {
+                width: 100px;
+                margin-right: 20px;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
     &__title {
         text-transform: uppercase;
+        margin: 0;
     }
     .rfcx-map {
         height: 384px;

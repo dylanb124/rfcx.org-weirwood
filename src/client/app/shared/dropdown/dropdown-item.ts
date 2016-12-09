@@ -1,4 +1,4 @@
 export interface DropdownItem {
-  value: string;
+  value: any;
   label: string;
 }

@@ -1,5 +1,9 @@
 @import '../../../scss/main';
 
+:host {
+    display: inline-block;
+}
+
 .dropdown-rfcx {
     width: 100%;
     max-width: $el-inline-max-width;
@@ -183,6 +187,6 @@
         }
     }
     &.block {
-        max-width: none;
+        max-width: 100%;
     }
 }

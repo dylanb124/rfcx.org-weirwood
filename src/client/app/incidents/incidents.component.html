@@ -1,7 +1,17 @@
 <div class="incidents">
-    <div class="incidents__inner">
-        <h3 class="incidents__title">Incident location &amp; frequency</h3>
-        <dropdown-checkboxes title="Choose type" [items]="incidents" [noborder]="true" (onChange)="incidentsTypeChanged($event)"></dropdown-checkboxes>
+    <div class="incidents__inner incidents-nav">
+        <div class="incidents-nav__left">
+            <h3 class="incidents__title">Incident location &amp; frequency</h3>
+        </div>
+        <div class="incidents-nav__right">
+            <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
+                <dropdown-checkboxes [block]="true" title="Event type" [items]="incidents" [noborder]="true"
+                    (onChange)="incidentsTypeChanged($event)" allItemsTitle="All incidents"></dropdown-checkboxes>
+            </div>
+            <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_range">
+                <dropdown title="Range" [items]="daysCount" [noborder]="true" (onChange)="daysCountChanged($event)"></dropdown>
+            </div>
+        </div>
     </div>
     <rfcx-map [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom">
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>

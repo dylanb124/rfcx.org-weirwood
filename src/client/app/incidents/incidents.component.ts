@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
+import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
 
 /**
  * This class represents the lazy loaded IncidentsComponent.
@@ -20,11 +21,18 @@ export class IncidentsComponent {
     zoom: 13
   }
 
-  public incidents: Array<DropdownItem> = [
-      { value: 'vehicles', label: 'Vehicles' },
-      { value: 'shots', label: 'Shots' },
-      { value: 'chainsaws', label: 'Chainsaws' }
+  public incidents: Array<DropdownCheckboxItem> = [
+      { value: 'vehicles', label: 'Vehicles', checked: false },
+      { value: 'shots', label: 'Shots', checked: false },
+      { value: 'chainsaws', label: 'Chainsaws', checked: false }
     ];
+
+  public daysCount: Array<DropdownItem> = [
+    { value: 1, label: '1 Day' },
+    { value: 3, label: '3 Days' },
+    { value: 5, label: '5 Days' },
+    { value: 7, label: '7 Days' }
+  ];
 
   constructor() {}
 
@@ -32,4 +40,7 @@ export class IncidentsComponent {
     console.log('incidentsTypeChanged', event);
   }
 
+  daysCountChanged(event: any) {
+    console.log('daysCountChanged', event);
+  }
 }

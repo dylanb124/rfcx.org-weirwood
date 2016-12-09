@@ -17,6 +17,7 @@ export class DropdownCheckboxesComponent {
     private currentItems: Array<DropdownCheckboxItem> = [];
 
     @Input() private title: string = 'Choose';
+    @Input() private allItemsTitle: string;
     @Input() private items: Array<DropdownCheckboxItem> = [];
     @Input() private dropup: boolean = false;
     @Input() private disabled: boolean = false;
@@ -53,6 +54,9 @@ export class DropdownCheckboxesComponent {
         }
         if (!this.currentItems.length) {
             return this.title;
+        }
+        if (this.allItemsTitle && this.currentItems.length === this.items.length) {
+            return this.allItemsTitle;
         }
         let labels = this.currentItems.map( (item) => {
             return item.label
