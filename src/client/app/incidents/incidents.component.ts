@@ -20,6 +20,8 @@ export class IncidentsComponent {
     lon: -122.431297,
     zoom: 13
   }
+  private maxDate: Date = new Date();
+  private currentDaysCount: DropdownItem;
 
   public incidents: Array<DropdownCheckboxItem> = [
       { value: 'vehicles', label: 'Vehicles', checked: false },
@@ -41,6 +43,11 @@ export class IncidentsComponent {
   }
 
   daysCountChanged(event: any) {
+    this.currentDaysCount = event.item;
     console.log('daysCountChanged', event);
+  }
+
+  dateChanged(event: any) {
+    console.log('dateChanged', event);
   }
 }

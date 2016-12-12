@@ -5,6 +5,22 @@
 }
 
 .date-time-picker-rfcx {
+    &__input {
+        display: none;
+    }
+    span.input-group-addon {
+        background: $white-two;
+        border-color: $pinkish-grey;
+        &:hover {
+            cursor: pointer;
+            border-color: $warm-grey;
+            outline: none;
+        }
+        &.disabled {
+            border-color: $white-two;
+            cursor: no-drop;
+        }
+    }
     .bootstrap-datetimepicker-widget {
         border: none;
         @include box-shadow(0 0 8px 0 rgba(0, 0, 0, 0.2));
