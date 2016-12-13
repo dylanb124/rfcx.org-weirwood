@@ -10,20 +10,38 @@
             padding-left: 5%;
             padding-right: 5%;
         }
+        @include mq(phone) {
+            padding: 2.8rem 6.5% 0;
+        }
     }
     .incidents-nav {
         @include clearfix;
         margin-bottom: 2rem;
         font-size: 0;
+        @include mq(phone) {
+            position: relative;
+        }
         &__left {
             padding-top: 0.4rem;
             float: left;
             width: 40%;
+            @include mq(phone) {
+                float: none;
+                width: 100%;
+                padding-top: 0;
+                text-align: left;
+            }
         }
         &__right {
             float: right;
             width: 60%;
             text-align: right;
+            @include mq(phone) {
+                display: none;
+                float: none;
+                width: 100%;
+                text-align: left;
+            }
         }
         &__inline-dropdown-wrapper {
             display: inline-block;
@@ -51,6 +69,29 @@
     &__title {
         text-transform: uppercase;
         margin: 0;
+    }
+    &__title-nophone {
+        @include mq(phone) {
+            display: none;
+        }
+    }
+    &__mobile-filters-btn {
+        display: block;
+        width: 30px;
+        height: 3rem;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+        line-height: 3rem;
+        font-size: 1.8rem;
+        color: $charcoal-grey;
+        position: absolute;
+        bottom: -.3rem;
+        right: 7%;
+        @include mq(tabletAndDesktop) {
+            display: none;
+        }
     }
     .rfcx-map {
         height: 384px;
