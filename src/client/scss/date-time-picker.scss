@@ -2,9 +2,6 @@
 @import "mixins";
 
 .date-time-picker-rfcx {
-    &__input {
-        display: none;
-    }
     span.input-group-addon {
         background: $white-two;
         border-color: $pinkish-grey;
