@@ -8,9 +8,9 @@
   </button>
   <ul class="dropdown-menu" aria-labelledby="'dropdownMenu' + elementId">
     <li *ngFor='let item of items; let idx = index;'>
-        <a href="javascript:void(0)" (click)="changeValue($event, item)">
-          <label class="dropdown-rfcx__label">
-            <input type="checkbox" [(ngModel)]="item.checked">
+        <a>
+          <label class="dropdown-rfcx__label" (click)="preventLinkClick($event)">
+            <input class="dropdown-rfcx__checkbox" type="checkbox" [(ngModel)]="item.checked" (change)="changeValue($event, item)">
             {{item.label}}
           </label>
         </a>

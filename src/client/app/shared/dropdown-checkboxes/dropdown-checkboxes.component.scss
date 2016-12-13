@@ -17,6 +17,13 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    &__checkbox {
+        outline: none;
+        &:active,
+        &:focus {
+            outline: none;
+        }
+    }
     .dropdown-toggle {
         display: inline-block;
         width: 100%;

@@ -28,11 +28,12 @@ export class DropdownCheckboxesComponent {
 
     constructor() {}
 
-    changeValue(event: Event, item:DropdownCheckboxItem) {
-        event.preventDefault();
+    preventLinkClick(event: Event) {
         event.stopPropagation();
+    }
 
-        item.checked = !item.checked;
+    changeValue(event: Event, item:DropdownCheckboxItem) {
+        event.stopPropagation();
 
         if (item.checked) {
             this.currentItems.push(item);
