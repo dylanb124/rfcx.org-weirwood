@@ -12,7 +12,8 @@
                 <dropdown title="Range" [items]="daysCount" [noborder]="true" (onChange)="daysCountChanged($event)"></dropdown>
             </div>
             <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_date">
-                <date-time-picker [maxDate]="maxDate" (onChange)="dateChanged($event)" [disabled]="!currentDaysCount"></date-time-picker>
+                <date-time-picker-incidents [maxDate]="maxDate" (onChange)="dateChanged($event)"
+                    [disabled]="!currentDaysCount" [range]="currentDaysCount? currentDaysCount.value : 0"></date-time-picker-incidents>
             </div>
         </div>
     </div>

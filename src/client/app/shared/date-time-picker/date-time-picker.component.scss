@@ -99,6 +99,11 @@
                     span.disabled {
                         color: $white-two;
                     }
+                    &:hover {
+                        span {
+                            border-color: transparent;
+                        }
+                    }
                 }
                 &.active {
                     background: none;
@@ -121,6 +126,13 @@
                     }
                     span {
                         border-color: $warm-grey;
+                    }
+                    &.disabled {
+                        &:hover {
+                            span {
+                                border-color: $warm-grey;
+                            }
+                        }
                     }
                 }
 

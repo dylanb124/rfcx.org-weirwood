@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
 
+import * as moment from 'moment';
+
 /**
  * This class represents the lazy loaded IncidentsComponent.
  */
@@ -20,7 +22,8 @@ export class IncidentsComponent {
     lon: -122.431297,
     zoom: 13
   }
-  private maxDate: Date = new Date();
+  private today: Date;
+  private maxDate: Date;
   private currentDaysCount: DropdownItem;
 
   public incidents: Array<DropdownCheckboxItem> = [
@@ -38,13 +41,22 @@ export class IncidentsComponent {
 
   constructor() {}
 
+  recalculateDates() {
+    if (this.currentDaysCount.value > 1) {
+      this.maxDate = moment(this.today).subtract(this.currentDaysCount.value, 'days').toDate();
+    }
+    else {
+      this.maxDate = new Date();
+    }
+  }
+
   incidentsTypeChanged(event: any) {
     console.log('incidentsTypeChanged', event);
   }
 
   daysCountChanged(event: any) {
     this.currentDaysCount = event.item;
-    console.log('daysCountChanged', event);
+    this.recalculateDates();
   }
 
   dateChanged(event: any) {

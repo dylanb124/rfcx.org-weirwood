@@ -1,0 +1,42 @@
+@import "../date-time-picker/date-time-picker.component";
+
+.date-time-picker-rfcx {
+    &__label {
+        color: $charcoal-grey;
+        margin: 0;
+        padding: 0.6rem 0;
+        &.disabled {
+            color: $pinkish-grey;
+            .icon-chevron-down {
+                color: $pinkish-grey;
+            }
+        }
+    }
+    &__label-text {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .icon-chevron-down,
+    .icon-chevron-up {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: .6rem;
+        color: $charcoal-grey;
+        margin-left: 8px;
+    }
+    .icon-chevron-up {
+        display: none;
+    }
+    &.opened {
+        .date-time-picker-rfcx__label {
+            color: $dodger-blue;
+        }
+        .icon-chevron-down {
+            display: none;
+        }
+        .icon-chevron-up {
+            display: inline-block;
+            color: $dodger-blue;
+        }
+    }
+}

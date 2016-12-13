@@ -9,6 +9,7 @@ import { DropdownComponent } from './dropdown/index';
 import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
 import { DateTimePickerComponent } from './date-time-picker/index';
+import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -27,7 +28,8 @@ import { DateTimePickerComponent } from './date-time-picker/index';
     DropdownCheckboxesComponent,
     RfcxMapComponent,
     RfcxBaseMapComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    DateTimePickerIncidentsComponent
   ],
   exports: [
     NavbarComponent,
@@ -39,7 +41,8 @@ import { DateTimePickerComponent } from './date-time-picker/index';
     DropdownCheckboxesComponent,
     RfcxMapComponent,
     RfcxBaseMapComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    DateTimePickerIncidentsComponent
   ]
 })
 export class SharedModule {

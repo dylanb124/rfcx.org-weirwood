@@ -1,0 +1,9 @@
+<div class="input-group js-datetimepicker date-time-picker-rfcx" [ngClass]="{'opened': isOpened}">
+    <label class="date-time-picker-rfcx__label" [ngClass]="{'disabled': disabled}">
+        <input type="text" class="input-group-addon js-datetimepicker-input date-time-picker-rfcx__input"
+                [disabled]="disabled" [ngModel]="selectedDate"/>
+        <span class="date-time-picker-rfcx__label-text">{{label}}</span>
+        <span class="icon-chevron-down"></span>
+        <span class="icon-chevron-up"></span>
+    </label>
+</div>
