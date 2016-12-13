@@ -116,6 +116,12 @@
             .dropdown-toggle {
                 @include box-shadow(none);
                 border: none;
+                color: $dodger-blue;
+                .icon-chevron-down,
+                .icon-chevron-up,
+                .icon-download {
+                    color: $dodger-blue;
+                }
             }
         }
     }
