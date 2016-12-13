@@ -32,7 +32,7 @@ export class DateTimePickerIncidentsComponent {
       this.label = moment(this.selectedDate).format(labelFormat);
     }
     else {
-      this.label = moment(this.selectedDate).format(labelFormat) + ' - ' + moment(this.selectedDate).add(this.range, 'days').format(labelFormat);
+      this.label = moment(this.selectedDate).format(labelFormat) + ' — ' + moment(this.selectedDate).add(this.range, 'days').format(labelFormat);
     }
   }
 

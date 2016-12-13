@@ -38,7 +38,10 @@
                 margin-right: 20px;
             }
             &_date {
-                width: 160px;
+                width: 148px;
+                date-time-picker-incidents {
+                    display: inline-block;
+                }
             }
             &:last-child {
                 margin-right: 0;
