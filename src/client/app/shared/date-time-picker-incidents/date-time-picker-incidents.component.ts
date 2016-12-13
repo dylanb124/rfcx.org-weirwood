@@ -17,6 +17,7 @@ export class DateTimePickerIncidentsComponent {
   private dateTimePickerEl: any;
   private isOpened: boolean;
   private label: string = 'Choose date';
+  private selectedDate: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
   @Input() range: number;
@@ -26,12 +27,12 @@ export class DateTimePickerIncidentsComponent {
 
   constructor(private elementRef: ElementRef) {}
 
-  updateLabel(selectedDate: Date) {
+  updateLabel() {
     if (this.range - 1 < 2) {
-      this.label = moment(selectedDate).format(labelFormat);
+      this.label = moment(this.selectedDate).format(labelFormat);
     }
     else {
-      this.label = moment(selectedDate).format(labelFormat) + ' - ' + moment(selectedDate).add(this.range, 'days').format(labelFormat);
+      this.label = moment(this.selectedDate).format(labelFormat) + ' - ' + moment(this.selectedDate).add(this.range, 'days').format(labelFormat);
     }
   }
 
@@ -57,11 +58,11 @@ export class DateTimePickerIncidentsComponent {
     });
 
     this.dateTimePickerEl.on('dp.change', () => {
-      let newDate = this.dateTimePickerEl.data("DateTimePicker").date();
+      this.selectedDate = this.dateTimePickerEl.data("DateTimePicker").date();
       this.onChange.emit({
-          date: newDate
+          date: this.selectedDate
       });
-      this.updateLabel(newDate);
+      this.updateLabel();
     });
   }
 
@@ -75,6 +76,7 @@ export class DateTimePickerIncidentsComponent {
         if (!this.dateTimePickerEl.data("DateTimePicker").date()) {
           this.dateTimePickerEl.data("DateTimePicker").date(changes.maxDate.currentValue);
         }
+        this.updateLabel();
       }
     }
   }
