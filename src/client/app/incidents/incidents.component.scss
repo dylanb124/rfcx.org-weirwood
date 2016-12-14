@@ -132,6 +132,9 @@
                     &__label {
                         display: block;
                         position: relative;
+                        @include mq(phone) {
+                            text-align: left;
+                        }
                     }
                     .icon-chevron-down,
                     .icon-chevron-up {

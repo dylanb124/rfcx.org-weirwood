@@ -16,6 +16,10 @@
         color: $charcoal-grey;
         margin: 0;
         padding: 0.6rem 0;
+        background: transparent;
+        border: none;
+        width: auto;
+        white-space: normal;
         &.disabled {
             color: $pinkish-grey;
             .icon-chevron-down {
