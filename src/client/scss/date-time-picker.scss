@@ -5,10 +5,12 @@
     span.input-group-addon {
         background: $white-two;
         border-color: $pinkish-grey;
-        &:hover {
-            cursor: pointer;
-            border-color: $warm-grey;
-            outline: none;
+        @include mq(desktop) {
+            &:hover {
+                cursor: pointer;
+                border-color: $warm-grey;
+                outline: none;
+            }
         }
         &.disabled {
             border-color: $white-two;
@@ -75,11 +77,13 @@
                         border-radius: 50%;
                         border: 1px solid transparent;
                     }
-                    &:hover {
-                        background: transparent;
-                        span {
+                    @include mq(desktop) {
+                        &:hover {
                             background: transparent;
-                            border-color: $watermelon;
+                            span {
+                                background: transparent;
+                                border-color: $watermelon;
+                            }
                         }
                     }
                 }
@@ -93,9 +97,11 @@
                     span.disabled {
                         color: $white-two;
                     }
-                    &:hover {
-                        span {
-                            border-color: transparent;
+                    @include mq(desktop) {
+                        &:hover {
+                            span {
+                                border-color: transparent;
+                            }
                         }
                     }
                 }
@@ -107,10 +113,12 @@
                         color: $white;
                         border-color: $watermelon;
                     }
-                    &:hover {
-                        span {
-                            background: $watermelon;
-                            border-color: $watermelon;
+                    @include mq(desktop) {
+                        &:hover {
+                            span {
+                                background: $watermelon;
+                                border-color: $watermelon;
+                            }
                         }
                     }
                 }
@@ -122,9 +130,11 @@
                         border-color: $warm-grey;
                     }
                     &.disabled {
-                        &:hover {
-                            span {
-                                border-color: $warm-grey;
+                        @include mq(desktop) {
+                            &:hover {
+                                span {
+                                    border-color: $warm-grey;
+                                }
                             }
                         }
                     }
@@ -135,9 +145,11 @@
                     height: 2.5rem;
                     line-height: 2.3rem;
                     border: 1px solid transparent;
-                    &:hover {
-                        background: transparent;
-                        border-color: $watermelon;
+                    @include mq(desktop) {
+                        &:hover {
+                            background: transparent;
+                            border-color: $watermelon;
+                        }
                     }
                     &.active {
                         background: $watermelon;

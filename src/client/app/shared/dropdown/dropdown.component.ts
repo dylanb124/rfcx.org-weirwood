@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { DropdownItem } from './dropdown-item';
 
 @Component({
@@ -6,6 +6,7 @@ import { DropdownItem } from './dropdown-item';
   selector: 'dropdown',
   templateUrl: 'dropdown.component.html',
   styleUrls: ['dropdown.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DropdownComponent {
 

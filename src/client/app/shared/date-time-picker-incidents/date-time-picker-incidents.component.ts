@@ -18,6 +18,7 @@ export class DateTimePickerIncidentsComponent {
   private isOpened: boolean;
   private label: string = 'Choose date';
   private selectedDate: Date;
+  private tempDate: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
   @Input() range: number;
@@ -51,18 +52,19 @@ export class DateTimePickerIncidentsComponent {
 
     this.dateTimePickerEl.on('dp.show', () => {
       this.isOpened = true;
+      this.tempDate = this.dateTimePickerEl.data("DateTimePicker").date().toDate();
     });
 
     this.dateTimePickerEl.on('dp.hide', () => {
-      this.isOpened = false;
-    });
 
-    this.dateTimePickerEl.on('dp.change', () => {
-      this.selectedDate = this.dateTimePickerEl.data("DateTimePicker").date();
-      this.onChange.emit({
+      this.isOpened = false;
+      this.selectedDate = this.dateTimePickerEl.data("DateTimePicker").date().toDate();
+      if (this.tempDate.getTime() !== this.selectedDate.getTime()) {
+        this.onChange.emit({
           date: this.selectedDate
-      });
-      this.updateLabel();
+        });
+        this.updateLabel();
+      }
     });
   }
 

@@ -15,17 +15,19 @@
         line-height: 1.6rem;
         letter-spacing: -0.1px;
         text-align: left;
-        background: $white;
+        background: transparent !important;
         border: 1px solid $pinkish-grey;
         border-radius: .4rem;
-        outline: none;
+        outline: none !important;
         color: $charcoal-grey;
         position: relative;
         height: auto;
         padding: .7rem 30px .7rem 15px;
         @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.1));
-        &:hover {
-            @include box-shadow(0 1px 4px 0 rgba(0, 0, 0, 0.24));
+        @include mq(desktop) {
+            &:hover {
+                @include box-shadow(0 1px 4px 0 rgba(0, 0, 0, 0.24));
+            }
         }
         &:disabled {
             border-color: $white-two;
@@ -35,8 +37,10 @@
             .icon-download {
                 color: $pinkish-grey;
             }
-            &:hover {
-                @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.1));
+            @include mq(desktop) {
+                &:hover {
+                    @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.1));
+                }
             }
         }
         .icon-download {
@@ -75,10 +79,15 @@
             a {
                 padding: .3rem 24px .3rem 16px;
                 line-height: 1.3;
-                &:hover,
                 &:focus {
                     background: $white-two;
                     outline: none;
+                }
+                @include mq(desktop) {
+                    &:hover {
+                        background: $white-two;
+                        outline: none;
+                    }
                 }
             }
         }
@@ -91,11 +100,16 @@
             @include box-shadow(none);
             padding: .7rem 24px .7rem 7px;
             text-align: center;
-            &:hover,
             &:focus,
             &:active {
                 border: none;
                 @include box-shadow(none);
+            }
+            @include mq(desktop) {
+                &:hover {
+                    border: none;
+                    @include box-shadow(none);
+                }
             }
             .icon-chevron-down,
             .icon-chevron-up,

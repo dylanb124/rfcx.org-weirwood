@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
 
@@ -12,6 +12,7 @@ import * as moment from 'moment';
   selector: 'sd-incidents',
   templateUrl: 'incidents.component.html',
   styleUrls: ['incidents.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class IncidentsComponent {

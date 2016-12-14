@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { DropdownCheckboxItem } from './dropdown-item';
 
 // use this hack to get jQuery (as jQuery conflicts with protractor)
@@ -8,7 +8,8 @@ let jQuery: any = (window as any)['$'];
   moduleId: module.id,
   selector: 'dropdown-checkboxes',
   templateUrl: 'dropdown-checkboxes.component.html',
-  styleUrls: ['dropdown-checkboxes.component.css']
+  styleUrls: ['dropdown-checkboxes.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DropdownCheckboxesComponent {
 

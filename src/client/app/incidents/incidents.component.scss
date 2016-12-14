@@ -47,6 +47,9 @@
                         border-color: transparent transparent #fff transparent;
                     }
                 }
+                .incidents__mobile-filters-btn {
+                    color: $dodger-blue;
+                }
             }
         }
         &__left {
@@ -72,8 +75,8 @@
                 width: 100%;
                 text-align: left;
                 &.mobile-opened {
-                    @include transition(max-height 1.5s ease);
-                    max-height: 500px;
+                    @include transition(max-height 1s ease);
+                    max-height: 1000px;
                 }
             }
         }
@@ -81,22 +84,111 @@
             display: inline-block;
             vertical-align: middle;
             text-align: center;
+            @include mq(phone) {
+                display: block;
+                text-align: left;
+                padding: 0.8rem 0 0.9rem;
+                dropdown-checkboxes,
+                dropdown,
+                date-time-picker-incidents,
+                .dropdown-rfcx,
+                .date-time-picker-rfcx {
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    text-align: left;
+                }
+                .dropdown-rfcx {
+                    .dropdown-toggle {
+                        text-align: left;
+                        padding-left: 0;
+                        padding-right: 28px;
+                        .icon-chevron-up,
+                        .icon-chevron-down,
+                        .icon-download {
+                            right: 10px;
+                        }
+                    }
+                    .dropdown-menu {
+                        position: static;
+                        float: none;
+                        @include box-shadow(none);
+                        border: none;
+                        padding-bottom: 0.2rem;
+                        li {
+                            a {
+                                padding: .5rem .5rem .6rem 0;
+                                &:hover {
+                                    background: transparent;
+                                }
+                            }
+                        }
+                    }
+                    &__checkbox {
+                        margin-right: 5%;
+                    }
+                }
+                .date-time-picker-rfcx {
+                    &__label {
+                        display: block;
+                        position: relative;
+                    }
+                    .icon-chevron-down,
+                    .icon-chevron-up {
+                        position: absolute;
+                        top: 50%;
+                        right: 10px;
+                        @include translate(0, -50%);
+                    }
+                    @include mq(phone) {
+                        .bootstrap-datetimepicker-widget {
+                            &.dropdown-menu {
+                                position: static !important;
+                                @include box-shadow(none);
+                                width: 100%;
+                                padding-left: 0;
+                                padding-right: 0;
+                            }
+                        }
+                    }
+                }
+            }
             &_type {
                 width: 130px;
                 margin: 0 4px;
+                @include mq(phone) {
+                    width: 100%;
+                    margin: 0;
+                    border-bottom: 1px solid $white-two;
+                }
             }
             &_range {
                 width: 100px;
                 margin: 0 10px;
+                @include mq(phone) {
+                    width: 100%;
+                    margin: 0;
+                    border-bottom: 1px solid $white-two;
+                }
             }
             &_date {
                 width: 148px;
                 date-time-picker-incidents {
                     display: inline-block;
                 }
+                @include mq(phone) {
+                    width: 100%;
+                    margin: 0;
+                    date-time-picker-incidents {
+                        display: block;
+                    }
+                }
             }
             &:last-child {
                 margin-right: 0;
+                @include mq(phone) {
+                    margin-right: auto;
+                }
             }
         }
     }
@@ -124,6 +216,11 @@
         top: 2.5rem;
         right: 7%;
         z-index: 5;
+        &:hover,
+        &:active {
+            background: transparent;
+            outline: none;
+        }
         @include mq(tabletAndDesktop) {
             display: none;
         }
