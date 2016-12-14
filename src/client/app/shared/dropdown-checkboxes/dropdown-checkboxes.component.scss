@@ -8,6 +8,11 @@
 .dropdown-rfcx {
     width: 100%;
     max-width: $el-inline-max-width;
+    @include mq(phone) {
+        .dropdown-backdrop {
+            display: none;
+        }
+    }
     &__title {
         display: block;
         overflow: hidden;
