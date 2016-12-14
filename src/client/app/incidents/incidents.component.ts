@@ -17,22 +17,11 @@ import * as moment from 'moment';
 
 export class IncidentsComponent {
 
-  private rfcxMap: any;
-  private mapDetails: any = {
-    lat: 37.773972,
-    lon: -122.431297,
-    zoom: 13
-  }
-  private today: Date;
-  private maxDate: Date;
-  private currentDaysCount: DropdownItem;
-  private mobileFiltersOpened: boolean = false;
-
   public incidents: Array<DropdownCheckboxItem> = [
-      { value: 'vehicles', label: 'Vehicles', checked: false },
-      { value: 'shots', label: 'Shots', checked: false },
-      { value: 'chainsaws', label: 'Chainsaws', checked: false }
-    ];
+    { value: 'vehicles', label: 'Vehicles', checked: false },
+    { value: 'shots', label: 'Shots', checked: false },
+    { value: 'chainsaws', label: 'Chainsaws', checked: false }
+  ];
 
   public daysCount: Array<DropdownItem> = [
     { value: 1, label: '1 Day' },
@@ -42,7 +31,16 @@ export class IncidentsComponent {
     { value: 30, label: '30 Days' }
   ];
 
-  constructor() {}
+  // tslint:disable-next-line:no-unused-variable
+  private mapDetails: any = {
+    lat: 37.773972,
+    lon: -122.431297,
+    zoom: 13
+  };
+  private today: Date;
+  private maxDate: Date;
+  private currentDaysCount: DropdownItem;
+  private mobileFiltersOpened: boolean = false;
 
   recalculateDates() {
     if (this.currentDaysCount.value > 1) {

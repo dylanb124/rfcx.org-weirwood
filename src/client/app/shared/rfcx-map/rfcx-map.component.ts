@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ElementRef, ViewEncapsulation, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import * as d3 from 'd3';
 
@@ -17,7 +17,7 @@ const mapIcon = L.icon({
   styleUrls: ['rfcx-map.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class RfcxMapComponent {
+export class RfcxMapComponent implements OnInit {
 
     private rfcxMap: any;
     @Input() private centerLat: number;
@@ -33,7 +33,7 @@ export class RfcxMapComponent {
 
     initMap() {
         // get native html object of rfcx-map div, because dynamic id dissapears when leaflet tries to get it
-        let mapHtmlObj = this.elementRef.nativeElement.getElementsByClassName('rfcx-map')[0]
+        let mapHtmlObj = this.elementRef.nativeElement.getElementsByClassName('rfcx-map')[0];
         if (!this.centerLat || !this.centerLon || !this.zoom) {
             throw Error('Map does not have all attributes');
         }
@@ -57,7 +57,7 @@ export class RfcxMapComponent {
             L.control.layers(controlsObj).addTo(this.rfcxMap);
 
             this.loadMapData();
-        }, 2000)
+        }, 2000);
     }
 
     loadMapData() {
@@ -99,13 +99,13 @@ export class RfcxMapComponent {
         let color = d3
             .scaleOrdinal()
             .range([
-                "rgba(240, 65, 84, 0.8)",
-                "rgba(34, 176, 163, 0.8)",
-                "rgba(245, 166, 35, 0.8)",
-                "rgba(107, 72, 107, 0.8)",
-                "rgba(160, 93, 86, 0.8)",
-                "rgba(208, 116, 60, 0.8)",
-                "rgba(255, 140, 0, 0.8)"
+                'rgba(240, 65, 84, 0.8)',
+                'rgba(34, 176, 163, 0.8)',
+                'rgba(245, 166, 35, 0.8)',
+                'rgba(107, 72, 107, 0.8)',
+                'rgba(160, 93, 86, 0.8)',
+                'rgba(208, 116, 60, 0.8)',
+                'rgba(255, 140, 0, 0.8)'
             ]);
 
         // define sizes for arcs
@@ -120,22 +120,22 @@ export class RfcxMapComponent {
 
         // create g element where we will store our arcs
         let parentG = svg
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            .attr('width', width)
+            .attr('height', height)
+            .append('g')
+            .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
         // append our arcs to parent g element
-        let g = parentG.selectAll(".arc")
+        let g = parentG.selectAll('.arc')
             .data(pie(data))
             .enter()
-            .append("g")
-            .attr("class", "arc");
+            .append('g')
+            .attr('class', 'arc');
 
         // fill arcs with colors
-        g.append("path")
-            .attr("d", arc)
-            .style("fill", (d:any):any => { return color(d.data.label); });
+        g.append('path')
+            .attr('d', arc)
+            .style('fill', (d:any):any => { return color(d.data.label); });
 
         // create divIcon object which we will append to leaflet
         let icon = L.divIcon({
@@ -153,12 +153,12 @@ export class RfcxMapComponent {
 
     // serialize svg
     serializeXmlNode(xmlNode:any) {
-        if (typeof (window as any).XMLSerializer != "undefined") {
+        if (typeof (window as any).XMLSerializer !== 'undefined') {
             return (new (window as any).XMLSerializer()).serializeToString(xmlNode);
-        } else if (typeof xmlNode.xml != "undefined") {
+        } else if (typeof xmlNode.xml !== 'undefined') {
             return xmlNode.xml;
         }
-        return "";
+        return '';
     }
 
 }

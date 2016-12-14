@@ -1,9 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { DropdownCheckboxItem } from './dropdown-item';
 
-// use this hack to get jQuery (as jQuery conflicts with protractor)
-let jQuery: any = (window as any)['$'];
-
 @Component({
   moduleId: module.id,
   selector: 'dropdown-checkboxes',
@@ -13,21 +10,24 @@ let jQuery: any = (window as any)['$'];
 })
 export class DropdownCheckboxesComponent {
 
+    @Output() onChange = new EventEmitter();
     // internal id for twitter bootstrap dropdown interaction
+    // tslint:disable-next-line:no-unused-variable
     private elementId:number = Math.round(Math.random() * 10000000);
     private currentItems: Array<DropdownCheckboxItem> = [];
-
     @Input() private title: string = 'Choose';
     @Input() private allItemsTitle: string;
     @Input() private items: Array<DropdownCheckboxItem> = [];
+    // tslint:disable-next-line:no-unused-variable
     @Input() private dropup: boolean = false;
+    // tslint:disable-next-line:no-unused-variable
     @Input() private disabled: boolean = false;
+    // tslint:disable-next-line:no-unused-variable
     @Input() private block: boolean = false;
+    // tslint:disable-next-line:no-unused-variable
     @Input() private download: boolean = false;
+    // tslint:disable-next-line:no-unused-variable
     @Input() private noborder: boolean = false;
-    @Output() onChange = new EventEmitter();
-
-    constructor() {}
 
     preventLinkClick(event: Event) {
         event.stopPropagation();
@@ -61,7 +61,7 @@ export class DropdownCheckboxesComponent {
             return this.allItemsTitle;
         }
         let labels = this.currentItems.map( (item) => {
-            return item.label
+            return item.label;
         });
         return labels.join(', ');
     }

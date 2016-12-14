@@ -1,5 +1,9 @@
 {
   "extends": "./tools/config/seed.tslint.json",
   "rules": {
+    "one-line": [true,
+      "check-open-brace",
+      "check-whitespace"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation, OnInit } from '@angular/core';
 
 // use this hack to get jQuery (as jQuery conflicts with protractor)
 let jQuery: any = (window as any)['$'];
@@ -10,14 +10,14 @@ let jQuery: any = (window as any)['$'];
   styleUrls: ['date-time-picker.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class DateTimePickerComponent {
+export class DateTimePickerComponent implements OnInit {
 
-  private dateTimePickerEl: any;
   @Input() minDate: Date;
   @Input() maxDate: Date;
   @Input() disabled: boolean;
   @Input() disabledDates: Array<any>;
   @Output() onChange = new EventEmitter();
+  private dateTimePickerEl: any;
 
   constructor(private elementRef: ElementRef) {}
 
@@ -34,7 +34,7 @@ export class DateTimePickerComponent {
     });
 
     this.dateTimePickerEl.on('dp.change', () => {
-      let newDate = this.dateTimePickerEl.data("DateTimePicker").date();
+      let newDate = this.dateTimePickerEl.data('DateTimePicker').date();
       this.onChange.emit({
           date: newDate
       });

@@ -57,7 +57,7 @@ export class StyleguideComponent {
       }
     ];
 
-    dropDownChanged(event: any){
+    dropDownChanged(event: any) {
       console.log('dropDownChanged', event);
     }
 

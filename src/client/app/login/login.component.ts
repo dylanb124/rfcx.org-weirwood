@@ -9,6 +9,7 @@ class LoginData {
 }
 
 @Component({
+    // tslint:disable-next-line:component-selector-name
     selector: 'login',
     moduleId: module.id,
     templateUrl: 'login.component.html',
