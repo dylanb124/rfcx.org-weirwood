@@ -48,7 +48,8 @@ export class ProjectConfig extends SeedConfig {
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
       {src: `${this.CSS_SRC}/custom.css`, inject: true, vendor: false},
-      {src: `${this.CSS_SRC}/icomoon.css`, inject: true, vendor: false}
+      {src: `${this.CSS_SRC}/icomoon.css`, inject: true, vendor: false},
+      {src: `${this.CSS_SRC}/spinner.css`, inject: true, vendor: false}
     ];
 
     /* Add to or override NPM module configurations: */

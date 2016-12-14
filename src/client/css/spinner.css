@@ -1,5 +1,3 @@
-@import "../../../scss/colors";
-
 .sk-circle {
   margin: 0 auto;
   position: relative;
@@ -17,7 +15,7 @@
   margin: 0 auto;
   width: 15%;
   height: 15%;
-  background-color: $medium-green;
+  background-color: #2fb04a;
   border-radius: 100%;
   -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
           animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;

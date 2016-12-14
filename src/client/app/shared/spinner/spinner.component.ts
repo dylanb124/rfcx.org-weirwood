@@ -4,8 +4,7 @@ import { Component, Input } from '@angular/core';
   moduleId: module.id,
   // tslint:disable-next-line:component-selector-name
   selector: 'spinner',
-  templateUrl: 'spinner.component.html',
-  styleUrls: ['spinner.component.css'],
+  templateUrl: 'spinner.component.html'
 })
 export class SpinnerComponent {
 
