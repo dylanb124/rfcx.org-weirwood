@@ -20,12 +20,41 @@
         font-size: 0;
         @include mq(phone) {
             position: relative;
+            &.mobile-filters-opened {
+                .incidents-nav__left {
+                    padding-bottom: 2rem;
+                    border-bottom-color: $white-two;
+                    position: relative;
+                    &:before,
+                    &:after {
+                        display: block;
+                        position: absolute;
+                        right: 11px;
+                        content: "";
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                        border-width: 0 6px 6px 6px;
+                    }
+                    &:before {
+                        bottom: 0;
+                        z-index: 1;
+                        border-color: transparent transparent #dfdfdf transparent;
+                    }
+                    &:after {
+                        bottom: -1px;
+                        z-index: 2;
+                        border-color: transparent transparent #fff transparent;
+                    }
+                }
+            }
         }
         &__left {
             padding-top: 0.4rem;
             float: left;
             width: 40%;
             @include mq(phone) {
+                border-bottom: 1px solid transparent;
                 float: none;
                 width: 100%;
                 padding-top: 0;
@@ -37,10 +66,15 @@
             width: 60%;
             text-align: right;
             @include mq(phone) {
-                display: none;
+                max-height: 0;
+                overflow: hidden;
                 float: none;
                 width: 100%;
                 text-align: left;
+                &.mobile-opened {
+                    @include transition(max-height 1.5s ease);
+                    max-height: 500px;
+                }
             }
         }
         &__inline-dropdown-wrapper {
@@ -87,8 +121,9 @@
         font-size: 1.8rem;
         color: $charcoal-grey;
         position: absolute;
-        bottom: -.3rem;
+        top: 2.5rem;
         right: 7%;
+        z-index: 5;
         @include mq(tabletAndDesktop) {
             display: none;
         }

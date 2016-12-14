@@ -14,6 +14,13 @@
           transform: $transforms;
 }
 
+@mixin transition($transition...) {
+    -moz-transition:    $transition;
+    -o-transition:      $transition;
+    -webkit-transition: $transition;
+    transition:         $transition;
+}
+
 @mixin translate ($x, $y) {
    @include transform(translate($x, $y));
 }

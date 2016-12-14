@@ -25,6 +25,7 @@ export class IncidentsComponent {
   private today: Date;
   private maxDate: Date;
   private currentDaysCount: DropdownItem;
+  private mobileFiltersOpened: boolean = false;
 
   public incidents: Array<DropdownCheckboxItem> = [
       { value: 'vehicles', label: 'Vehicles', checked: false },
@@ -62,5 +63,9 @@ export class IncidentsComponent {
 
   dateChanged(event: any) {
     console.log('dateChanged', event);
+  }
+
+  toggleMobileFilters() {
+    this.mobileFiltersOpened = !this.mobileFiltersOpened;
   }
 }

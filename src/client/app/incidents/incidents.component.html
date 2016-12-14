@@ -1,10 +1,10 @@
 <div class="incidents">
-    <div class="incidents__inner incidents-nav">
-        <button class="icon-options incidents__mobile-filters-btn"></button>
+    <div class="incidents__inner incidents-nav" [ngClass]="{'mobile-filters-opened': mobileFiltersOpened}">
+        <button class="icon-options incidents__mobile-filters-btn" (click)="toggleMobileFilters()"></button>
         <div class="incidents-nav__left">
             <h3 class="incidents__title"><span class="incidents__title-nophone">Incident </span>location &amp; frequency</h3>
         </div>
-        <div class="incidents-nav__right">
+        <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
             <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
                 <dropdown-checkboxes [block]="true" title="Event type" [items]="incidents" [noborder]="true"
                     (onChange)="incidentsTypeChanged($event)" allItemsTitle="All incidents"></dropdown-checkboxes>
