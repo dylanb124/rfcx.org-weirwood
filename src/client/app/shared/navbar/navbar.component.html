@@ -25,23 +25,28 @@
         </li>
         <li class="hide-on-tablet hide-on-desktop">
           <a class="nav__link" [routerLink]="['/']" [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:true}">Home</a>
+            [routerLinkActiveOptions]="{exact:true}" data-toggle="collapse"
+            data-target=".navbar-collapse.in">Home</a>
         </li>
         <li>
           <a class="nav__link" [routerLink]="['/incidents']" [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:true}">Incidents</a>
+            [routerLinkActiveOptions]="{exact:true}" data-toggle="collapse"
+            data-target=".navbar-collapse.in">Incidents</a>
         </li>
         <li>
           <a class="nav__link" [routerLink]="['/wildlife']" [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:true}">Wildlife</a>
+            [routerLinkActiveOptions]="{exact:true}" data-toggle="collapse"
+            data-target=".navbar-collapse.in">Wildlife</a>
         </li>
         <li>
           <a class="nav__link" [routerLink]="['/sectors']"  [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:true}">Sectors</a>
+            [routerLinkActiveOptions]="{exact:true}" data-toggle="collapse"
+            data-target=".navbar-collapse.in">Sectors</a>
         </li>
         <li>
           <a class="nav__link" [routerLink]="['/reports']" [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:true}">Reports</a>
+            [routerLinkActiveOptions]="{exact:true}" data-toggle="collapse"
+            data-target=".navbar-collapse.in">Reports</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right hide-on-phone">
