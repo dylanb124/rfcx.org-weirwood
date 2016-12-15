@@ -20,6 +20,8 @@ const mapIcon = L.icon({
 export class RfcxMapComponent implements OnInit {
 
     private rfcxMap: any;
+    private minCircleDiameter: number = 80;
+    private maxCircleDiameter: number = 150;
     @Input() private centerLat: number;
     @Input() private centerLon: number;
     @Input() private zoom: number;
@@ -55,39 +57,136 @@ export class RfcxMapComponent implements OnInit {
             });
             // add layer selection control
             L.control.layers(controlsObj).addTo(this.rfcxMap);
-
-            this.loadMapData();
+            this.loadMapData()
+                .then(this.countIncidents)
+                .then(this.calculateRadiuses.bind(this))
+                .then(this.addDataToMap.bind(this))
+                .catch((err) => {
+                    console.log('err', err);
+                });
         }, 2000);
     }
 
     loadMapData() {
-        // temporary demo marker 1
-        this.createMarker(this.centerLat, this.centerLon);
-        // temporary demo marker's pie 1
-        this.createD3Pies(this.centerLat, this.centerLon, [
-            {count: 70, label: 'vehicles'},
-            {count: 19, label: 'shots'},
-            {count: 40, label: 'chainsaws'}
-        ]);
+        return new Promise((resolve, reject) => {
+            try {
+                resolve([
+                    {
+                        coords: {
+                            lat: this.centerLat,
+                            lon: this.centerLon
+                        },
+                        incidents: [
+                            {count: 70, label: 'vehicles'},
+                            {count: 19, label: 'shots'},
+                            {count: 40, label: 'chainsaws'}
+                        ]
+                    },
+                    {
+                        coords: {
+                            lat: this.centerLat - 0.015,
+                            lon: this.centerLon + 0.03
+                        },
+                        incidents: [
+                            {count: 1, label: 'vehicles'},
+                            {count: 30, label: 'shots'},
+                            {count: 10, label: 'chainsaws'}
+                        ]
+                    },
+                    {
+                        coords: {
+                            lat: this.centerLat - 0.009,
+                            lon: this.centerLon - 0.022
+                        },
+                        incidents: [
+                            {count: 10, label: 'vehicles'},
+                            {count: 50, label: 'shots'},
+                            {count: 3, label: 'chainsaws'}
+                        ]
+                    }
+                    ,
+                    {
+                        coords: {
+                            lat: this.centerLat,
+                            lon: this.centerLon - 0.041
+                        },
+                        incidents: [
+                            {count: 1, label: 'vehicles'},
+                            {count: 2, label: 'shots'},
+                            {count: 13, label: 'chainsaws'}
+                        ]
+                    }
+                ]);
+            }
+            catch (e) {
+                reject(e);
+            }
+        });
+    }
 
-        // temporary demo marker 1
-        this.createMarker(this.centerLat - 0.015, this.centerLon + 0.03);
-        // temporary demo marker's pie 1
-        this.createD3Pies(this.centerLat - 0.015, this.centerLon + 0.03, [
-            {count: 1, label: 'vehicles'},
-            {count: 30, label: 'shots'},
-            {count: 10, label: 'chainsaws'}
-        ]);
+    countIncidents(arr: Array<any>) {
+        return new Promise((resolve, reject) => {
+            try {
+                arr.forEach((item) => {
+                    let count = 0;
+                    item.incidents.forEach((incident: any) => {
+                        count += incident.count;
+                    });
+                    item.incidentsCount = count;
+                });
+                resolve(arr);
+            }
+            catch(e) {
+                reject(e);
+            }
+        });
+    }
+
+    calculateRadiuses(arr: Array<any>) {
+        return new Promise((resolve, reject) => {
+            try {
+                let deltaPx = this.maxCircleDiameter - this.minCircleDiameter;
+                let diameters = arr.map((item) => {
+                    return item.incidentsCount;
+                });
+                let min = Math.min.apply(null, diameters);
+                let max = Math.max.apply(null, diameters);
+                let deltaInc = max - min;
+                arr.forEach((item) => {
+                    if (item.incidentsCount === min) {
+                        item.diameter = this.minCircleDiameter;
+                    }
+                    else if (item.incidentsCount === max) {
+                        item.diameter = this.maxCircleDiameter;
+                    }
+                    else {
+                        let coef = item.incidentsCount/deltaInc;
+                        item.diameter = this.minCircleDiameter + Math.round(deltaPx * coef);
+                    }
+                });
+                resolve(arr);
+            }
+            catch(e) {
+                reject(e);
+            }
+        });
+    }
+
+    addDataToMap(data: Array<any>) {
+        data.forEach((item) => {
+            this.createMarker(item.coords.lat, item.coords.lon);
+            this.createD3Pies(item.coords.lat, item.coords.lon, item.diameter, item.incidents);
+        });
     }
 
     createMarker(lat: number, lon: number) {
         L.marker([lat, lon], {icon: mapIcon}).addTo(this.rfcxMap);
     }
 
-    createD3Pies(lat: number, lon: number, data: any) {
+    createD3Pies(lat: number, lon: number, diameter: number, data: any) {
         // define default pie sizes
-        let width = 128,
-            height = 128,
+        let width = diameter,
+            height = diameter,
             radius = Math.min(width, height) / 2;
 
         // create svg element object which we will append to leaflet
