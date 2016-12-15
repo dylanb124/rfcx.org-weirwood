@@ -42,7 +42,8 @@ export class RfcxBaseMapComponent implements OnInit {
         }
         let layerObj = L.tileLayer(layerOpts.url, {
             attribution: layerOpts.attribution,
-            type: this.layerType
+            type: this.layerType,
+            leafletType: 'mapLayer'
         });
         this.rfcxMapComp.rfcxMap.addLayer(layerObj);
     }

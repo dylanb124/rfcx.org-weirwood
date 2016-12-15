@@ -43,7 +43,9 @@ export class RfcxMapComponent implements OnInit {
         setTimeout(() => {
             // iterate through all map layers
             this.rfcxMap.eachLayer(function(layer:any){
-                controlsObj[layer.options.type] = layer;
+                if (layer.options && layer.options.leafletType && layer.options.leafletType === 'mapLayer') {
+                    controlsObj[layer.options.type] = layer;
+                }
             });
             // add layer selection control
             L.control.layers(controlsObj).addTo(this.rfcxMap);
