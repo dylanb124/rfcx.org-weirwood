@@ -6,7 +6,7 @@
         </div>
         <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
             <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
-                <dropdown-checkboxes [block]="true" title="Event type" [items]="incidents" [noborder]="true"
+                <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true"
                     (onChange)="incidentsTypeChanged($event)" allItemsTitle="All incidents"></dropdown-checkboxes>
             </div>
             <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_range">
@@ -21,5 +21,10 @@
     <rfcx-map [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom">
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
         <rfcx-basemap layerType="positron"></rfcx-basemap>
+        <ng-container *ngFor="let item of incidents">
+            <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
+            <rfcx-map-pie *ngIf="!!item.diameter" [centerLat]="item.coords.lat"
+                      [centerLon]="item.coords.lon" [diameter]="item.diameter" [data]="item.events"></rfcx-map-pie>
+        </ng-container>
     </rfcx-map>
 </div>

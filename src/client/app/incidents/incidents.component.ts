@@ -1,12 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
 
 import * as moment from 'moment';
 
-/**
- * This class represents the lazy loaded IncidentsComponent.
- */
 @Component({
   moduleId: module.id,
   selector: 'sd-incidents',
@@ -15,9 +12,15 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 
-export class IncidentsComponent {
+export class IncidentsComponent implements OnInit {
 
-  public incidents: Array<DropdownCheckboxItem> = [
+  public incidentsColors = {
+    vehicles: 'rgba(34, 176, 163, 0.8)',
+    shots: 'rgba(240, 65, 84, 0.8)',
+    chainsaws: 'rgba(245, 166, 35, 0.8)'
+  };
+
+  public incidentTypes: Array<DropdownCheckboxItem> = [
     { value: 'vehicles', label: 'Vehicles', checked: false },
     { value: 'shots', label: 'Shots', checked: false },
     { value: 'chainsaws', label: 'Chainsaws', checked: false }
@@ -37,10 +40,122 @@ export class IncidentsComponent {
     lon: -122.431297,
     zoom: 13
   };
+  private minCircleDiameter: number = 80;
+  private maxCircleDiameter: number = 150;
+  private incidents: Array<any>;
   private today: Date;
   private maxDate: Date;
   private currentDaysCount: DropdownItem;
   private mobileFiltersOpened: boolean = false;
+
+  ngOnInit() {
+    this.getData()
+      .then((data: Array<any>) => {
+        this.incidents = data;
+      })
+      .then(this.countIncidents.bind(this))
+      .then(this.calculateDiameters.bind(this))
+      .catch((err) => console.log('err', err));
+  }
+
+  getData() {
+    return new Promise((resolve, reject) => {
+      resolve([
+        {
+            coords: {
+                lat: this.mapDetails.lat,
+                lon: this.mapDetails.lon
+            },
+            events: [
+                {count: 70, label: 'vehicles'},
+                {count: 19, label: 'shots'},
+                {count: 40, label: 'chainsaws'}
+            ]
+        },
+        {
+            coords: {
+                lat: this.mapDetails.lat - 0.015,
+                lon: this.mapDetails.lon + 0.03
+            },
+            events: [
+                {count: 1, label: 'vehicles'},
+                {count: 30, label: 'shots'},
+                {count: 10, label: 'chainsaws'}
+            ]
+        },
+        {
+            coords: {
+                lat: this.mapDetails.lat - 0.009,
+                lon: this.mapDetails.lon - 0.022
+            },
+            events: [
+                {count: 10, label: 'vehicles'},
+                {count: 50, label: 'shots'},
+                {count: 3, label: 'chainsaws'}
+            ]
+        },
+        {
+            coords: {
+                lat: this.mapDetails.lat,
+                lon: this.mapDetails.lon - 0.041
+            },
+            events: [
+                {count: 1, label: 'vehicles'},
+                {count: 2, label: 'shots'},
+                {count: 13, label: 'chainsaws'}
+            ]
+        }
+      ]);
+    });
+  }
+
+  countIncidents() {
+    return new Promise((resolve, reject) => {
+        try {
+            this.incidents.forEach((item) => {
+                let count = 0;
+                item.events.forEach((incident: any) => {
+                    count += incident.count;
+                });
+                item.eventsCount = count;
+            });
+            resolve();
+        }
+        catch(e) {
+            reject(e);
+        }
+    });
+  }
+
+  calculateDiameters(arr: Array<any>) {
+    return new Promise((resolve, reject) => {
+        try {
+            let deltaPx = this.maxCircleDiameter - this.minCircleDiameter;
+            let diameters = this.incidents.map((item) => {
+                return item.eventsCount;
+            });
+            let min = Math.min.apply(null, diameters);
+            let max = Math.max.apply(null, diameters);
+            let deltaInc = max - min;
+            this.incidents.forEach((item) => {
+                if (item.eventsCount === min) {
+                    item.diameter = this.minCircleDiameter;
+                }
+                else if (item.eventsCount === max) {
+                    item.diameter = this.maxCircleDiameter;
+                }
+                else {
+                    let coef = item.eventsCount/deltaInc;
+                    item.diameter = this.minCircleDiameter + Math.round(deltaPx * coef);
+                }
+            });
+            resolve();
+        }
+        catch(e) {
+            reject(e);
+        }
+    });
+  }
 
   recalculateDates() {
     if (this.currentDaysCount.value > 1) {

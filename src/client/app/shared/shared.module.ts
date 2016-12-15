@@ -7,7 +7,7 @@ import { NavbarComponent } from './navbar/index';
 import { SpinnerComponent } from './spinner/index';
 import { DropdownComponent } from './dropdown/index';
 import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
-import { RfcxMapComponent, RfcxBaseMapComponent } from './rfcx-map/index';
+import { RfcxMapComponent, RfcxBaseMapComponent, RfcxMapMarkerComponent, RfcxMapPieComponent } from './rfcx-map/index';
 import { DateTimePickerComponent } from './date-time-picker/index';
 import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/index';
 
@@ -28,6 +28,8 @@ import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/i
     DropdownCheckboxesComponent,
     RfcxMapComponent,
     RfcxBaseMapComponent,
+    RfcxMapMarkerComponent,
+    RfcxMapPieComponent,
     DateTimePickerComponent,
     DateTimePickerIncidentsComponent
   ],
@@ -41,6 +43,8 @@ import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/i
     DropdownCheckboxesComponent,
     RfcxMapComponent,
     RfcxBaseMapComponent,
+    RfcxMapMarkerComponent,
+    RfcxMapPieComponent,
     DateTimePickerComponent,
     DateTimePickerIncidentsComponent
   ]
