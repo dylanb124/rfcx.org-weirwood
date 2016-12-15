@@ -30,7 +30,8 @@ export class RfcxMapComponent implements OnInit {
         }
         let mapOptions: L.MapOptions = {
             center: [this.centerLat, this.centerLon],
-            zoom: this.zoom
+            zoom: this.zoom,
+            scrollWheelZoom: false
         };
 
         this.rfcxMap = L.map(mapHtmlObj, mapOptions);
