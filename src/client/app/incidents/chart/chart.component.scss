@@ -1,0 +1,68 @@
+@import "../../../scss/main";
+
+incidents-chart {
+  display: block;
+  overflow: hidden;
+  .incidents-svg {
+    display: block;
+    margin: 0 auto;
+    overflow: visible;
+  }
+}
+
+.axis {
+  path, line {
+    shape-rendering: crispEdges;
+  }
+  &.x {
+    path {
+      stroke: $pinkish-grey;
+    }
+    .tick {
+      line {
+        display: none;
+      }
+      text {
+        fill: $charcoal-grey;
+        opacity: 0.89;
+        font-size: 1.4rem;
+        line-height: 1.6rem;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        letter-spacing: -0.1px;
+      }
+    }
+  }
+  &.y {
+    path {
+      display: none;
+    }
+    .tick {
+      line {
+        fill: $pinkish-grey;
+        stroke-dasharray: 1,2;
+      }
+      text {
+        fill: $warm-grey;
+      }
+      &:first-of-type {
+        line {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.bar1 {
+  fill: rgba(34, 176, 163, 0.8);
+}
+
+.bar2 {
+  fill: rgba(240, 65, 84, 0.8);
+}
+
+.bar3 {
+  fill: rgba(245, 166, 35, 0.8);
+}
