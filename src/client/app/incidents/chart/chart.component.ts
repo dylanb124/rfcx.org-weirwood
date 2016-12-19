@@ -15,60 +15,81 @@ export class IncidentsChartComponent implements OnInit {
     // @Input() private data: Array<any>;
     private svgEl: any;
     private svg: any;
+    private svgG: any;
     private x: any;
     private y: any;
     private margin: any;
     private width: number;
     private height: number;
+    private xAxis: any;
+    private yAxis: any;
 
     constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
-        let data = [
-            { date: '21 Feb', vehicles: 42, shots: 35, chainsaws: 30 },
-            { date: '23 Feb', vehicles: 20, shots: 10, chainsaws: 50 },
-            { date: '26 Feb', vehicles: 2, shots: 55, chainsaws: 60 },
-            { date: '29 Feb', vehicles: 21, shots: 65, chainsaws: 70 },
-            { date: '01 Mar', vehicles: 50, shots: 44, chainsaws: 2 }
-        ];
-        this.createD3Chart(data);
+        this.prepareD3Chart();
+        this.createD3Chart(this.generateData());
     }
 
-    createD3Chart(data: any) {
-        let parentWidth = jQuery(this.elementRef.nativeElement).width();
+    generateData() {
+        let data: Array<any> = [];
+        for(var i = 0; i < 5; i++) {
+            data.push({
+                date: '0' + i + ' Feb',
+                vehicles: Math.round(Math.random() * 100),
+                shots: Math.round(Math.random() * 100),
+                chainsaws: Math.round(Math.random() * 100)
+            })
+        }
+        return data;
+    }
 
+    prepareD3Chart() {
         this.margin = {
             top: 20,
             right: 20,
             bottom: 30,
             left: 20
         };
-
-        this.width = parentWidth - this.margin.left - this.margin.right;
         this.height = 160 - this.margin.top - this.margin.bottom;
 
-        this.x = d3.scaleBand()
-                  .rangeRound([0, this.width])
-                  .padding(0.3);
+        this.x = d3.scaleBand();
 
         this.y = d3.scaleLinear()
                    .range([this.height, 0]);
 
-        let xAxis = d3.axisBottom(this.x)
-                      .tickSizeInner(0)
-                      .tickSizeOuter(0);
-        let yAxisLeft = d3.axisLeft(this.y)
-                          .ticks(5)
-                          .tickSizeInner(0)
-                          .tickSize(-this.width);
+        this.xAxis = d3.axisBottom(this.x)
+                        .tickSizeInner(0)
+                        .tickSizeOuter(0);
 
+        this.yAxis = d3.axisLeft(this.y)
+                       .ticks(5)
+                       .tickSizeInner(0);
 
         // create svg element object which we will append to leaflet
         this.svgEl = this.elementRef.nativeElement.getElementsByTagName('svg')[0];
+
         // get d3 representation of svg object
         this.svg = d3.select(this.svgEl)
-                .attr('width', this.width + this.margin.left + this.margin.right)
-                .attr('height', this.height + this.margin.top + this.margin.bottom)
+                     .attr('height', this.height + this.margin.top + this.margin.bottom);
+    }
+
+    createD3Chart(data: any) {
+        let parentWidth = jQuery(this.elementRef.nativeElement).width();
+
+        this.width = parentWidth - this.margin.left - this.margin.right;
+
+        this.x.rangeRound([0, this.width])
+              .padding(0.3);
+
+        this.yAxis.tickSize(-this.width);
+
+        this.svg.selectAll("*").remove();
+
+        // get d3 representation of svg object
+        this.svg.attr('width', this.width + this.margin.left + this.margin.right)
+
+        this.svgG = this.svg
                .append('g')
                .attr('class', 'graph')
                .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -78,14 +99,14 @@ export class IncidentsChartComponent implements OnInit {
             return d3.max([d.vehicles, d.shots, d.chainsaws]);
         })]);
 
-        this.svg.append('g')
+        this.svgG.append('g')
            .attr('class', 'x axis')
            .attr('transform', 'translate(0,' + this.height + ')')
-           .call(xAxis);
+           .call(this.xAxis);
 
-        this.svg.append('g')
+        this.svgG.append('g')
             .attr('class', 'y axis axis-left')
-            .call(yAxisLeft)
+            .call(this.yAxis)
             .append('text')
             .attr('transform', 'rotate(-90)')
             .attr('y', 6)
@@ -93,7 +114,7 @@ export class IncidentsChartComponent implements OnInit {
             .style('text-anchor', 'end')
             .text('Events');
 
-        let bars = this.svg.selectAll('.bar').data(data).enter();
+        let bars = this.svgG.selectAll('.bar').data(data).enter();
 
         bars.append('rect')
             .attr('class', 'bar bar1')
