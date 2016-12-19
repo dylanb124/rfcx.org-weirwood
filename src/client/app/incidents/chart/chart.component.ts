@@ -17,6 +17,7 @@ export class IncidentsChartComponent implements OnInit {
 
     // @Input() private data: Array<any>;
     private data: Array<any>;
+    private labels: Array<string>;
     private svgEl: any;
     private svg: any;
     private svgG: any;
@@ -33,6 +34,7 @@ export class IncidentsChartComponent implements OnInit {
 
     ngOnInit() {
         this.data = this.generateData();
+        this.labels = this.getAllLabels(this.data);
         this.prepareD3Chart();
         this.renderD3Chart(this.data);
     }
@@ -46,15 +48,29 @@ export class IncidentsChartComponent implements OnInit {
 
     generateData() {
         let data: Array<any> = [];
-        for(var i = 0; i < 5; i++) {
+        for(var i = 1; i <= 5; i++) {
             data.push({
                 date: '0' + i + ' Feb',
-                vehicles: Math.round(Math.random() * 100),
-                shots: Math.round(Math.random() * 100),
-                chainsaws: Math.round(Math.random() * 100)
+                events: {
+                    vehicles: Math.round(Math.random() * 100),
+                    shots: Math.round(Math.random() * 100),
+                    chainsaws: 0
+                }
             })
         }
         return data;
+    }
+
+    getAllLabels(data: Array<any>) {
+        let events: Array<string> = [];
+        data.forEach((item) => {
+            Object.keys(item.events).forEach((event) => {
+                if (events.indexOf(event) === -1) {
+                    events.push(event);
+                }
+            })
+        });
+        return events;
     }
 
     prepareD3Chart() {
@@ -87,7 +103,7 @@ export class IncidentsChartComponent implements OnInit {
                      .attr('height', this.height + this.margin.top + this.margin.bottom);
     }
 
-    renderD3Chart(data: any) {
+    renderD3Chart(data: Array<any>) {
         let parentWidth = jQuery(this.elementRef.nativeElement).width();
 
         this.width = parentWidth - this.margin.left - this.margin.right;
@@ -109,7 +125,7 @@ export class IncidentsChartComponent implements OnInit {
 
         this.x.domain(data.map(function(d:any) { return d.date; }));
         this.y.domain([0, d3.max(data, (d:any) => {
-            return d3.max([d.vehicles, d.shots, d.chainsaws]);
+            return d3.max(Object.values(d.events));
         })]);
 
         this.svgG.append('g')
@@ -129,32 +145,25 @@ export class IncidentsChartComponent implements OnInit {
 
         let bars = this.svgG.selectAll('.bar').data(data).enter();
 
-        bars.append('rect')
-            .attr('class', 'bar bar1')
-            .attr('rx', 4)
-            .attr('ry', 4)
-            .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 - 36; })
-            .attr('width', 24)
-            .attr('y', (d:any) => { return this.y(d.vehicles); })
-            .attr('height', (d:any) => { return this.height - this.y(d.vehicles); });
+        let index = 0;
+        let count = this.labels.length;
+        let barWidth = 24;
+        this.labels.forEach((label) => {
 
-        bars.append('rect')
-            .attr('class', 'bar bar2')
-            .attr('rx', 4)
-            .attr('ry', 4)
-            .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 - 12; })
-            .attr('width', 24)
-            .attr('y', (d:any) => { return this.y(d.shots); })
-            .attr('height', (d:any) => { return this.height - this.y(d.shots); });
+            let offset = -(count - (count/2 + index)) * barWidth;
 
-        bars.append('rect')
-            .attr('class', 'bar bar3')
-            .attr('rx', 4)
-            .attr('ry', 4)
-            .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + 12; })
-            .attr('width', 24)
-            .attr('y', (d:any) => { return this.y(d.chainsaws); })
-            .attr('height', (d:any) => { return this.height - this.y(d.chainsaws); });
+            bars.append('rect')
+                .attr('class', 'bar')
+                .attr('rx', 4)
+                .attr('ry', 4)
+                .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + offset; })
+                .attr('width', barWidth)
+                .attr('y', (d:any) => { return this.y(d.events[label]); })
+                .attr('height', (d:any) => { return this.height - this.y(d.events[label]); });
+
+            index++;
+        });
+
     };
 
 }
