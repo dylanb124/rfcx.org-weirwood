@@ -8,11 +8,15 @@ let jQuery: any = (window as any)['$'];
   selector: 'incidents-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 export class IncidentsChartComponent implements OnInit {
 
     // @Input() private data: Array<any>;
+    private data: Array<any>;
     private svgEl: any;
     private svg: any;
     private svgG: any;
@@ -23,12 +27,21 @@ export class IncidentsChartComponent implements OnInit {
     private height: number;
     private xAxis: any;
     private yAxis: any;
+    private resizeTimeout: any;
 
     constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
+        this.data = this.generateData();
         this.prepareD3Chart();
-        this.createD3Chart(this.generateData());
+        this.renderD3Chart(this.data);
+    }
+
+    onResize(event: any) {
+        clearTimeout(this.resizeTimeout);
+        this.resizeTimeout = setTimeout(() => {
+            this.renderD3Chart(this.data);
+        }, 500);
     }
 
     generateData() {
@@ -74,7 +87,7 @@ export class IncidentsChartComponent implements OnInit {
                      .attr('height', this.height + this.margin.top + this.margin.bottom);
     }
 
-    createD3Chart(data: any) {
+    renderD3Chart(data: any) {
         let parentWidth = jQuery(this.elementRef.nativeElement).width();
 
         this.width = parentWidth - this.margin.left - this.margin.right;
