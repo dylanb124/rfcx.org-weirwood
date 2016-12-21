@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 
 import * as d3 from 'd3';
+import * as moment from 'moment';
 let jQuery: any = (window as any)['$'];
 
 @Component({
@@ -48,13 +49,13 @@ export class IncidentsChartComponent implements OnInit {
 
     generateData() {
         let data: Array<any> = [];
-        for(var i = 1; i <= 5; i++) {
+        for(var i = 1; i <= 30; i++) {
             data.push({
-                date: '0' + i + ' Feb',
+                date: moment(new Date('2016-02-01T00:00:00.000Z')).add(i, 'day').toDate(),
                 events: {
                     vehicles: Math.round(Math.random() * 100),
                     shots: Math.round(Math.random() * 100),
-                    chainsaws: 0
+                    chainsaws: Math.round(Math.random() * 100)
                 }
             })
         }
@@ -88,6 +89,7 @@ export class IncidentsChartComponent implements OnInit {
                    .range([this.height, 0]);
 
         this.xAxis = d3.axisBottom(this.x)
+                        .tickFormat(d3.timeFormat('%b %e'))
                         .tickSizeInner(0)
                         .tickSizeOuter(0);
 
@@ -103,6 +105,19 @@ export class IncidentsChartComponent implements OnInit {
                      .attr('height', this.height + this.margin.top + this.margin.bottom);
     }
 
+    calculateXTicks() {
+        let ticks: Array<Date> = [];
+        let minDate = d3.min(this.data, (d:any) => {
+            return d.date;
+        });
+        let count = this.data.length;
+        let part = count/4;
+        for (let i = 0; i < 4; i++) {
+            ticks.push(moment(new Date('2016-02-01T00:00:00.000Z')).add(i * part + Math.floor((part+1)/2), 'day').toDate());
+        }
+        return ticks;
+    }
+
     renderD3Chart(data: Array<any>) {
         let parentWidth = jQuery(this.elementRef.nativeElement).width();
 
@@ -110,6 +125,10 @@ export class IncidentsChartComponent implements OnInit {
 
         this.x.rangeRound([0, this.width])
               .padding(0.3);
+
+        if (data.length > 15) {
+            this.xAxis.tickValues(this.calculateXTicks());
+        }
 
         this.yAxis.tickSize(-this.width);
 
@@ -123,7 +142,7 @@ export class IncidentsChartComponent implements OnInit {
                .attr('class', 'graph')
                .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
-        this.x.domain(data.map(function(d:any) { return d.date; }));
+        this.x.domain(data.map((d:any) => { return d.date; }));
         this.y.domain([0, d3.max(data, (d:any) => {
             return d3.max(Object.values(d.events));
         })]);
@@ -147,7 +166,7 @@ export class IncidentsChartComponent implements OnInit {
 
         let index = 0;
         let count = this.labels.length;
-        let barWidth = 24;
+        let barWidth = 8;
         this.labels.forEach((label) => {
 
             let offset = -(count - (count/2 + index)) * barWidth;
