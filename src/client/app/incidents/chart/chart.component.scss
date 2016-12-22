@@ -20,7 +20,7 @@ incidents-chart {
     }
     .tick {
       line {
-        display: none;
+        // display: none;
       }
       text {
         fill: $charcoal-grey;
@@ -59,14 +59,42 @@ incidents-chart {
   fill: rgba(34, 176, 163, 0.5);
 }
 
+.bar0 {
+  fill: rgba(34, 176, 163, 1);
+}
+
 .bar1 {
-  fill: rgba(34, 176, 163, 0.8);
+  fill: rgba(240, 65, 84, 1);
 }
 
 .bar2 {
-  fill: rgba(240, 65, 84, 0.8);
+  fill: rgba(245, 166, 35, 1);
 }
 
 .bar3 {
-  fill: rgba(245, 166, 35, 0.8);
+  fill: rgba(145, 10, 120, 1);
+}
+
+.bar4 {
+  fill: rgba(45, 110, 120, 1);
+}
+
+.bar5 {
+  fill: rgba(255, 250, 120, 1);
+}
+
+.bar6 {
+  fill: rgba(25, 250, 120, 1);
+}
+
+.bar7 {
+  fill: rgba(25, 25, 12, 1);
+}
+
+.bar8 {
+  fill: rgba(255, 205, 100, 1);
+}
+
+.bar9 {
+  fill: rgba(80, 80, 100, 1);
 }

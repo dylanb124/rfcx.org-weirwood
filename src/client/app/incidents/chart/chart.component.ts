@@ -49,13 +49,20 @@ export class IncidentsChartComponent implements OnInit {
 
     generateData() {
         let data: Array<any> = [];
-        for(var i = 1; i <= 30; i++) {
+        for(var i = 1; i <= 8; i++) {
             data.push({
                 date: moment(new Date('2016-02-01T00:00:00.000Z')).add(i, 'day').toDate(),
                 events: {
-                    vehicles: Math.round(Math.random() * 100),
-                    shots: Math.round(Math.random() * 100),
-                    chainsaws: Math.round(Math.random() * 100)
+                    vehicles: Math.round(Math.random() * 100) || 20,
+                    shots: Math.round(Math.random() * 100) || 20,
+                    chainsaws: Math.round(Math.random() * 100) || 20,
+                    chainsawss: Math.round(Math.random() * 100) || 20,
+                    chainsawsss: Math.round(Math.random() * 100) || 20,
+                    chainsawssss: Math.round(Math.random() * 100) || 20,
+                    chainsawsssss: Math.round(Math.random() * 100) || 20,
+                    someother: Math.round(Math.random() * 100) || 20,
+                    someotherr: Math.round(Math.random() * 100) || 20,
+                    someotherrr: Math.round(Math.random() * 100) || 20
                 }
             })
         }
@@ -90,8 +97,8 @@ export class IncidentsChartComponent implements OnInit {
 
         this.xAxis = d3.axisBottom(this.x)
                         .tickFormat(d3.timeFormat('%b %e'))
-                        .tickSizeInner(0)
-                        .tickSizeOuter(0);
+                        // .tickSizeInner(0)
+                        // .tickSizeOuter(0);
 
         this.yAxis = d3.axisLeft(this.y)
                        .ticks(5)
@@ -166,16 +173,26 @@ export class IncidentsChartComponent implements OnInit {
 
         let index = 0;
         let count = this.labels.length;
-        let barWidth = 8;
+        let barWidth = 24;
+        if (data.length > 7) {
+            barWidth = 16;
+        }
+        if (data.length > 14) {
+            barWidth = 8;
+        }
         this.labels.forEach((label) => {
 
             let offset = -(count - (count/2 + index)) * barWidth;
+            let internalOffset = 0;
+            if (data.length > 7 || count > 3) {
+                internalOffset = -(index * (barWidth/2)) + count/2 * (barWidth/2);
+            }
 
             bars.append('rect')
-                .attr('class', 'bar')
+                .attr('class', 'bar bar' + index)
                 .attr('rx', 4)
                 .attr('ry', 4)
-                .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + offset; })
+                .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + offset + internalOffset; })
                 .attr('width', barWidth)
                 .attr('y', (d:any) => { return this.y(d.events[label]); })
                 .attr('height', (d:any) => { return this.height - this.y(d.events[label]); });
