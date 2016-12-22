@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 
 import * as d3 from 'd3';
+import * as d3Tip from "d3-tip";
 import * as moment from 'moment';
 let jQuery: any = (window as any)['$'];
 
@@ -22,6 +23,7 @@ export class IncidentsChartComponent implements OnInit {
     private svgEl: any;
     private svg: any;
     private svgG: any;
+    private tip: any;
     private x: any;
     private y: any;
     private margin: any;
@@ -169,6 +171,15 @@ export class IncidentsChartComponent implements OnInit {
             .style('text-anchor', 'end')
             .text('Events');
 
+        this.tip = d3Tip()
+                    .attr('class', 'd3-tip')
+                    .offset([-10, 0])
+                    .html(function(d:any) {
+                        return "<strong>Incidents:</strong> <span style='color:red'>test</span>";
+                    })
+
+        this.svgG.call(this.tip);
+
         let bars = this.svgG.selectAll('.bar').data(data).enter();
 
         let index = 0;
@@ -195,7 +206,9 @@ export class IncidentsChartComponent implements OnInit {
                 .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + offset + internalOffset; })
                 .attr('width', barWidth)
                 .attr('y', (d:any) => { return this.y(d.events[label]); })
-                .attr('height', (d:any) => { return this.height - this.y(d.events[label]); });
+                .attr('height', (d:any) => { return this.height - this.y(d.events[label]); })
+                .on('mouseover', this.tip.show)
+                .on('mouseout', this.tip.hide);
 
             index++;
         });
