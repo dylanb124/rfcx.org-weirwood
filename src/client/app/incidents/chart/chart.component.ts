@@ -173,9 +173,12 @@ export class IncidentsChartComponent implements OnInit {
 
         this.tip = d3Tip()
                     .attr('class', 'd3-tip')
-                    .offset([-10, 0])
-                    .html(function(d:any) {
-                        return "<strong>Incidents:</strong> <span style='color:red'>test</span>";
+                    .offset([-8, 0])
+                    .html((d:any) => {
+                        return '<p class="d3-tip__row d3-tip__row_date">Mar 12, 2016</p>' +
+                               '<p class="d3-tip__row">30 vehicles</p>' +
+                               '<p class="d3-tip__row">24 shots</p>' +
+                               '<p class="d3-tip__row">8 chainsaws</p>';
                     })
 
         this.svgG.call(this.tip);
