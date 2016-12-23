@@ -61,25 +61,25 @@ export class IncidentsChartComponent implements OnInit {
                     vehicles: Math.round(Math.random() * 100) || 20,
                     shots: Math.round(Math.random() * 100) || 20,
                     chainsaws: Math.round(Math.random() * 100) || 20,
-                    chainsawss: Math.round(Math.random() * 100) || 20,
-                    chainsawsss: Math.round(Math.random() * 100) || 20,
-                    chainsawssss: Math.round(Math.random() * 100) || 20,
-                    chainsawsssss: Math.round(Math.random() * 100) || 20,
-                    someother: Math.round(Math.random() * 100) || 20,
-                    someotherr: Math.round(Math.random() * 100) || 20,
-                    someotherrr: Math.round(Math.random() * 100) || 20
+                    monkeys: Math.round(Math.random() * 100) || 20,
+                    parrots: Math.round(Math.random() * 100) || 20,
+                    birds: Math.round(Math.random() * 100) || 20,
+                    elephants: Math.round(Math.random() * 100) || 20,
+                    dogs: Math.round(Math.random() * 100) || 20,
+                    gsm: Math.round(Math.random() * 100) || 20,
+                    aliens: Math.round(Math.random() * 100) || 20
                 },
                 colors: {
                     vehicles: 'rgba(34, 176, 163, 1)',
                     shots: 'rgba(240, 65, 84, 1)',
                     chainsaws: 'rgba(245, 166, 35, 1)',
-                    chainsawss: 'rgba(145, 10, 120, 1)',
-                    chainsawsss: 'rgba(45, 110, 120, 1)',
-                    chainsawssss: 'rgba(255, 250, 120, 1)',
-                    chainsawsssss: 'rgba(25, 250, 120, 1)',
-                    someother: 'rgba(25, 25, 12, 1)',
-                    someotherr: 'rgba(255, 205, 100, 1)',
-                    someotherrr: 'rgba(80, 80, 100, 1)'
+                    monkeys: 'rgba(145, 10, 120, 1)',
+                    parrots: 'rgba(45, 110, 120, 1)',
+                    birds: 'rgba(255, 250, 120, 1)',
+                    elephants: 'rgba(25, 250, 120, 1)',
+                    dogs: 'rgba(25, 25, 12, 1)',
+                    gsm: 'rgba(255, 205, 100, 1)',
+                    aliens: 'rgba(80, 80, 100, 1)'
                 }
             })
         }
@@ -151,7 +151,7 @@ export class IncidentsChartComponent implements OnInit {
         this.width = parentWidth - this.margin.left - this.margin.right;
 
         this.x.rangeRound([0, this.width])
-              .padding(0.3);
+              .padding(0.1);
 
         if (data.length > 15) {
             this.xAxis.tickValues(this.calculateXTicks());
@@ -215,15 +215,7 @@ export class IncidentsChartComponent implements OnInit {
             })
             .on('mouseout', this.tip.hide);
 
-        let index = 0;
         let count = this.labels.length;
-        let barWidth = 24;
-        if (data.length > 7) {
-            barWidth = 16;
-        }
-        if (data.length > 14) {
-            barWidth = 8;
-        }
 
         barGroup.selectAll("rect")
             .data((d:any) => {
@@ -239,42 +231,19 @@ export class IncidentsChartComponent implements OnInit {
             .enter()
             .append("rect")
             .attr('class', 'bar')
-            .attr("width", this.x1.bandwidth())
+            .attr('width', this.x1.bandwidth())
             .attr('rx', 4)
             .attr('ry', 4)
-            .attr("x", (d:any) => { return this.x1(d.name); })
+            .attr("x", (d:any, i:any) => {
+                let internalOffset = 0;
+                if (this.labels.length > 3 || data.length > 5) {
+                    internalOffset = -(i * (this.x1.bandwidth()/2)) + count/2 * (this.x1.bandwidth()/2)
+                }
+                return this.x1(d.name) + internalOffset;
+            })
             .attr("y", (d:any) => { return this.y(d.value); })
             .attr('height', (d:any) => { return this.height - this.y(d.value); })
             .style("fill", (d:any) => { return d.color; });
-        index++;
-
-        // barGroup.selectAll("rect")
-        //     .data((d:any) => { return d.events; })
-        //     .enter().append('rect')
-        // this.labels.forEach((label) => {
-
-        //     this.svgG.append('g')
-        //              .attr('label', label)
-
-        //     let offset = -(count - (count/2 + index)) * barWidth;
-        //     let internalOffset = 0;
-        //     if (data.length > 7 || count > 3) {
-        //         internalOffset = -(index * (barWidth/2)) + count/2 * (barWidth/2);
-        //     }
-
-        //     bars.append('rect')
-        //         .attr('class', 'bar bar' + index)
-        //         .attr('rx', 4)
-        //         .attr('ry', 4)
-        //         .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + offset + internalOffset; })
-        //         .attr('width', barWidth)
-        //         .attr('y', (d:any) => { return this.y(d.events[label]); })
-        //         .attr('height', (d:any) => { return this.height - this.y(d.events[label]); })
-        //         .on('mouseover', this.tip.show)
-        //         .on('mouseout', this.tip.hide);
-
-        //     index++;
-        // });
 
     };
 
