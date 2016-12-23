@@ -33,6 +33,8 @@ export class IncidentsChartComponent implements OnInit {
     private yAxis: any;
     private resizeTimeout: any;
 
+    private formatTipDate = d3.timeFormat('%B %e, %Y');
+
     constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
@@ -175,11 +177,12 @@ export class IncidentsChartComponent implements OnInit {
                     .attr('class', 'd3-tip')
                     .offset([-8, 0])
                     .html((d:any) => {
-                        return '<p class="d3-tip__row d3-tip__row_date">Mar 12, 2016</p>' +
-                               '<p class="d3-tip__row">30 vehicles</p>' +
-                               '<p class="d3-tip__row">24 shots</p>' +
-                               '<p class="d3-tip__row">8 chainsaws</p>';
-                    })
+                        let html = '<p class="d3-tip__row d3-tip__row_date">' + this.formatTipDate(d.date) + '</p>';
+                        for (let label in d.events) {
+                            html += '<p class="d3-tip__row">' + d.events[label] + ' ' + label + '</p>';
+                        }
+                        return html;
+                    });
 
         this.svgG.call(this.tip);
 
