@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 
 import * as d3 from 'd3';
-import * as d3Tip from "d3-tip";
+import * as d3Tip from 'd3-tip';
 import * as moment from 'moment';
 let jQuery: any = (window as any)['$'];
 
@@ -81,7 +81,7 @@ export class IncidentsChartComponent implements OnInit {
                     gsm: 'rgba(255, 205, 100, 1)',
                     aliens: 'rgba(80, 80, 100, 1)'
                 }
-            })
+            });
         }
         return data;
     }
@@ -93,7 +93,7 @@ export class IncidentsChartComponent implements OnInit {
                 if (events.indexOf(event) === -1) {
                     events.push(event);
                 }
-            })
+            });
         });
         return events;
     }
@@ -115,8 +115,8 @@ export class IncidentsChartComponent implements OnInit {
 
         this.xAxis = d3.axisBottom(this.x)
                         .tickFormat(d3.timeFormat('%b %e'))
-                        // .tickSizeInner(0)
-                        // .tickSizeOuter(0);
+                        .tickSizeInner(0)
+                        .tickSizeOuter(0);
 
         this.yAxis = d3.axisLeft(this.y)
                        .ticks(5)
@@ -132,9 +132,6 @@ export class IncidentsChartComponent implements OnInit {
 
     calculateXTicks() {
         let ticks: Array<Date> = [];
-        let minDate = d3.min(this.data, (d:any) => {
-            return d.date;
-        });
         let count = this.data.length;
         let part = count/4;
         for (let i = 0; i < 4; i++) {
@@ -159,10 +156,10 @@ export class IncidentsChartComponent implements OnInit {
 
         this.yAxis.tickSize(-this.width);
 
-        this.svg.selectAll("*").remove();
+        this.svg.selectAll('*').remove();
 
         // get d3 representation of svg object
-        this.svg.attr('width', this.width + this.margin.left + this.margin.right)
+        this.svg.attr('width', this.width + this.margin.left + this.margin.right);
 
         this.svgG = this.svg
                .append('g')
@@ -196,9 +193,9 @@ export class IncidentsChartComponent implements OnInit {
                     .attr('class', 'd3-tip')
                     .offset([-8, 0])
                     .html((d:any) => {
-                        let html = '<p class="d3-tip__row d3-tip__row_date">' + this.formatTipDate(d.date) + '</p>';
+                        let html = '<p class=\"d3-tip__row d3-tip__row_date\">' + this.formatTipDate(d.date) + '</p>';
                         for (let label in d.events) {
-                            html += '<p class="d3-tip__row">' + d.events[label] + ' ' + label + '</p>';
+                            html += '<p class=\"d3-tip__row\">' + d.events[label] + ' ' + label + '</p>';
                         }
                         return html;
                     });
@@ -209,7 +206,7 @@ export class IncidentsChartComponent implements OnInit {
             .append('g')
             .attr('class', 'bar-group')
             .attr('label', (d:any) => { return d; })
-            .attr("transform", (d:any) => { return "translate(" + this.x(d.date) + ",0)"; })
+            .attr('transform', (d:any) => { return 'translate(' + this.x(d.date) + ',0)'; })
             .on('mouseover', function(d:any) {
                 self.tip.show(d, this);
             })
@@ -217,33 +214,33 @@ export class IncidentsChartComponent implements OnInit {
 
         let count = this.labels.length;
 
-        barGroup.selectAll("rect")
+        barGroup.selectAll('rect')
             .data((d:any) => {
                 let arr = this.labels.map((label) => {
                     return {
                         name: label,
                         value: d.events[label],
                         color: d.colors[label]
-                    }
-                })
+                    };
+                });
                 return arr;
             })
             .enter()
-            .append("rect")
+            .append('rect')
             .attr('class', 'bar')
             .attr('width', this.x1.bandwidth())
             .attr('rx', 4)
             .attr('ry', 4)
-            .attr("x", (d:any, i:any) => {
+            .attr('x', (d:any, i:any) => {
                 let internalOffset = 0;
                 if (this.labels.length > 3 || data.length > 5) {
-                    internalOffset = -(i * (this.x1.bandwidth()/2)) + count/2 * (this.x1.bandwidth()/2)
+                    internalOffset = -(i * (this.x1.bandwidth()/2)) + count/2 * (this.x1.bandwidth()/2);
                 }
                 return this.x1(d.name) + internalOffset;
             })
-            .attr("y", (d:any) => { return this.y(d.value); })
+            .attr('y', (d:any) => { return this.y(d.value); })
             .attr('height', (d:any) => { return this.height - this.y(d.value); })
-            .style("fill", (d:any) => { return d.color; });
+            .style('fill', (d:any) => { return d.color; });
 
     };
 
