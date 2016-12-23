@@ -25,6 +25,7 @@ export class IncidentsChartComponent implements OnInit {
     private svgG: any;
     private tip: any;
     private x: any;
+    private x1: any;
     private y: any;
     private margin: any;
     private width: number;
@@ -53,7 +54,7 @@ export class IncidentsChartComponent implements OnInit {
 
     generateData() {
         let data: Array<any> = [];
-        for(var i = 1; i <= 8; i++) {
+        for(var i = 1; i <= 5; i++) {
             data.push({
                 date: moment(new Date('2016-02-01T00:00:00.000Z')).add(i, 'day').toDate(),
                 events: {
@@ -67,6 +68,18 @@ export class IncidentsChartComponent implements OnInit {
                     someother: Math.round(Math.random() * 100) || 20,
                     someotherr: Math.round(Math.random() * 100) || 20,
                     someotherrr: Math.round(Math.random() * 100) || 20
+                },
+                colors: {
+                    vehicles: 'rgba(34, 176, 163, 1)',
+                    shots: 'rgba(240, 65, 84, 1)',
+                    chainsaws: 'rgba(245, 166, 35, 1)',
+                    chainsawss: 'rgba(145, 10, 120, 1)',
+                    chainsawsss: 'rgba(45, 110, 120, 1)',
+                    chainsawssss: 'rgba(255, 250, 120, 1)',
+                    chainsawsssss: 'rgba(25, 250, 120, 1)',
+                    someother: 'rgba(25, 25, 12, 1)',
+                    someotherr: 'rgba(255, 205, 100, 1)',
+                    someotherrr: 'rgba(80, 80, 100, 1)'
                 }
             })
         }
@@ -95,6 +108,7 @@ export class IncidentsChartComponent implements OnInit {
         this.height = 160 - this.margin.top - this.margin.bottom;
 
         this.x = d3.scaleBand();
+        this.x1 = d3.scaleBand();
 
         this.y = d3.scaleLinear()
                    .range([this.height, 0]);
@@ -130,6 +144,8 @@ export class IncidentsChartComponent implements OnInit {
     }
 
     renderD3Chart(data: Array<any>) {
+        let self = this;
+
         let parentWidth = jQuery(this.elementRef.nativeElement).width();
 
         this.width = parentWidth - this.margin.left - this.margin.right;
@@ -154,9 +170,12 @@ export class IncidentsChartComponent implements OnInit {
                .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
         this.x.domain(data.map((d:any) => { return d.date; }));
+        this.x1.domain(this.labels);
         this.y.domain([0, d3.max(data, (d:any) => {
             return d3.max(Object.values(d.events));
         })]);
+
+        this.x1.rangeRound([0, this.x.bandwidth()]);
 
         this.svgG.append('g')
            .attr('class', 'x axis')
@@ -184,9 +203,17 @@ export class IncidentsChartComponent implements OnInit {
                         return html;
                     });
 
-        this.svgG.call(this.tip);
+        this.svg.call(this.tip);
 
-        let bars = this.svgG.selectAll('.bar').data(data).enter();
+        let barGroup = this.svgG.selectAll('.bar-group').data(data).enter()
+            .append('g')
+            .attr('class', 'bar-group')
+            .attr('label', (d:any) => { return d; })
+            .attr("transform", (d:any) => { return "translate(" + this.x(d.date) + ",0)"; })
+            .on('mouseover', function(d:any) {
+                self.tip.show(d, this);
+            })
+            .on('mouseout', this.tip.hide);
 
         let index = 0;
         let count = this.labels.length;
@@ -197,27 +224,57 @@ export class IncidentsChartComponent implements OnInit {
         if (data.length > 14) {
             barWidth = 8;
         }
-        this.labels.forEach((label) => {
 
-            let offset = -(count - (count/2 + index)) * barWidth;
-            let internalOffset = 0;
-            if (data.length > 7 || count > 3) {
-                internalOffset = -(index * (barWidth/2)) + count/2 * (barWidth/2);
-            }
+        barGroup.selectAll("rect")
+            .data((d:any) => {
+                let arr = this.labels.map((label) => {
+                    return {
+                        name: label,
+                        value: d.events[label],
+                        color: d.colors[label]
+                    }
+                })
+                return arr;
+            })
+            .enter()
+            .append("rect")
+            .attr('class', 'bar')
+            .attr("width", this.x1.bandwidth())
+            .attr('rx', 4)
+            .attr('ry', 4)
+            .attr("x", (d:any) => { return this.x1(d.name); })
+            .attr("y", (d:any) => { return this.y(d.value); })
+            .attr('height', (d:any) => { return this.height - this.y(d.value); })
+            .style("fill", (d:any) => { return d.color; });
+        index++;
 
-            bars.append('rect')
-                .attr('class', 'bar bar' + index)
-                .attr('rx', 4)
-                .attr('ry', 4)
-                .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + offset + internalOffset; })
-                .attr('width', barWidth)
-                .attr('y', (d:any) => { return this.y(d.events[label]); })
-                .attr('height', (d:any) => { return this.height - this.y(d.events[label]); })
-                .on('mouseover', this.tip.show)
-                .on('mouseout', this.tip.hide);
+        // barGroup.selectAll("rect")
+        //     .data((d:any) => { return d.events; })
+        //     .enter().append('rect')
+        // this.labels.forEach((label) => {
 
-            index++;
-        });
+        //     this.svgG.append('g')
+        //              .attr('label', label)
+
+        //     let offset = -(count - (count/2 + index)) * barWidth;
+        //     let internalOffset = 0;
+        //     if (data.length > 7 || count > 3) {
+        //         internalOffset = -(index * (barWidth/2)) + count/2 * (barWidth/2);
+        //     }
+
+        //     bars.append('rect')
+        //         .attr('class', 'bar bar' + index)
+        //         .attr('rx', 4)
+        //         .attr('ry', 4)
+        //         .attr('x', (d:any) => { return this.x(d.date) + this.x.bandwidth()/2 + offset + internalOffset; })
+        //         .attr('width', barWidth)
+        //         .attr('y', (d:any) => { return this.y(d.events[label]); })
+        //         .attr('height', (d:any) => { return this.height - this.y(d.events[label]); })
+        //         .on('mouseover', this.tip.show)
+        //         .on('mouseout', this.tip.hide);
+
+        //     index++;
+        // });
 
     };
 
