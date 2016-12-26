@@ -96,6 +96,13 @@ incidents-chart {
   }
 }
 
+.bar-group {
+  @include transition(opacity .3s);
+  &.transparented {
+    opacity: 0.6
+  }
+}
+
 .bar {
   fill: rgba(34, 176, 163, 0.5);
 }

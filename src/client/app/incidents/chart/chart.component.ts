@@ -208,9 +208,13 @@ export class IncidentsChartComponent implements OnInit {
             .attr('label', (d:any) => { return d; })
             .attr('transform', (d:any) => { return 'translate(' + this.x(d.date) + ',0)'; })
             .on('mouseover', function(d:any) {
+                self.highlightBarGroup(this);
                 self.tip.show(d, this);
             })
-            .on('mouseout', this.tip.hide);
+            .on('mouseout', () => {
+                this.resetBarGroupsHighlight();
+                this.tip.hide();
+            });
 
         let count = this.labels.length;
         let bandWidth = this.x1.bandwidth();
@@ -258,5 +262,17 @@ export class IncidentsChartComponent implements OnInit {
             .style('fill', (d:any) => { return d.color; });
 
     };
+
+    highlightBarGroup(el: any) {
+        this.svgG.selectAll('.bar-group')
+            .filter(function() {
+                return this !== el;
+            })
+            .attr('class', 'bar-group transparented');
+    }
+
+    resetBarGroupsHighlight() {
+        this.svgG.selectAll('.bar-group').attr('class', 'bar-group');
+    }
 
 }
