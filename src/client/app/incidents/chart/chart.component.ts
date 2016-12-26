@@ -28,6 +28,7 @@ export class IncidentsChartComponent implements OnInit {
     private svg: any;
     private svgG: any;
     private tip: any;
+    private isTipOpened: boolean = false;
     private x: any;
     private x1: any;
     private y: any;
@@ -65,7 +66,7 @@ export class IncidentsChartComponent implements OnInit {
         clearTimeout(this.resizeTimeout);
         this.resizeTimeout = setTimeout(() => {
             this.renderD3Chart(this.chartData);
-            this.tip.hide();
+            this.toggleTipVisibility(false);
         }, 500);
 
     }
@@ -213,13 +214,22 @@ export class IncidentsChartComponent implements OnInit {
             .attr('class', 'bar-group')
             .attr('label', (d:any) => { return d; })
             .attr('transform', (d:any) => { return 'translate(' + this.x(d.date) + ',0)'; })
+            .on('click', function(d:any) {
+                if (jQuery(window).width() > 1024) {
+                    return;
+                }
+                self.toggleTipVisibility(!self.isTipOpened, d, this);
+            })
             .on('mouseover', function(d:any) {
+                if (jQuery(window).width() < 1025) {
+                    return;
+                }
                 self.highlightBarGroup(this);
-                self.tip.show(d, this);
+                self.toggleTipVisibility(true, d, this);
             })
             .on('mouseout', () => {
                 this.resetBarGroupsHighlight();
-                this.tip.hide();
+                self.toggleTipVisibility(false);
             });
 
         let count = this.labels.length;
@@ -279,6 +289,16 @@ export class IncidentsChartComponent implements OnInit {
 
     resetBarGroupsHighlight() {
         this.svgG.selectAll('.bar-group').attr('class', 'bar-group');
+    }
+
+    toggleTipVisibility(toShow: boolean, data?: any, target?: any) {
+        if (toShow) {
+            this.tip.show(data, target);
+        }
+        else {
+            this.tip.hide();
+        }
+        this.isTipOpened = toShow;
     }
 
 }
