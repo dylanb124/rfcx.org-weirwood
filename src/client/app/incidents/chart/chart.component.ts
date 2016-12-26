@@ -65,7 +65,9 @@ export class IncidentsChartComponent implements OnInit {
         clearTimeout(this.resizeTimeout);
         this.resizeTimeout = setTimeout(() => {
             this.renderD3Chart(this.chartData);
+            this.tip.hide();
         }, 500);
+
     }
 
     generateData() {
@@ -132,6 +134,17 @@ export class IncidentsChartComponent implements OnInit {
         // get d3 representation of svg object
         this.svg = d3.select(this.svgEl)
                      .attr('height', this.height + this.margin.top + this.margin.bottom);
+
+        this.tip = d3Tip()
+            .attr('class', 'd3-tip')
+            .offset([-8, 0])
+            .html((d:any) => {
+                let html = '<p class=\"d3-tip__row d3-tip__row_date\">' + this.formatTipDate(d.date) + '</p>';
+                for (let label in d.events) {
+                    html += '<p class=\"d3-tip__row\">' + d.events[label] + ' ' + label + '</p>';
+                }
+                return html;
+            });
     }
 
     calculateXTicks() {
@@ -192,17 +205,6 @@ export class IncidentsChartComponent implements OnInit {
             .attr('dy', '.71em')
             .style('text-anchor', 'end')
             .text('Events');
-
-        this.tip = d3Tip()
-                    .attr('class', 'd3-tip')
-                    .offset([-8, 0])
-                    .html((d:any) => {
-                        let html = '<p class=\"d3-tip__row d3-tip__row_date\">' + this.formatTipDate(d.date) + '</p>';
-                        for (let label in d.events) {
-                            html += '<p class=\"d3-tip__row\">' + d.events[label] + ' ' + label + '</p>';
-                        }
-                        return html;
-                    });
 
         this.svg.call(this.tip);
 
