@@ -3,12 +3,81 @@
 incidents-chart {
   display: block;
   overflow: hidden;
-  .incidents-svg {
+}
+
+
+.incidents-chart {
+  position: relative;
+  &__header {
+    margin-bottom: 3rem;
+    @include mq(tablet) {
+        margin-bottom: 0.5rem;
+    }
+    @include mq(phone) {
+        margin-bottom: 1rem;
+    }
+  }
+  &__legend {
+    position: absolute;
+    top: -1px;
+    right: 3.2%;
+    text-align: right;
+    max-width: 65%;
+    @include mq(tablet) {
+      margin-top: 1rem;
+      position: static;
+      max-width: 100%;
+      text-align: center;
+    }
+    @include mq(phone) {
+      margin-top: 3.5rem;
+      position: static;
+      max-width: 100%;
+      text-align: center;
+    }
+  }
+  &__legend-item,
+  &__legend-color,
+  &__legend-label {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &__legend-item {
+    margin-right: 25px;
+    margin-bottom: 10px;
+    @include mq(tablet) {
+      margin: 10px 20px;
+    }
+    @include mq(phone) {
+      margin: 0px 15px 5px;
+    }
+  }
+  &__legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    margin-right: 5px;
+    @include mq(phone) {
+      width: 12px;
+      height: 12px;
+      border-radius: 6px;
+    }
+  }
+  &__legend-label {
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    letter-spacing: -0.1px;
+    color: $charcoal-grey;
+    text-transform: capitalize;
+    margin: 0 auto;
+  }
+  &__svg {
     display: block;
     margin: 0 auto;
     overflow: visible;
   }
 }
+
 
 .axis {
   path, line {

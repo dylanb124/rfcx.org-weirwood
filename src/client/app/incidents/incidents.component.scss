@@ -13,6 +13,11 @@
         @include mq(phone) {
             padding: 2.8rem 6.5% 0;
         }
+        &_chart {
+            @include mq(phone) {
+                padding-top: 3.5rem;
+            }
+        }
     }
     .incidents-nav {
         @include clearfix;

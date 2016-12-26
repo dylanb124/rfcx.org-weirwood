@@ -20,8 +20,10 @@ let d3Tip: any = d3tip;
 export class IncidentsChartComponent implements OnInit {
 
     // @Input() private data: Array<any>;
-    private data: Array<any>;
+    // @Input() private colors: Object;
+    private chartData: Array<any>;
     private labels: Array<string>;
+    private colors: any;
     private svgEl: any;
     private svg: any;
     private svgG: any;
@@ -41,16 +43,28 @@ export class IncidentsChartComponent implements OnInit {
     constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
-        this.data = this.generateData();
-        this.labels = this.getAllLabels(this.data);
+        this.chartData = this.generateData();
+        this.labels = this.getAllLabels(this.chartData);
+        this.colors = {
+            vehicles: 'rgba(34, 176, 163, 1)',
+            shots: 'rgba(240, 65, 84, 1)',
+            chainsaws: 'rgba(245, 166, 35, 1)',
+            monkeys: 'rgba(145, 10, 120, 1)',
+            parrots: 'rgba(45, 110, 120, 1)',
+            birds: 'rgba(255, 250, 120, 1)',
+            elephants: 'rgba(25, 250, 120, 1)',
+            dogs: 'rgba(25, 25, 12, 1)',
+            gsm: 'rgba(255, 205, 100, 1)',
+            aliens: 'rgba(80, 80, 100, 1)'
+        };
         this.prepareD3Chart();
-        this.renderD3Chart(this.data);
+        this.renderD3Chart(this.chartData);
     }
 
     onResize(event: any) {
         clearTimeout(this.resizeTimeout);
         this.resizeTimeout = setTimeout(() => {
-            this.renderD3Chart(this.data);
+            this.renderD3Chart(this.chartData);
         }, 500);
     }
 
@@ -70,18 +84,6 @@ export class IncidentsChartComponent implements OnInit {
                     // dogs: Math.round(Math.random() * 100) || 20,
                     // gsm: Math.round(Math.random() * 100) || 20,
                     // aliens: Math.round(Math.random() * 100) || 20
-                },
-                colors: {
-                    vehicles: 'rgba(34, 176, 163, 1)',
-                    shots: 'rgba(240, 65, 84, 1)',
-                    chainsaws: 'rgba(245, 166, 35, 1)',
-                    monkeys: 'rgba(145, 10, 120, 1)',
-                    parrots: 'rgba(45, 110, 120, 1)',
-                    birds: 'rgba(255, 250, 120, 1)',
-                    elephants: 'rgba(25, 250, 120, 1)',
-                    dogs: 'rgba(25, 25, 12, 1)',
-                    gsm: 'rgba(255, 205, 100, 1)',
-                    aliens: 'rgba(80, 80, 100, 1)'
                 }
             });
         }
@@ -134,7 +136,7 @@ export class IncidentsChartComponent implements OnInit {
 
     calculateXTicks() {
         let ticks: Array<Date> = [];
-        let count = this.data.length;
+        let count = this.chartData.length;
         let part = count/4;
         for (let i = 0; i < 4; i++) {
             ticks.push(moment(new Date('2016-02-01T00:00:00.000Z')).add(i * part + Math.floor((part+1)/2), 'day').toDate());
@@ -228,7 +230,7 @@ export class IncidentsChartComponent implements OnInit {
                     return {
                         name: label,
                         value: d.events[label],
-                        color: d.colors[label]
+                        color: this.colors[label]
                     };
                 });
                 return arr;
