@@ -21,11 +21,12 @@ incidents-chart {
     .tick {
       line {
         // display: none;
+        visibility: hidden
       }
       text {
         fill: $charcoal-grey;
         opacity: 0.89;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         line-height: 1.6rem;
         font-weight: normal;
         font-style: normal;

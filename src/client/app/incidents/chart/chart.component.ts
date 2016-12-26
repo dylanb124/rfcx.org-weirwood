@@ -115,7 +115,7 @@ export class IncidentsChartComponent implements OnInit {
 
         this.xAxis = d3.axisBottom(this.x)
                         .tickFormat(d3.timeFormat('%b %e'))
-                        .tickSizeInner(0)
+                        .tickSizeInner(16)
                         .tickSizeOuter(0);
 
         this.yAxis = d3.axisLeft(this.y)
