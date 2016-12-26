@@ -1,9 +1,11 @@
 import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
 
 import * as d3 from 'd3';
-import * as d3Tip from 'd3-tip';
+import * as d3tip from 'd3-tip';
 import * as moment from 'moment';
 let jQuery: any = (window as any)['$'];
+// way to ignore d3Tip compiler error
+let d3Tip: any = d3tip;
 
 @Component({
   moduleId: module.id,
