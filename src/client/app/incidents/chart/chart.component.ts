@@ -61,13 +61,13 @@ export class IncidentsChartComponent implements OnInit {
                     vehicles: Math.round(Math.random() * 100) || 20,
                     shots: Math.round(Math.random() * 100) || 20,
                     chainsaws: Math.round(Math.random() * 100) || 20,
-                    monkeys: Math.round(Math.random() * 100) || 20,
-                    parrots: Math.round(Math.random() * 100) || 20,
-                    birds: Math.round(Math.random() * 100) || 20,
-                    elephants: Math.round(Math.random() * 100) || 20,
-                    dogs: Math.round(Math.random() * 100) || 20,
-                    gsm: Math.round(Math.random() * 100) || 20,
-                    aliens: Math.round(Math.random() * 100) || 20
+                    // monkeys: Math.round(Math.random() * 100) || 20,
+                    // parrots: Math.round(Math.random() * 100) || 20,
+                    // birds: Math.round(Math.random() * 100) || 20,
+                    // elephants: Math.round(Math.random() * 100) || 20,
+                    // dogs: Math.round(Math.random() * 100) || 20,
+                    // gsm: Math.round(Math.random() * 100) || 20,
+                    // aliens: Math.round(Math.random() * 100) || 20
                 },
                 colors: {
                     vehicles: 'rgba(34, 176, 163, 1)',
@@ -213,6 +213,8 @@ export class IncidentsChartComponent implements OnInit {
             .on('mouseout', this.tip.hide);
 
         let count = this.labels.length;
+        let bandWidth = this.x1.bandwidth();
+        let currentWidth = 0;
 
         barGroup.selectAll('rect')
             .data((d:any) => {
@@ -228,15 +230,28 @@ export class IncidentsChartComponent implements OnInit {
             .enter()
             .append('rect')
             .attr('class', 'bar')
-            .attr('width', this.x1.bandwidth())
+            .attr('width', (d:any) => {
+                // set maximum bar width to 24px
+                // this code will choose width based on calculated value from d3 and our max width
+                // if d3 width is greater then set to 24
+                // if d3 width is smaller than 24, then use d3 value
+                // tricky trick!
+                currentWidth = Math.min(bandWidth, 24);
+                return currentWidth;
+            })
             .attr('rx', 4)
             .attr('ry', 4)
             .attr('x', (d:any, i:any) => {
+                // calculate difference between band width and our current bar width (might be zero)
+                let widDiff = bandWidth - currentWidth;
+                // offset bar inside its band if its witdh is smaller than band width
+                let offset = (count/2 - i) * widDiff;
                 let internalOffset = 0;
+                // offset bars between each other if there are two many labels or two many bar groups
                 if (this.labels.length > 3 || data.length > 5) {
-                    internalOffset = -(i * (this.x1.bandwidth()/2)) + count/2 * (this.x1.bandwidth()/2);
+                    internalOffset = -(i * (currentWidth/2)) + count/2 * (currentWidth/2);
                 }
-                return this.x1(d.name) + internalOffset;
+                return this.x1(d.name) + offset + internalOffset;
             })
             .attr('y', (d:any) => { return this.y(d.value); })
             .attr('height', (d:any) => { return this.height - this.y(d.value); })
