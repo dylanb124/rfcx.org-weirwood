@@ -1,0 +1,22 @@
+@import "../../../scss/main";
+@import "../../../scss/table";
+
+.incidents-table {
+    &__title {
+        margin-bottom: 1.9rem;
+    }
+}
+
+.table-rfcx_incidents {
+    table-layout: fixed;
+    .table-rfcx__col {
+        &_first {
+            text-align: left;
+            width: 19%;
+            padding-left: 1.6rem;
+        }
+        &_last {
+            width: 19.2%;
+        }
+    }
+}

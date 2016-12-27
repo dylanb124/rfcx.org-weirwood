@@ -18,6 +18,10 @@
                 padding-top: 3.5rem;
             }
         }
+        &_table {
+            padding-top: 7rem;
+            margin-bottom: 3.2rem;
+        }
     }
     .incidents-nav {
         @include clearfix;
