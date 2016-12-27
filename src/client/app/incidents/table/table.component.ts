@@ -15,7 +15,6 @@ export class IncidentsTableComponent implements OnInit {
     private data: Array<any>;
     private labels: Array<string>;
     private labelsTotal: any;
-    constructor() {}
 
     ngOnInit() {
         this.data = [
