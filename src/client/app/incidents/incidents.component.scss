@@ -21,6 +21,9 @@
         &_table {
             padding-top: 7rem;
             margin-bottom: 3.2rem;
+            @include mq(phone) {
+                padding-top: 3.5rem;
+            }
         }
     }
     .incidents-nav {
