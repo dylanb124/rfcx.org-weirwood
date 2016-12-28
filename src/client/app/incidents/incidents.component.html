@@ -35,4 +35,18 @@
     <div class="incidents__inner incidents__inner_table">
         <incidents-table></incidents-table>
     </div>
+
+    <div class="incidents__inner incidents__inner_download">
+        <div class="incidents-download-data">
+            <div class="incidents-download-data__left">
+                <h3 class="incidents__title incidents-download-data__title">Download Data</h3>
+                <p class="incidents-download-data__descr">
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.
+                </p>
+            </div>
+            <div class="incidents-download-data__right">
+                <dropdown title="Choose format" [download]="true" [items]="formats" (onChange)="formatChanged($event)"></dropdown>
+            </div>
+        </div>
+    </div>
 </div>

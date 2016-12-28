@@ -48,6 +48,15 @@ export class IncidentsComponent implements OnInit {
   private currentDaysCount: DropdownItem;
   private mobileFiltersOpened: boolean = false;
 
+  public formats: Array<DropdownItem> = [
+      { value: 'SAV', label: 'SPSS.SAV' },
+      { value: 'PDF', label: 'Adobe.PDF' },
+      { value: 'ODT', label: 'OpenOffice.ODT' },
+      { value: 'XSLX', label: 'Microsoft.XSLX' },
+      { value: 'Microsoft.DOCX', label: 'Microsoft.DOCX' },
+      { value: 'CSV', label: 'Comma-separated.CSV' }
+    ];
+
   ngOnInit() {
     this.getData()
       .then((data: Array<any>) => {
@@ -181,5 +190,9 @@ export class IncidentsComponent implements OnInit {
 
   toggleMobileFilters() {
     this.mobileFiltersOpened = !this.mobileFiltersOpened;
+  }
+
+  formatChanged(event:any) {
+
   }
 }
