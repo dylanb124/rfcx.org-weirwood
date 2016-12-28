@@ -9,10 +9,17 @@
     border-radius: .4rem;
     background-color: #ffffff;
     font-size: 1.4rem;
+    line-height: 1.6rem;
     padding: .8rem 1.6rem;
     width: 100%;
     max-width: none;
-    &:hover,
+    @include mq(desktop) {
+        @include transition(all .3s);
+        &:hover {
+            border-color: $warm-grey;
+            outline: none;
+        }
+    }
     &:focus {
         border-color: $warm-grey;
         outline: none;
@@ -40,16 +47,20 @@
     font-size: 1.4rem;
     height: 3.2rem;
     line-height: 1;
+    letter-spacing: -0.1px;
     @include box-shadow(0 1px 4px 0 rgba(0, 0, 0, 0.1));
+    @include mq(desktop) {
+        @include transition(all .3s);
+        &:hover {
+            background: #309849;
+            @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
+        }
+    }
     &_block {
         max-width: none;
     }
-    &:hover,
     &:active {
         background: #309849;
-    }
-    &:hover {
-        @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
     }
     &:active {
         @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));
