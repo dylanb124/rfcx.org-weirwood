@@ -6,7 +6,7 @@
     background: url(assets/img/login/background.png) no-repeat left center;
     background-size: auto 100%;
     position: relative;
-    @include mq(tablet) {
+    @include respond-between($tabletMin, 1100px) {
         background-position: -100px center;
     }
     @include mq(phone) {
