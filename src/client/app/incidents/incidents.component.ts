@@ -34,6 +34,15 @@ export class IncidentsComponent implements OnInit {
     { value: 30, label: '30 Days' }
   ];
 
+  public formats: Array<DropdownItem> = [
+      { value: 'SAV', label: 'SPSS.SAV' },
+      { value: 'PDF', label: 'Adobe.PDF' },
+      { value: 'ODT', label: 'OpenOffice.ODT' },
+      { value: 'XSLX', label: 'Microsoft.XSLX' },
+      { value: 'Microsoft.DOCX', label: 'Microsoft.DOCX' },
+      { value: 'CSV', label: 'Comma-separated.CSV' }
+    ];
+
   // tslint:disable-next-line:no-unused-variable
   private mapDetails: any = {
     lat: 37.773972,
@@ -47,15 +56,6 @@ export class IncidentsComponent implements OnInit {
   private maxDate: Date;
   private currentDaysCount: DropdownItem;
   private mobileFiltersOpened: boolean = false;
-
-  public formats: Array<DropdownItem> = [
-      { value: 'SAV', label: 'SPSS.SAV' },
-      { value: 'PDF', label: 'Adobe.PDF' },
-      { value: 'ODT', label: 'OpenOffice.ODT' },
-      { value: 'XSLX', label: 'Microsoft.XSLX' },
-      { value: 'Microsoft.DOCX', label: 'Microsoft.DOCX' },
-      { value: 'CSV', label: 'Comma-separated.CSV' }
-    ];
 
   ngOnInit() {
     this.getData()
@@ -193,6 +193,6 @@ export class IncidentsComponent implements OnInit {
   }
 
   formatChanged(event:any) {
-
+      console.log('formatChanged', event);
   }
 }
