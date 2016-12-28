@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -8,10 +7,4 @@ import { Router } from '@angular/router';
   templateUrl: 'footer.component.html',
   styleUrls: ['footer.component.css'],
 })
-export class FooterComponent implements OnInit {
-
-    ngOnInit() {
-
-    }
-
-}
+export class FooterComponent {}
