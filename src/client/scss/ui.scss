@@ -20,6 +20,9 @@
             outline: none;
         }
     }
+    &:required {
+        @include box-shadow(none);
+    }
     &:focus {
         border-color: $warm-grey;
         outline: none;
