@@ -1,3 +1,5 @@
+@import "vars";
+
 @mixin clearfix {
   &:after {
     content: "";
@@ -40,21 +42,33 @@
 
 @mixin mq($media) {
   @if $media == phone {
-    @media only screen and (max-width: 767px) { @content; }
+    @media only screen and (max-width: $tabletMin - 1) { @content; }
   }
   @else if $media == phoneAndTablet {
-    @media only screen and (max-width: 1024) { @content; }
+    @media only screen and (max-width: $tabletMax) { @content; }
   }
   @else if $media == tablet {
-    @media only screen and (min-width: 768px) and (max-width: 1024px) { @content; }
+    @media only screen and (min-width: $tabletMin) and (max-width: $tabletMax) { @content; }
   }
   @else if $media == tabletAndDesktop {
-    @media only screen and (min-width: 768px) { @content; }
+    @media only screen and (min-width: $tabletMin) { @content; }
   }
   @else if $media == desktop {
-    @media only screen and (min-width: 1025px) { @content; }
+    @media only screen and (min-width: $tabletMax + 1) { @content; }
   }
   @else if $media == desktopWide {
-    @media only screen and (min-width: 1600px) { @content; }
+    @media only screen and (min-width: $desktopWideMin) { @content; }
   }
+}
+
+@mixin respond-from($media) {
+  @media only screen and (min-width: $media) { @content; }
+}
+
+@mixin respond-to($media) {
+  @media only screen and (max-width: $media) { @content; }
+}
+
+@mixin respond-between($from, $to) {
+  @media only screen and (min-width: $from) and (max-width: $to) { @content; }
 }
