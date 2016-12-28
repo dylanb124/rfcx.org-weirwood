@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { NavbarComponent } from './navbar/index';
+import { FooterComponent } from './footer/index';
 import { SpinnerComponent } from './spinner/index';
 import { DropdownComponent } from './dropdown/index';
 import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
@@ -23,6 +24,7 @@ import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/i
   ],
   declarations: [
     NavbarComponent,
+    FooterComponent,
     SpinnerComponent,
     DropdownComponent,
     DropdownCheckboxesComponent,
@@ -35,6 +37,7 @@ import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/i
   ],
   exports: [
     NavbarComponent,
+    FooterComponent,
     CommonModule,
     FormsModule,
     RouterModule,
