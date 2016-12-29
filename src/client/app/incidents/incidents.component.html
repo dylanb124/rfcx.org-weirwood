@@ -18,7 +18,7 @@
             </div>
         </div>
     </div>
-    <rfcx-map [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom">
+    <rfcx-map [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom" [minZoom]="mapDetails.minZoom">
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
         <rfcx-basemap layerType="positron"></rfcx-basemap>
         <ng-container *ngFor="let item of incidents">

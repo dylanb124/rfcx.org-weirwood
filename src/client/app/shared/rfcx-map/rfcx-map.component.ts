@@ -14,6 +14,7 @@ export class RfcxMapComponent implements OnInit {
     @Input() private centerLat: number;
     @Input() private centerLon: number;
     @Input() private zoom: number;
+    @Input() private minZoom?: number;
 
     constructor(private elementRef: ElementRef) {}
 
@@ -31,8 +32,11 @@ export class RfcxMapComponent implements OnInit {
         let mapOptions: L.MapOptions = {
             center: [this.centerLat, this.centerLon],
             zoom: this.zoom,
-            scrollWheelZoom: false
+            scrollWheelZoom: false,
         };
+        if (this.minZoom) {
+            mapOptions.minZoom = this.minZoom;
+        }
 
         this.rfcxMap = L.map(mapHtmlObj, mapOptions);
     }

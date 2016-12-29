@@ -34,18 +34,23 @@ export class RfcxMapPieComponent implements OnInit {
 
     bindMapEvents() {
         this.rfcxMapComp.rfcxMap.on('zoomend', () => {
-            let zoom = this.rfcxMapComp.rfcxMap.getZoom();
-            if (zoom < 13) {
-                this.dia = this.diameter * zoom/24;
-            }
-            else {
-                this.dia = this.diameter;
-            }
+            this.checkZoomLevel();
             this.updateMarkerIcon(this.createIcon());
         });
     }
 
+    checkZoomLevel() {
+        let zoom = this.rfcxMapComp.rfcxMap.getZoom();
+        if (zoom < 13) {
+            this.dia = this.diameter * zoom/24;
+        }
+        else {
+            this.dia = this.diameter;
+        }
+    }
+
     createIcon() {
+        this.checkZoomLevel();
         // define default pie sizes
         let width  = this.dia,
             height = this.diameter,
