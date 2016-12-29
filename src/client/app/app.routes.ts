@@ -8,7 +8,7 @@ import { IncidentsRoutes } from './incidents/index';
 export const routes: Routes = [
   ...StyleguideRoutes,
   ...LoginRoutes,
-  ...HomeRoutes,
+  // ...HomeRoutes,
   ...IncidentsRoutes,
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'incidents' }
 ];

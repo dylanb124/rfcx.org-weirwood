@@ -32,7 +32,7 @@ export class UserService {
                     body = body[0];
                     console.log('body', body);
                     this.saveCookies(body.guid, body.tokens[0].token, body.tokens[0].token_expires_at);
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/incidents']);
                 }
             },
             (error) =>  {

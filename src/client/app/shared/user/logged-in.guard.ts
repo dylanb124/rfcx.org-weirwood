@@ -17,7 +17,7 @@ export class LoggedInGuard implements CanActivate {
         }
         // if user is logged in, but wants to open login page manually, then redirect to home
         if (this.user.isLoggedIn() && state.url === '/login') {
-            this.router.navigate(['/']);
+            this.router.navigate(['/incidents']);
             return false;
         }
         return true;
