@@ -17,6 +17,8 @@ export class RfcxMapPieComponent implements OnInit {
     @Input() diameter: number;
     @Input() data: Array<any>;
     private rfcxMapComp: any;
+    private marker: any;
+    private dia: number;
 
     constructor(
         @Inject(forwardRef(() => RfcxMapComponent)) map:RfcxMapComponent
@@ -25,14 +27,30 @@ export class RfcxMapPieComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.createD3Pie();
+        this.dia = this.diameter;
+        this.bindMapEvents();
+        this.createMarker(this.createIcon());
     }
 
-    createD3Pie() {
+    bindMapEvents() {
+        this.rfcxMapComp.rfcxMap.on('zoomend', () => {
+            let zoom = this.rfcxMapComp.rfcxMap.getZoom();
+            if (zoom < 13) {
+                this.dia = this.diameter * zoom/24;
+            }
+            else {
+                this.dia = this.diameter;
+            }
+            this.updateMarkerIcon(this.createIcon());
+        });
+    }
+
+    createIcon() {
         // define default pie sizes
-        let width  = this.diameter,
+        let width  = this.dia,
             height = this.diameter,
-            radius = Math.min(width, height) / 2;
+            radius = Math.min(width, height) / 2,
+            stroke = Math.min(width * 0.1, 11);
 
         // create svg element object which we will append to leaflet
         let svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -55,7 +73,7 @@ export class RfcxMapPieComponent implements OnInit {
         // define sizes for arcs
         let arc:any = d3.arc()
             .outerRadius(radius)
-            .innerRadius(radius - 11);
+            .innerRadius(radius - stroke);
 
         // define method for pie creation
         let pie = d3.pie()
@@ -90,9 +108,16 @@ export class RfcxMapPieComponent implements OnInit {
             iconSize: L.point(width, height + iconSize[1])
         });
 
-        // append marker to map
-        L.marker([this.centerLat, this.centerLon], {icon: icon}).addTo(this.rfcxMapComp.rfcxMap);
+        return icon;
+    }
 
+    createMarker(icon:any) {
+        // append marker to map
+        this.marker = L.marker([this.centerLat, this.centerLon], {icon: icon}).addTo(this.rfcxMapComp.rfcxMap);
+    }
+
+    updateMarkerIcon(icon:any) {
+        this.marker.setIcon(icon);
     }
 
     // serialize svg
