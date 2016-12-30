@@ -9,11 +9,14 @@
     @include respond-between($tabletMin, 1100px) {
         background-position: -100px center;
     }
-    @include respond-from-height(800px) {
+    @media only screen and (min-height: 800px) and (max-width: 1024px) {
         background-position: -100px center;
     }
-    @include respond-from-height(1100px) {
+    @media only screen and (min-height: 900px) and (max-width: 1024px) {
         background-position: -250px center;
+    }
+    @media only screen and (min-height: 1025px) and (max-width: 1024px) {
+        background-position: -300px center;
     }
     @include mq(phone) {
         background: none;
