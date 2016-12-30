@@ -3,6 +3,8 @@
 
 .date-time-picker-rfcx {
     &__input {
+        display: inline-block;
+        vertical-align: middle;
         height: 0;
         width: 0;
         border: none;
