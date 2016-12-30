@@ -9,6 +9,12 @@
     @include respond-between($tabletMin, 1100px) {
         background-position: -100px center;
     }
+    @include respond-from-height(800px) {
+        background-position: -100px center;
+    }
+    @include respond-from-height(1100px) {
+        background-position: -250px center;
+    }
     @include mq(phone) {
         background: none;
         min-height: none;

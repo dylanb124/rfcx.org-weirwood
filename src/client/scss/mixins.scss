@@ -65,8 +65,16 @@
   @media only screen and (min-width: $media) { @content; }
 }
 
+@mixin respond-from-height($media) {
+  @media only screen and (min-height: $media) { @content; }
+}
+
 @mixin respond-to($media) {
   @media only screen and (max-width: $media) { @content; }
+}
+
+@mixin respond-to-height($media) {
+  @media only screen and (max-height: $media) { @content; }
 }
 
 @mixin respond-between($from, $to) {
