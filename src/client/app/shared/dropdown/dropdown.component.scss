@@ -28,6 +28,8 @@
         position: relative;
         height: auto;
         padding: .7rem 30px .7rem 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.1));
         @include mq(desktop) {
             &:hover {
