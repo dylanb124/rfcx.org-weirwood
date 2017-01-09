@@ -27,9 +27,21 @@ export class RfcxMapPieComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.formatInputData();
         this.dia = this.diameter;
         this.bindMapEvents();
         this.createMarker(this.createIcon());
+    }
+
+    formatInputData() {
+        let arr = [];
+        for (let key in this.data) {
+            arr.push({
+                label: key,
+                count: this.data[key]
+            })
+        }
+        this.data = arr;
     }
 
     bindMapEvents() {

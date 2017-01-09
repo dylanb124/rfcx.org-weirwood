@@ -1,6 +1,9 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { CookieService }  from 'angular2-cookie/core';
+import { Config } from '../shared/config/env.config.js';
 
 import * as moment from 'moment';
 
@@ -45,10 +48,10 @@ export class IncidentsComponent implements OnInit {
 
   // tslint:disable-next-line:no-unused-variable
   private mapDetails: any = {
-    lat: 37.773972,
-    lon: -122.431297,
-    zoom: 12,
-    minZoom: 12
+    lat: -2.14294,
+    lon: -46.9152,
+    zoom: 10,
+    minZoom: 2
   };
   private minCircleDiameter: number = 80;
   private maxCircleDiameter: number = 150;
@@ -58,111 +61,64 @@ export class IncidentsComponent implements OnInit {
   private currentDaysCount: DropdownItem;
   private mobileFiltersOpened: boolean = false;
 
+  constructor(
+    private http: Http,
+    private cookieService: CookieService,
+  ) {}
+
   ngOnInit() {
     this.getData()
-      .then((data: Array<any>) => {
-        this.incidents = data;
+      .subscribe((res:any) => {
+          this.incidents = res.json();
+          this.countIncidents();
+          this.calculateDiameters();
       })
-      .then(this.countIncidents.bind(this))
-      .then(this.calculateDiameters.bind(this))
-      .catch((err) => console.log('err', err));
   }
 
   getData() {
-    return new Promise((resolve, reject) => {
-      resolve([
-        {
-            coords: {
-                lat: this.mapDetails.lat,
-                lon: this.mapDetails.lon
-            },
-            events: [
-                {count: 70, label: 'vehicles'},
-                {count: 19, label: 'shots'},
-                {count: 40, label: 'chainsaws'}
-            ]
-        },
-        {
-            coords: {
-                lat: this.mapDetails.lat - 0.015,
-                lon: this.mapDetails.lon + 0.03
-            },
-            events: [
-                {count: 1, label: 'vehicles'},
-                {count: 30, label: 'shots'},
-                {count: 10, label: 'chainsaws'}
-            ]
-        },
-        {
-            coords: {
-                lat: this.mapDetails.lat - 0.009,
-                lon: this.mapDetails.lon - 0.022
-            },
-            events: [
-                {count: 10, label: 'vehicles'},
-                {count: 50, label: 'shots'},
-                {count: 3, label: 'chainsaws'}
-            ]
-        },
-        {
-            coords: {
-                lat: this.mapDetails.lat,
-                lon: this.mapDetails.lon - 0.041
-            },
-            events: [
-                {count: 1, label: 'vehicles'},
-                {count: 2, label: 'shots'},
-                {count: 13, label: 'chainsaws'}
-            ]
-        }
-      ]);
+    let headers = new Headers({
+        'Content-Type': 'application/json',
+        'x-auth-user': 'user/' + this.cookieService.get('guid'),
+        'x-auth-token': this.cookieService.get('token')
     });
+    let options = new RequestOptions({ headers: headers });
+
+    let request = this.http
+        .get(
+            Config.API + 'events/stats/guardian',
+            options
+        );
+    return request;
   }
 
   countIncidents() {
-    return new Promise((resolve, reject) => {
-        try {
-            this.incidents.forEach((item) => {
-                let count = 0;
-                item.events.forEach((incident: any) => {
-                    count += incident.count;
-                });
-                item.eventsCount = count;
-            });
-            resolve();
+    this.incidents.forEach((item) => {
+        let count = 0;
+        for (let key in item.events) {
+            count += item.events[key];
         }
-        catch(e) {
-            reject(e);
-        }
+        item.eventsCount = count;
     });
   }
 
-  calculateDiameters(arr: Array<any>) {
-    return new Promise((resolve, reject) => {
-        try {
-            let deltaPx = this.maxCircleDiameter - this.minCircleDiameter;
-            let diameters = this.incidents.map((item) => {
-                return item.eventsCount;
-            });
-            let min = Math.min.apply(null, diameters);
-            let max = Math.max.apply(null, diameters);
-            let deltaInc = max - min;
-            this.incidents.forEach((item) => {
-                if (item.eventsCount === min) {
-                    item.diameter = this.minCircleDiameter;
-                }
-                else if (item.eventsCount === max) {
-                    item.diameter = this.maxCircleDiameter;
-                }
-                else {
-                    let coef = item.eventsCount/deltaInc;
-                    item.diameter = this.minCircleDiameter + Math.round(deltaPx * coef);
-                }
-            });
-            resolve();
+  calculateDiameters() {
+    let deltaPx = this.maxCircleDiameter - this.minCircleDiameter;
+    let diameters = this.incidents.map((item) => {
+        return item.eventsCount;
+    });
+    let min = Math.min.apply(null, diameters);
+    let max = Math.max.apply(null, diameters);
+    let deltaInc = max - min;
+    this.incidents.forEach((item) => {
+        if (item.eventsCount === min) {
+            item.diameter = this.minCircleDiameter;
         }
-        catch(e) {
-            reject(e);
+        else if (item.eventsCount === max) {
+            item.diameter = this.maxCircleDiameter;
+        }
+        else {
+            let coef = item.eventsCount/deltaInc;
+            item.diameter = this.minCircleDiameter + Math.round(deltaPx * coef);
         }
     });
   }
