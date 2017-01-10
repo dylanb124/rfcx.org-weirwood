@@ -48,10 +48,8 @@ export class IncidentsComponent implements OnInit {
 
   // tslint:disable-next-line:no-unused-variable
   private mapDetails: any = {
-    lat: -2.14294,
-    lon: -46.9152,
     zoom: 10,
-    minZoom: 2
+    // minZoom: 12
   };
   private minCircleDiameter: number = 80;
   private maxCircleDiameter: number = 150;
@@ -70,6 +68,7 @@ export class IncidentsComponent implements OnInit {
     this.getData()
       .subscribe((res:any) => {
           this.incidents = res.json();
+          this.getInitialMapCenter();
           this.countIncidents();
           this.calculateDiameters();
       })
@@ -89,6 +88,11 @@ export class IncidentsComponent implements OnInit {
             options
         );
     return request;
+  }
+
+  getInitialMapCenter() {
+      this.mapDetails.lat = this.incidents.length? this.incidents[0].coords.lat : 37.773972;
+      this.mapDetails.lon = this.incidents.length? this.incidents[0].coords.lon : -122.431297;
   }
 
   countIncidents() {

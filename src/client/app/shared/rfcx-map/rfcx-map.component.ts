@@ -21,6 +21,7 @@ export class RfcxMapComponent implements OnInit {
     ngOnInit() {
         this.initMap();
         this.initLayerControls();
+        this.calculateMapBounds();
     }
 
     initMap() {
@@ -53,6 +54,24 @@ export class RfcxMapComponent implements OnInit {
             });
             // add layer selection control
             L.control.layers(controlsObj).addTo(this.rfcxMap);
+        }, 2000);
+    }
+
+    calculateMapBounds() {
+        let markers: Array<any> = [];
+        setTimeout(() => {
+            // iterate through all map layers
+            this.rfcxMap.eachLayer(function(layer:any){
+                // console.log('ssss', layer.options);
+                if (layer.options && layer.options.icon && layer.options.icon.options &&
+                    layer.options.icon.options.className === 'mapMarker') {
+                    markers.push(layer.getLatLng());
+                }
+            });
+            if (markers.length) {
+                this.rfcxMap.fitBounds(L.latLngBounds(markers));
+            }
+
         }, 2000);
     }
 

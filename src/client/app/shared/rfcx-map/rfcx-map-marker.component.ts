@@ -7,7 +7,8 @@ let iconSize: any = [20, 28];
 const mapIcon = L.icon({
     iconUrl: 'assets/img/map/location-marker@2x.png',
     iconSize: iconSize,
-    iconAnchor: [10, 28]
+    iconAnchor: [10, 28],
+    className: 'mapMarker'
 });
 
 @Component({
@@ -32,6 +33,6 @@ export class RfcxMapMarkerComponent implements OnInit {
     }
 
     appendToMap() {
-        L.marker([this.lat, this.lon], {icon: mapIcon}).addTo(this.rfcxMapComp.rfcxMap);
+        let marker = L.marker([this.lat, this.lon], {icon: mapIcon}).addTo(this.rfcxMapComp.rfcxMap);
     }
 }
