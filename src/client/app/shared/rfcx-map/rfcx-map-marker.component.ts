@@ -33,6 +33,6 @@ export class RfcxMapMarkerComponent implements OnInit {
     }
 
     appendToMap() {
-        let marker = L.marker([this.lat, this.lon], {icon: mapIcon}).addTo(this.rfcxMapComp.rfcxMap);
+        L.marker([this.lat, this.lon], {icon: mapIcon}).addTo(this.rfcxMapComp.rfcxMap);
     }
 }

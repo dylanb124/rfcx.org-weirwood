@@ -71,7 +71,7 @@ export class IncidentsComponent implements OnInit {
           this.getInitialMapCenter();
           this.countIncidents();
           this.calculateDiameters();
-      })
+      });
   }
 
   getData() {

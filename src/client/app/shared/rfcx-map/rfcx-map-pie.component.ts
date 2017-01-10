@@ -39,7 +39,7 @@ export class RfcxMapPieComponent implements OnInit {
             arr.push({
                 label: key,
                 count: this.data[key]
-            })
+            });
         }
         this.data = arr;
     }
