@@ -18,6 +18,11 @@
             </div>
         </div>
     </div>
+
+    <div class="incidents__inner incidents__inner_noresults" *ngIf="incidents && !incidents.length">
+        <label>No incidents found for this period</label>
+    </div>
+
     <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom">
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
         <rfcx-basemap layerType="positron"></rfcx-basemap>
