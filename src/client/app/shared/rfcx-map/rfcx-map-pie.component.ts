@@ -55,6 +55,7 @@ export class RfcxMapPieComponent implements OnInit {
         let zoom = this.rfcxMapComp.rfcxMap.getZoom();
         if (zoom < 13) {
             this.dia = this.diameter * zoom/24;
+            this.dia = Math.max(this.dia, 40);
         }
         else {
             this.dia = this.diameter;
@@ -65,7 +66,7 @@ export class RfcxMapPieComponent implements OnInit {
         this.checkZoomLevel();
         // define default pie sizes
         let width  = this.dia,
-            height = this.diameter,
+            height = this.dia,
             radius = Math.min(width, height) / 2,
             stroke = Math.min(width * 0.1, 11);
 
