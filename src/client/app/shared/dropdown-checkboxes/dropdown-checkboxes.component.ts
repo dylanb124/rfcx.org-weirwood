@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { DropdownCheckboxItem } from './dropdown-item';
 
 @Component({
@@ -8,7 +8,7 @@ import { DropdownCheckboxItem } from './dropdown-item';
   styleUrls: ['dropdown-checkboxes.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class DropdownCheckboxesComponent {
+export class DropdownCheckboxesComponent implements OnInit {
 
     @Output() onChange = new EventEmitter();
     // internal id for twitter bootstrap dropdown interaction
@@ -28,6 +28,14 @@ export class DropdownCheckboxesComponent {
     @Input() private download: boolean = false;
     // tslint:disable-next-line:no-unused-variable
     @Input() private noborder: boolean = false;
+
+    ngOnInit() {
+        this.items.forEach((item: DropdownCheckboxItem) => {
+            if (item.checked) {
+                this.currentItems.push(item);
+            }
+        });
+    }
 
     preventLinkClick(event: Event) {
         event.stopPropagation();
@@ -54,11 +62,11 @@ export class DropdownCheckboxesComponent {
         if (!this.items.length) {
             return 'No Items';
         }
-        if (!this.currentItems.length) {
-            return this.title;
-        }
         if (this.allItemsTitle && this.currentItems.length === this.items.length) {
             return this.allItemsTitle;
+        }
+        if (!this.currentItems.length) {
+            return this.title;
         }
         let labels = this.currentItems.map( (item) => {
             return item.label;

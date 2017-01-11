@@ -24,9 +24,9 @@ export class IncidentsComponent implements OnInit {
   };
 
   public incidentTypes: Array<DropdownCheckboxItem> = [
-    { value: 'vehicles', label: 'Vehicles', checked: false },
-    { value: 'shots', label: 'Shots', checked: false },
-    { value: 'chainsaws', label: 'Chainsaws', checked: false }
+    { value: 'vehicles', label: 'Vehicles', checked: true },
+    { value: 'shots', label: 'Shots', checked: true },
+    { value: 'chainsaws', label: 'Chainsaws', checked: true }
   ];
 
   public daysCount: Array<DropdownItem> = [
