@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { CookieService }  from 'angular2-cookie/core';
 import { Config } from '../shared/config/env.config.js';
 
@@ -24,9 +24,9 @@ export class IncidentsComponent implements OnInit {
   };
 
   public incidentTypes: Array<DropdownCheckboxItem> = [
-    { value: 'vehicles', label: 'Vehicles', checked: true },
-    { value: 'shots', label: 'Shots', checked: true },
-    { value: 'chainsaws', label: 'Chainsaws', checked: true }
+    { value: 'vehicle', label: 'Vehicles', checked: true },
+    { value: 'shot', label: 'Shots', checked: true },
+    { value: 'chainsaw', label: 'Chainsaws', checked: true }
   ];
 
   public daysCount: Array<DropdownItem> = [
@@ -84,12 +84,24 @@ export class IncidentsComponent implements OnInit {
   }
 
   getData() {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('starting_after', moment(this.maxDate).format('YYYY-MM-DD HH:mm:ss'));
+    params.set('ending_before', moment(this.maxDate).add(this.currentDaysCount.value, 'days').format('YYYY-MM-DD HH:mm:ss'));
+    this.incidentTypes.forEach((item) => {
+        if (item.checked) {
+            params.append('values', item.value);
+        }
+    });
+
     let headers = new Headers({
         'Content-Type': 'application/json',
         'x-auth-user': 'user/' + this.cookieService.get('guid'),
         'x-auth-token': this.cookieService.get('token')
     });
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({
+        headers: headers,
+        search: params
+     });
 
     let request = this.http
         .get(
