@@ -65,13 +65,22 @@ export class IncidentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getData()
-      .subscribe((res:any) => {
-          this.incidents = res.json();
-          this.getInitialMapCenter();
-          this.countIncidents();
-          this.calculateDiameters();
-      });
+      // set to 5 days by default
+      this.currentDaysCount = this.daysCount.filter((item) => {
+          return item.value === 5;
+      })[0];
+      this.recalculateDates();
+      this.initialDataLoad();
+  }
+
+  initialDataLoad() {
+      this.getData()
+        .subscribe((res:any) => {
+            this.incidents = res.json();
+            this.getInitialMapCenter();
+            this.countIncidents();
+            this.calculateDiameters();
+        });
   }
 
   getData() {

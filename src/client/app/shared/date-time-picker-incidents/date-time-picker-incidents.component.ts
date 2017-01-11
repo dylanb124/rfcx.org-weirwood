@@ -14,6 +14,7 @@ const labelFormat: string = 'MMM D';
 })
 export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
 
+  public selectedDate: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
   @Input() range: number;
@@ -23,7 +24,6 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
   private dateTimePickerEl: any;
   private isOpened: boolean;
   private label: string = 'Choose date';
-  private selectedDate: Date;
   private tempDate: Date;
 
   constructor(private elementRef: ElementRef) {}
@@ -51,6 +51,11 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
       }
     });
 
+    if (this.range !== 0) {
+      this.refreshSelectedDate();
+      this.updateLabel();
+    }
+
     this.dateTimePickerEl.on('dp.show', () => {
       this.isOpened = true;
       this.tempDate = this.dateTimePickerEl.data('DateTimePicker').date().toDate();
@@ -58,7 +63,7 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
 
     this.dateTimePickerEl.on('dp.hide', () => {
       this.isOpened = false;
-      this.selectedDate = this.dateTimePickerEl.data('DateTimePicker').date().toDate();
+      this.refreshSelectedDate();
       if (this.tempDate.getTime() !== this.selectedDate.getTime()) {
         this.onChange.emit({
           date: this.selectedDate
@@ -66,6 +71,10 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
         this.updateLabel();
       }
     });
+  }
+
+  refreshSelectedDate() {
+    this.selectedDate = this.dateTimePickerEl.data('DateTimePicker').date().toDate();
   }
 
   ngOnChanges(changes: any) {
@@ -78,6 +87,7 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
         if (!this.dateTimePickerEl.data('DateTimePicker').date()) {
           this.dateTimePickerEl.data('DateTimePicker').date(changes.maxDate.currentValue);
         }
+        this.refreshSelectedDate();
         this.updateLabel();
       }
     }
