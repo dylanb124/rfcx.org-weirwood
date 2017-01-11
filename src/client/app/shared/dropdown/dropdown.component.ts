@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { DropdownItem } from './dropdown-item';
 
 @Component({
@@ -9,7 +9,7 @@ import { DropdownItem } from './dropdown-item';
   styleUrls: ['dropdown.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class DropdownComponent {
+export class DropdownComponent implements OnInit {
 
     // tslint:disable-next-line:no-unused-variable
     @Output() onChange = new EventEmitter();
@@ -31,6 +31,18 @@ export class DropdownComponent {
     // tslint:disable-next-line:no-unused-variable
     private elementId:number = Math.round(Math.random() * 10000000);
     private currentItem: DropdownItem;
+
+    ngOnInit() {
+        let selectedItems = this.items.filter((item: DropdownItem) => {
+            return item.selected === true;
+        });
+        if (selectedItems.length === 1) {
+            this.currentItem = selectedItems[0];
+        }
+        if (selectedItems.length > 1) {
+            console.error('You have selected more than one selected item for', module.id);
+        }
+    }
 
     changeValue(item:DropdownItem) {
         this.currentItem = item;
