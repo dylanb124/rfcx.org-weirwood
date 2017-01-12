@@ -88,6 +88,9 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
           this.dateTimePickerEl.data('DateTimePicker').date(changes.maxDate.currentValue);
         }
         this.refreshSelectedDate();
+        this.onChange.emit({
+          date: this.selectedDate
+        });
         this.updateLabel();
       }
     }

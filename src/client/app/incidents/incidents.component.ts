@@ -56,7 +56,8 @@ export class IncidentsComponent implements OnInit {
   private incidents: Array<any>;
   private today: Date;
   private maxDate: Date;
-  private currentDaysCount: DropdownItem;
+  private currentDate: Date;
+  private currentDaysCount: number = 5;
   private currentdateStartingAfter: string;
   private currentdateEndingBefore: string;
   private currentIncidentTypeValues: Array<string>;
@@ -73,15 +74,9 @@ export class IncidentsComponent implements OnInit {
   }
 
   intializeFilterValues() {
-      // set to 5 days by default
-      this.currentDaysCount = this.daysCount.filter((item) => {
-          return item.value === 5;
-      })[0];
-
+      this.currentDate = moment(this.maxDate).subtract(this.currentDaysCount, 'days').toDate();
       this.recalculateDates();
-
-      this.currentdateStartingAfter = moment(this.maxDate).format('YYYY-MM-DD HH:mm:ss');
-      this.currentdateEndingBefore = moment(this.maxDate).add(this.currentDaysCount.value, 'days').format('YYYY-MM-DD HH:mm:ss');
+      this.refreshTimeBounds();
       this.currentIncidentTypeValues = this.getCheckedIncidentTypeValues();
   }
 
@@ -177,12 +172,17 @@ export class IncidentsComponent implements OnInit {
   }
 
   recalculateDates() {
-    if (this.currentDaysCount.value > 1) {
-      this.maxDate = moment(this.today).subtract(this.currentDaysCount.value, 'days').toDate();
+    if (this.currentDaysCount > 1) {
+      this.maxDate = moment(this.today).subtract(this.currentDaysCount, 'days').toDate();
     }
     else {
       this.maxDate = new Date();
     }
+  }
+
+  refreshTimeBounds() {
+      this.currentdateStartingAfter = moment(this.currentDate).format('YYYY-MM-DD HH:mm:ss');
+      this.currentdateEndingBefore = moment(this.currentDate).add(this.currentDaysCount, 'days').format('YYYY-MM-DD HH:mm:ss');
   }
 
   incidentsTypeChanged(event: any) {
@@ -196,12 +196,16 @@ export class IncidentsComponent implements OnInit {
   }
 
   daysCountChanged(event: any) {
-    this.currentDaysCount = event.item;
+    this.currentDaysCount = event.item.value;
     this.recalculateDates();
+    this.refreshTimeBounds();
   }
 
   dateChanged(event: any) {
     console.log('dateChanged', event);
+    this.currentDate = event.date;
+    this.refreshTimeBounds();
+    this.loadData();
   }
 
   toggleMobileFilters() {
