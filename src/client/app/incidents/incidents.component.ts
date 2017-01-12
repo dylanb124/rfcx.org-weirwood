@@ -57,6 +57,9 @@ export class IncidentsComponent implements OnInit {
   private today: Date;
   private maxDate: Date;
   private currentDaysCount: DropdownItem;
+  private currentdateStartingAfter: string;
+  private currentdateEndingBefore: string;
+  private currentIncidentTypeValues: Array<string>;
   private mobileFiltersOpened: boolean = false;
 
   constructor(
@@ -65,32 +68,57 @@ export class IncidentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+      this.intializeFilterValues();
+      this.loadData();
+  }
+
+  intializeFilterValues() {
       // set to 5 days by default
       this.currentDaysCount = this.daysCount.filter((item) => {
           return item.value === 5;
       })[0];
+
       this.recalculateDates();
-      this.initialDataLoad();
+
+      this.currentdateStartingAfter = moment(this.maxDate).format('YYYY-MM-DD HH:mm:ss');
+      this.currentdateEndingBefore = moment(this.maxDate).add(this.currentDaysCount.value, 'days').format('YYYY-MM-DD HH:mm:ss');
+      this.currentIncidentTypeValues = this.getCheckedIncidentTypeValues();
   }
 
-  initialDataLoad() {
-      this.getData()
+  getCheckedIncidentTypeValues(incidentTypes?: Array<DropdownCheckboxItem>) {
+      incidentTypes = incidentTypes || this.incidentTypes;
+      let arr: Array<string> = [];
+      incidentTypes.forEach((item) => {
+          if (item.checked) {
+              arr.push(item.value);
+          }
+      });
+      return arr;
+  }
+
+  loadData() {
+      let opts:any = {
+          starting_after: this.currentdateStartingAfter,
+          ending_before: this.currentdateEndingBefore,
+          values: this.currentIncidentTypeValues
+      };
+      this.getData(opts)
         .subscribe((res:any) => {
             this.incidents = res.json();
+            console.log('incidents', this.incidents);
             this.getInitialMapCenter();
             this.countIncidents();
             this.calculateDiameters();
         });
   }
 
-  getData() {
+  getData(opts: any) {
+      console.log('opts', opts);
     let params: URLSearchParams = new URLSearchParams();
-    params.set('starting_after', moment(this.maxDate).format('YYYY-MM-DD HH:mm:ss'));
-    params.set('ending_before', moment(this.maxDate).add(this.currentDaysCount.value, 'days').format('YYYY-MM-DD HH:mm:ss'));
-    this.incidentTypes.forEach((item) => {
-        if (item.checked) {
-            params.append('values', item.value);
-        }
+    params.set('starting_after', opts.starting_after);
+    params.set('ending_before', opts.ending_before);
+    opts.values.forEach((value: string) => {
+        params.append('values', value);
     });
 
     let headers = new Headers({
@@ -158,7 +186,13 @@ export class IncidentsComponent implements OnInit {
   }
 
   incidentsTypeChanged(event: any) {
-    console.log('incidentsTypeChanged', event);
+    this.currentIncidentTypeValues = this.getCheckedIncidentTypeValues(event.items);
+    if (this.currentIncidentTypeValues.length) {
+        this.loadData();
+    }
+    else {
+        this.incidents = [];
+    }
   }
 
   daysCountChanged(event: any) {

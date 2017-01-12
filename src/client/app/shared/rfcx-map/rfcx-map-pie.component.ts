@@ -1,4 +1,4 @@
-import { Component, Input, Inject, forwardRef, OnInit } from '@angular/core';
+import { Component, Input, Inject, forwardRef, OnInit, OnDestroy } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
 import * as L from 'leaflet';
 import * as d3 from 'd3';
@@ -10,7 +10,7 @@ let iconSize: any = [20, 28];
   selector: 'rfcx-map-pie',
   template: ''
 })
-export class RfcxMapPieComponent implements OnInit {
+export class RfcxMapPieComponent implements OnInit, OnDestroy {
 
     @Input() centerLat: number;
     @Input() centerLon: number;
@@ -31,6 +31,10 @@ export class RfcxMapPieComponent implements OnInit {
         this.dia = this.diameter;
         this.bindMapEvents();
         this.createMarker(this.createIcon());
+    }
+
+    ngOnDestroy() {
+        this.rfcxMapComp.rfcxMap.removeLayer(this.marker);
     }
 
     formatInputData() {

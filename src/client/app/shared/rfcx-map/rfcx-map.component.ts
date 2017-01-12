@@ -69,7 +69,9 @@ export class RfcxMapComponent implements OnInit {
                 }
             });
             if (markers.length) {
-                this.rfcxMap.fitBounds(L.latLngBounds(markers));
+                this.rfcxMap.fitBounds(L.latLngBounds(markers), {
+                    padding: [20, 20]
+                });
             }
 
         }, 2000);

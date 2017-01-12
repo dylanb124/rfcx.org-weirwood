@@ -1,4 +1,4 @@
-import { Component, Input, Inject, forwardRef, OnInit } from '@angular/core';
+import { Component, Input, Inject, forwardRef, OnInit, OnDestroy } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
 import * as L from 'leaflet';
 
@@ -16,11 +16,12 @@ const mapIcon = L.icon({
   selector: 'rfcx-map-marker',
   template: ''
 })
-export class RfcxMapMarkerComponent implements OnInit {
+export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
     @Input() lat: number;
     @Input() lon: number;
     private rfcxMapComp: any;
+    private marker: any;
 
     constructor(
         @Inject(forwardRef(() => RfcxMapComponent)) map:RfcxMapComponent
@@ -32,7 +33,11 @@ export class RfcxMapMarkerComponent implements OnInit {
         this.appendToMap();
     }
 
+    ngOnDestroy() {
+        this.rfcxMapComp.rfcxMap.removeLayer(this.marker);
+    }
+
     appendToMap() {
-        L.marker([this.lat, this.lon], {icon: mapIcon}).addTo(this.rfcxMapComp.rfcxMap);
+        this.marker = L.marker([this.lat, this.lon], {icon: mapIcon}).addTo(this.rfcxMapComp.rfcxMap);
     }
 }
