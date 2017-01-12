@@ -62,6 +62,7 @@ export class IncidentsComponent implements OnInit {
   private currentdateEndingBefore: string;
   private currentIncidentTypeValues: Array<string>;
   private mobileFiltersOpened: boolean = false;
+  private isLoading: boolean = false;
 
   constructor(
     private http: Http,
@@ -92,6 +93,7 @@ export class IncidentsComponent implements OnInit {
   }
 
   loadData() {
+      this.isLoading = true;
       let opts:any = {
           starting_after: this.currentdateStartingAfter,
           ending_before: this.currentdateEndingBefore,
@@ -100,6 +102,7 @@ export class IncidentsComponent implements OnInit {
       this.getData(opts)
         .subscribe((res:any) => {
             this.incidents = res.json();
+            this.isLoading = false;
             console.log('incidents', this.incidents);
             this.getInitialMapCenter();
             this.countIncidents();

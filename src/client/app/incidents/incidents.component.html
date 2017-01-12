@@ -5,6 +5,7 @@
             <h3 class="incidents__title"><span class="incidents__title-nophone">Incident </span>location &amp; frequency</h3>
         </div>
         <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
+            <spinner [size]="30" [ngClass]="{'loading': isLoading}"></spinner>
             <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
                 <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true"
                     (onChange)="incidentsTypeChanged($event)" allItemsTitle="All incidents"></dropdown-checkboxes>

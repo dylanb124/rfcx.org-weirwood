@@ -105,6 +105,26 @@
                     max-height: 1000px;
                 }
             }
+            spinner {
+                display: none;
+                vertical-align: middle;
+                &.loading {
+                    display: inline-block;
+                }
+                @include mq(phone) {
+                    position: absolute;
+                    top: 2.8rem;
+                    right: 18%;
+                    z-index: 5;
+                    &.loading {
+                        display: block;
+                    }
+                    .sk-circle {
+                        width: 24px !important;
+                        height: 24px !important;
+                    }
+                }
+            }
         }
         &__inline-dropdown-wrapper {
             display: inline-block;
@@ -197,6 +217,10 @@
             &_range {
                 width: 100px;
                 margin: 0 10px;
+                @include mq(phone) {
+                    width: 80px;
+                    margin: 0 5px;
+                }
                 @include mq(phone) {
                     width: 100%;
                     margin: 0;
