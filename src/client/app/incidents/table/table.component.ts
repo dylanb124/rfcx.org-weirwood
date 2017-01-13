@@ -16,6 +16,10 @@ export class IncidentsTableComponent implements OnInit {
     private labelsTotal: any;
 
     ngOnInit() {
+        this.parseData();
+    }
+
+    parseData() {
         this.getAllLabels();
         this.calculateTotalPerSector();
         this.calculateTotalPerLabel();
@@ -54,5 +58,11 @@ export class IncidentsTableComponent implements OnInit {
         this.data.forEach((item) => {
             this.labelsTotal.total += item.total;
         });
+    }
+
+    ngOnChanges(changes: any) {
+        if (changes.data && !changes.data.isFirstChange()) {
+            this.parseData();
+        }
     }
 }
