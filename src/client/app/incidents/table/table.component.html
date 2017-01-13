@@ -11,20 +11,20 @@
         <tbody>
             <tr class="table-rfcx__row" [ngClass]="{ 'table-rfcx__row_odd': odd, 'table-rfcx__row_even': even }"
                 *ngFor="let sector of data; let odd=odd; let even=even;">
-                <td class="table-rfcx__col table-rfcx__col_first">{{sector.title}}</td>
+                <td class="table-rfcx__col table-rfcx__col_first">{{sector.shortname}}</td>
                 <td class="table-rfcx__col" *ngFor="let label of labels">
-                    {{sector.incidents[label]? sector.incidents[label] : 'n/a'}}
+                    {{sector.events[label]? sector.events[label] : 0}}
                 </td>
-                <td class="table-rfcx__col table-rfcx__col_last">{{sector.total? sector.total : 'n/a'}}</td>
+                <td class="table-rfcx__col table-rfcx__col_last">{{sector.total? sector.total : 0}}</td>
             </tr>
         </tbody>
         <tfoot>
             <tr class="table-rfcx__row table-rfcx__row_foot">
                 <td class="table-rfcx__col table-rfcx__col_first">Total</td>
                 <td class="table-rfcx__col" *ngFor="let label of labels">
-                    {{labelsTotal[label]? labelsTotal[label] : 'n/a'}}
+                    {{labelsTotal[label]? labelsTotal[label] : 0}}
                 </td>
-                <td class="table-rfcx__col table-rfcx__col_last">{{labelsTotal.total? labelsTotal.total : 'n/a'}}</td>
+                <td class="table-rfcx__col table-rfcx__col_last">{{labelsTotal.total? labelsTotal.total : 0}}</td>
             </tr>
         </tfoot>
     </table>

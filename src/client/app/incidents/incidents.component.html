@@ -38,8 +38,8 @@
         <incidents-chart [data]="incidentsByDates" [colors]="colors"></incidents-chart>
     </div>
 
-    <div class="incidents__inner incidents__inner_table">
-        <incidents-table></incidents-table>
+    <div class="incidents__inner incidents__inner_table" *ngIf="incidents">
+        <incidents-table [data]="incidents"></incidents-table>
     </div>
 
     <div class="incidents__inner incidents__inner_download">
