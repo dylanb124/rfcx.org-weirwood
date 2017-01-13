@@ -234,11 +234,11 @@ export class IncidentsComponent implements OnInit {
           let obj:any = {
               date: date.toDate(),
               events: {}
-          }
+          };
           this.incidentTypes.forEach((item) => {
               let actualValue = 0;
               if (incidentsObj[dateStr] && incidentsObj[dateStr][item.value]) {
-                  actualValue = incidentsObj[dateStr][item.value]
+                  actualValue = incidentsObj[dateStr][item.value];
               }
             obj.events[item.value] = actualValue;
           });
