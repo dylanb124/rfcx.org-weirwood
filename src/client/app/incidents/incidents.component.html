@@ -34,8 +34,8 @@
         </ng-container>
     </rfcx-map>
 
-    <div class="incidents__inner incidents__inner_chart">
-        <incidents-chart></incidents-chart>
+    <div class="incidents__inner incidents__inner_chart" *ngIf="incidentsByDates">
+        <incidents-chart [data]="incidentsByDates" [colors]="colors"></incidents-chart>
     </div>
 
     <div class="incidents__inner incidents__inner_table">

@@ -46,6 +46,12 @@ export class IncidentsComponent implements OnInit {
       { value: 'CSV', label: 'Comma-separated.CSV' }
     ];
 
+  public colors: any = {
+        vehicle: 'rgba(34, 176, 163, 1)',
+        shot: 'rgba(240, 65, 84, 1)',
+        chainsaw: 'rgba(245, 166, 35, 1)'
+    };
+
   // tslint:disable-next-line:no-unused-variable
   private mapDetails: any = {
     zoom: 10,
@@ -54,6 +60,7 @@ export class IncidentsComponent implements OnInit {
   private minCircleDiameter: number = 80;
   private maxCircleDiameter: number = 150;
   private incidents: Array<any>;
+  private incidentsByDates: Array<any>;
   private today: Date;
   private maxDate: Date;
   private currentDate: Date;
@@ -99,19 +106,24 @@ export class IncidentsComponent implements OnInit {
           ending_before: this.currentdateEndingBefore,
           values: this.currentIncidentTypeValues
       };
-      this.getData(opts)
-        .subscribe((res:any) => {
-            this.incidents = res.json();
-            this.isLoading = false;
-            console.log('incidents', this.incidents);
-            this.getInitialMapCenter();
-            this.countIncidents();
-            this.calculateDiameters();
-        });
+      this.getDataByGuardians(opts)
+          .subscribe((res:any) => {
+              this.incidents = res.json();
+              this.isLoading = false;
+              console.log('incidents', this.incidents);
+              this.getInitialMapCenter();
+              this.countIncidents();
+              this.calculateDiameters();
+          });
+
+      this.getDataByDates(opts)
+          .subscribe((res:any) => {
+              console.log('incidents by dates', res.json());
+              this.incidentsByDates = this.parseIncidentsByDates(res.json());
+          });
   }
 
-  getData(opts: any) {
-      console.log('opts', opts);
+  getDataByGuardians(opts: any) {
     let params: URLSearchParams = new URLSearchParams();
     params.set('starting_after', opts.starting_after);
     params.set('ending_before', opts.ending_before);
@@ -132,6 +144,32 @@ export class IncidentsComponent implements OnInit {
     let request = this.http
         .get(
             Config.API + 'events/stats/guardian',
+            options
+        );
+    return request;
+  }
+
+  getDataByDates(opts: any) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('starting_after', opts.starting_after);
+    params.set('ending_before', opts.ending_before);
+    opts.values.forEach((value: string) => {
+        params.append('values', value);
+    });
+
+    let headers = new Headers({
+        'Content-Type': 'application/json',
+        'x-auth-user': 'user/' + this.cookieService.get('guid'),
+        'x-auth-token': this.cookieService.get('token')
+    });
+    let options = new RequestOptions({
+        headers: headers,
+        search: params
+    });
+
+    let request = this.http
+        .get(
+            Config.API + 'events/stats/dates',
             options
         );
     return request;
@@ -186,6 +224,27 @@ export class IncidentsComponent implements OnInit {
   refreshTimeBounds() {
       this.currentdateStartingAfter = moment(this.currentDate).format('YYYY-MM-DD HH:mm:ss');
       this.currentdateEndingBefore = moment(this.currentDate).add(this.currentDaysCount, 'days').format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  parseIncidentsByDates(incidentsObj: any) {
+      let datesArr: Array<any> = [];
+      for (let i = 0; i < this.currentDaysCount; i++) {
+          let date = moment(this.currentDate).add(i, 'days');
+          let dateStr = date.format('M/D/YYYY');
+          let obj:any = {
+              date: date.toDate(),
+              events: {}
+          }
+          this.incidentTypes.forEach((item) => {
+              let actualValue = 0;
+              if (incidentsObj[dateStr] && incidentsObj[dateStr][item.value]) {
+                  actualValue = incidentsObj[dateStr][item.value]
+              }
+            obj.events[item.value] = actualValue;
+          });
+          datesArr.push(obj);
+      }
+      return datesArr;
   }
 
   incidentsTypeChanged(event: any) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewEncapsulation, Input } from '@angular/core';
 
 import * as d3 from 'd3';
 import * as d3tip from 'd3-tip';
@@ -19,11 +19,9 @@ let d3Tip: any = d3tip;
 })
 export class IncidentsChartComponent implements OnInit {
 
-    // @Input() private data: Array<any>;
-    // @Input() private colors: Object;
-    private chartData: Array<any>;
+    @Input() private data: Array<any>;
+    @Input() private colors: any;
     private labels: Array<string>;
-    private colors: any;
     private svgEl: any;
     private svg: any;
     private svgG: any;
@@ -38,59 +36,24 @@ export class IncidentsChartComponent implements OnInit {
     private xAxis: any;
     private yAxis: any;
     private resizeTimeout: any;
+    private zeroValueHeight: number = 3;
 
     private formatTipDate = d3.timeFormat('%B %e, %Y');
 
     constructor(private elementRef: ElementRef) {}
 
     ngOnInit() {
-        this.chartData = this.generateData();
-        this.labels = this.getAllLabels(this.chartData);
-        this.colors = {
-            vehicles: 'rgba(34, 176, 163, 1)',
-            shots: 'rgba(240, 65, 84, 1)',
-            chainsaws: 'rgba(245, 166, 35, 1)',
-            monkeys: 'rgba(145, 10, 120, 1)',
-            parrots: 'rgba(45, 110, 120, 1)',
-            birds: 'rgba(255, 250, 120, 1)',
-            elephants: 'rgba(25, 250, 120, 1)',
-            dogs: 'rgba(25, 25, 12, 1)',
-            gsm: 'rgba(255, 205, 100, 1)',
-            aliens: 'rgba(80, 80, 100, 1)'
-        };
+        this.labels = this.getAllLabels(this.data);
         this.prepareD3Chart();
-        this.renderD3Chart(this.chartData);
+        this.renderD3Chart(this.data);
     }
 
     onResize(event: any) {
         clearTimeout(this.resizeTimeout);
         this.resizeTimeout = setTimeout(() => {
-            this.renderD3Chart(this.chartData);
+            this.renderD3Chart(this.data);
             this.toggleTipVisibility(false);
         }, 500);
-
-    }
-
-    generateData() {
-        let data: Array<any> = [];
-        for(var i = 1; i <= 5; i++) {
-            data.push({
-                date: moment(new Date('2016-02-01T00:00:00.000Z')).add(i, 'day').toDate(),
-                events: {
-                    vehicles: Math.round(Math.random() * 100) || 20,
-                    shots: Math.round(Math.random() * 100) || 20,
-                    chainsaws: Math.round(Math.random() * 100) || 20,
-                    // monkeys: Math.round(Math.random() * 100) || 20,
-                    // parrots: Math.round(Math.random() * 100) || 20,
-                    // birds: Math.round(Math.random() * 100) || 20,
-                    // elephants: Math.round(Math.random() * 100) || 20,
-                    // dogs: Math.round(Math.random() * 100) || 20,
-                    // gsm: Math.round(Math.random() * 100) || 20,
-                    // aliens: Math.round(Math.random() * 100) || 20
-                }
-            });
-        }
-        return data;
     }
 
     getAllLabels(data: Array<any>) {
@@ -126,7 +89,7 @@ export class IncidentsChartComponent implements OnInit {
                         .tickSizeOuter(0);
 
         this.yAxis = d3.axisLeft(this.y)
-                       .ticks(5)
+                       .tickFormat(d3.format('d'))
                        .tickSizeInner(0);
 
         // create svg element object which we will append to leaflet
@@ -150,7 +113,7 @@ export class IncidentsChartComponent implements OnInit {
 
     calculateXTicks() {
         let ticks: Array<Date> = [];
-        let count = this.chartData.length;
+        let count = this.data.length;
         let part = count/4;
         for (let i = 0; i < 4; i++) {
             ticks.push(moment(new Date('2016-02-01T00:00:00.000Z')).add(i * part + Math.floor((part+1)/2), 'day').toDate());
@@ -172,7 +135,13 @@ export class IncidentsChartComponent implements OnInit {
             this.xAxis.tickValues(this.calculateXTicks());
         }
 
-        this.yAxis.tickSize(-this.width);
+        let yMax = d3.max(data, (d:any) => {
+            return d3.max(Object.values(d.events));
+        });
+
+        this.yAxis
+            .ticks(yMax > 5? 5 : yMax)
+            .tickSize(-this.width);
 
         this.svg.selectAll('*').remove();
 
@@ -186,9 +155,7 @@ export class IncidentsChartComponent implements OnInit {
 
         this.x.domain(data.map((d:any) => { return d.date; }));
         this.x1.domain(this.labels);
-        this.y.domain([0, d3.max(data, (d:any) => {
-            return d3.max(Object.values(d.events));
-        })]);
+        this.y.domain([0, yMax]);
 
         this.x1.rangeRound([0, this.x.bandwidth()]);
 
@@ -273,8 +240,18 @@ export class IncidentsChartComponent implements OnInit {
                 }
                 return this.x1(d.name) + offset + internalOffset;
             })
-            .attr('y', (d:any) => { return this.y(d.value); })
-            .attr('height', (d:any) => { return this.height - this.y(d.value); })
+            .attr('y', (d:any) => {
+                if (d.value === 0) {
+                    return this.height - this.zeroValueHeight;
+                }
+                return this.y(d.value);
+            })
+            .attr('height', (d:any) => {
+                if (d.value === 0) {
+                    return this.zeroValueHeight;
+                }
+                return this.height - this.y(d.value);
+            })
             .style('fill', (d:any) => { return d.color; });
 
     };
