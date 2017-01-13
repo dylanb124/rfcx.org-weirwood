@@ -30,7 +30,7 @@
         <ng-container *ngFor="let item of incidents">
             <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
             <rfcx-map-pie *ngIf="!!item.diameter" [centerLat]="item.coords.lat"
-                    [centerLon]="item.coords.lon" [diameter]="item.diameter" [data]="item.events"></rfcx-map-pie>
+                    [centerLon]="item.coords.lon" [diameter]="item.diameter" [data]="item.events" [colors]="colors"></rfcx-map-pie>
         </ng-container>
     </rfcx-map>
 

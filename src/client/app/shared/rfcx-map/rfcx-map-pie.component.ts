@@ -16,6 +16,7 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
     @Input() centerLon: number;
     @Input() diameter: number;
     @Input() data: Array<any>;
+    @Input() colors: any;
     private rfcxMapComp: any;
     private marker: any;
     private dia: number;
@@ -67,6 +68,8 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
     }
 
     createIcon() {
+        let self = this;
+
         this.checkZoomLevel();
         // define default pie sizes
         let width  = this.dia,
@@ -78,19 +81,6 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
         let svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         // get d3 representation of svg object
         let svg = d3.select(svgEl);
-
-        // define colors for arc
-        let color = d3
-            .scaleOrdinal()
-            .range([
-                'rgba(240, 65, 84, 0.8)',
-                'rgba(34, 176, 163, 0.8)',
-                'rgba(245, 166, 35, 0.8)',
-                'rgba(107, 72, 107, 0.8)',
-                'rgba(160, 93, 86, 0.8)',
-                'rgba(208, 116, 60, 0.8)',
-                'rgba(255, 140, 0, 0.8)'
-            ]);
 
         // define sizes for arcs
         let arc:any = d3.arc()
@@ -119,7 +109,7 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
         // fill arcs with colors
         g.append('path')
             .attr('d', arc)
-            .style('fill', (d:any):any => { return color(d.data.label); });
+            .style('fill', (d:any):any => { return self.colors[d.data.label]; });
 
         // create divIcon object which we will append to leaflet
         let icon = L.divIcon({
