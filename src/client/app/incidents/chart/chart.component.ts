@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, ElementRef, ViewEncapsulation, Input } from '@angular/core';
 
 import * as d3 from 'd3';
 import * as d3tip from 'd3-tip';
@@ -17,7 +17,7 @@ let d3Tip: any = d3tip;
     '(window:resize)': 'onResize($event)'
   }
 })
-export class IncidentsChartComponent implements OnInit {
+export class IncidentsChartComponent implements OnInit, OnChanges {
 
     @Input() private data: Array<any>;
     @Input() private colors: any;
@@ -276,6 +276,15 @@ export class IncidentsChartComponent implements OnInit {
             this.tip.hide();
         }
         this.isTipOpened = toShow;
+    }
+
+    ngOnChanges(changes: any) {
+        if (changes.data && !changes.data.isFirstChange()) {
+            this.data = changes.data.currentValue;
+            this.labels = this.getAllLabels(this.data);
+            this.renderD3Chart(this.data);
+            this.toggleTipVisibility(false);
+        }
     }
 
 }
