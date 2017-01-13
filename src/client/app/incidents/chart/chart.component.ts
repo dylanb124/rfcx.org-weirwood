@@ -115,8 +115,11 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
         let ticks: Array<Date> = [];
         let count = this.data.length;
         let part = count/4;
+        let minDate = d3.min(this.data, (d:any) => {
+            return d.date;
+        });
         for (let i = 0; i < 4; i++) {
-            ticks.push(moment(new Date('2016-02-01T00:00:00.000Z')).add(i * part + Math.floor((part+1)/2), 'day').toDate());
+            ticks.push(moment(minDate).add(i * part + Math.floor((part+1)/2), 'day').toDate());
         }
         return ticks;
     }
