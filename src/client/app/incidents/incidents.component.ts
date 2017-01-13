@@ -235,12 +235,12 @@ export class IncidentsComponent implements OnInit {
               date: date.toDate(),
               events: {}
           };
-          this.incidentTypes.forEach((item) => {
+          this.currentIncidentTypeValues.forEach((item) => {
               let actualValue = 0;
-              if (incidentsObj[dateStr] && incidentsObj[dateStr][item.value]) {
-                  actualValue = incidentsObj[dateStr][item.value];
+              if (item && incidentsObj[dateStr] && incidentsObj[dateStr][item]) {
+                  actualValue = incidentsObj[dateStr][item];
               }
-            obj.events[item.value] = actualValue;
+            obj.events[item] = actualValue;
           });
           datesArr.push(obj);
       }
@@ -254,6 +254,7 @@ export class IncidentsComponent implements OnInit {
     }
     else {
         this.incidents = [];
+        this.incidentsByDates = [];
     }
   }
 
