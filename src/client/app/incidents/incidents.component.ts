@@ -231,6 +231,9 @@ export class IncidentsComponent implements OnInit {
   };
 
   parseIncidentsByDates(incidentsObj: any) {
+      if (!Object.keys(incidentsObj).length) {
+          return [];
+      }
       let datesArr: Array<any> = [];
       for (let i = 0; i < this.currentDaysCount; i++) {
           let date = moment(this.currentDate).add(i, 'days');
@@ -244,7 +247,7 @@ export class IncidentsComponent implements OnInit {
               if (item && incidentsObj[dateStr] && incidentsObj[dateStr][item]) {
                   actualValue = incidentsObj[dateStr][item];
               }
-            obj.events[item] = actualValue;
+              obj.events[item] = actualValue;
           });
           datesArr.push(obj);
       }
