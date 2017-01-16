@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user/user.service';
 
@@ -8,12 +8,18 @@ import { UserService } from '../user/user.service';
   templateUrl: 'navbar.component.html',
   styleUrls: ['navbar.component.css'],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+
+    private userData: any;
 
     constructor(
         private userService: UserService,
         private router: Router
     ) {}
+
+    ngOnInit() {
+        this.userData = this.userService.getUserData();
+    }
 
     logOut() {
         this.userService.logOut();

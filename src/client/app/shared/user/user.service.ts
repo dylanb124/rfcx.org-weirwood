@@ -30,7 +30,14 @@ export class UserService {
                 if (body) {
                     // response is wrapped in array
                     body = body[0];
-                    this.saveCookies(body.guid, body.tokens[0].token, body.tokens[0].token_expires_at);
+                    this.saveCookies({
+                        guid: body.guid,
+                        token: body.tokens[0].token,
+                        expires: body.tokens[0].token_expires_at,
+                        firstname: body.firstname || 'RFCx',
+                        lastname: body.lastname || 'user',
+                        username: body.username || 'user@rfcx.org'
+                    });
                     this.router.navigate(['/incidents']);
                 }
             },
@@ -38,7 +45,6 @@ export class UserService {
                 if (error) {
                     let errBody = error.json();
                     if (errBody && errBody.message) {
-                        // alert(errBody.message);
                         console.log('Error', errBody);
                     }
                 }
@@ -50,12 +56,18 @@ export class UserService {
     logOut(): void {
         this.cookieService.remove('guid');
         this.cookieService.remove('token');
+        this.cookieService.remove('firstname');
+        this.cookieService.remove('lastname');
+        this.cookieService.remove('username');
         this.router.navigate(['/login']);
     }
 
-    saveCookies(guid: string, token: string, expires: string): void {
-        this.cookieService.put('token', token, { expires: expires });
-        this.cookieService.put('guid', guid, { expires: expires });
+    saveCookies(opts: any): void {
+        this.cookieService.put('guid', opts.guid, { expires: opts.expires });
+        this.cookieService.put('token', opts.token, { expires: opts.expires });
+        this.cookieService.put('firstname', opts.firstname, { expires: opts.expires });
+        this.cookieService.put('lastname', opts.lastname, { expires: opts.expires });
+        this.cookieService.put('username', opts.username, { expires: opts.expires });
     }
 
     areCookiesExist(): boolean {
@@ -64,5 +76,13 @@ export class UserService {
 
     isLoggedIn(): boolean {
         return this.areCookiesExist();
+    }
+
+    getUserData() {
+        return {
+            firstname: this.cookieService.get('firstname'),
+            lastname: this.cookieService.get('lastname'),
+            username: this.cookieService.get('username')
+        };
     }
 }
