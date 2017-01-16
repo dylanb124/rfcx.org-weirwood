@@ -24,7 +24,8 @@
         <label>No incidents found for this period</label>
     </div>
 
-    <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon" [zoom]="mapDetails.zoom">
+    <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon"[centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
+            [zoom]="mapDetails.zoom" [data]="incidents">
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
         <rfcx-basemap layerType="positron"></rfcx-basemap>
         <ng-container *ngFor="let item of incidents">

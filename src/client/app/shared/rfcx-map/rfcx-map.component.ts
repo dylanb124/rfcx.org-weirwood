@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, ViewEncapsulation, OnInit, OnChanges } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -8,9 +8,11 @@ import * as L from 'leaflet';
   styleUrls: ['rfcx-map.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class RfcxMapComponent implements OnInit {
+export class RfcxMapComponent implements OnInit, OnChanges {
 
     private rfcxMap: any;
+    // tslint:disable-next-line:no-unused-variable
+    @Input() private data: Array<any>;
     @Input() private centerLat: number;
     @Input() private centerLon: number;
     @Input() private zoom: number;
@@ -21,7 +23,7 @@ export class RfcxMapComponent implements OnInit {
     ngOnInit() {
         this.initMap();
         this.initLayerControls();
-        this.calculateMapBounds();
+        this.calculateAndFitMapBounds();
     }
 
     initMap() {
@@ -57,7 +59,7 @@ export class RfcxMapComponent implements OnInit {
         }, 2000);
     }
 
-    calculateMapBounds() {
+    calculateAndFitMapBounds() {
         let markers: Array<any> = [];
         setTimeout(() => {
             // iterate through all map layers
@@ -69,12 +71,22 @@ export class RfcxMapComponent implements OnInit {
                 }
             });
             if (markers.length) {
-                this.rfcxMap.fitBounds(L.latLngBounds(markers), {
-                    padding: [20, 20]
+                let bounds = L.latLngBounds(markers);
+                if (bounds.overlaps(this.rfcxMap.getBounds())) {
+                    this.rfcxMap.fitBounds(bounds, {
+                    padding: [30, 30]
                 });
+                }
+
             }
 
         }, 2000);
+    }
+
+    ngOnChanges(changes: any) {
+        if (changes.data && !changes.data.isFirstChange()) {
+            this.calculateAndFitMapBounds();
+        }
     }
 
 }
