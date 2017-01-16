@@ -17,6 +17,7 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
     @Input() diameter: number;
     @Input() data: Array<any>;
     @Input() colors: any;
+    @Input() shortname: string;
     private rfcxMapComp: any;
     private marker: any;
     private dia: number;
@@ -32,6 +33,7 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
         this.dia = this.diameter;
         this.bindMapEvents();
         this.createMarker(this.createIcon());
+        this.createPopup();
     }
 
     ngOnDestroy() {
@@ -126,6 +128,27 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
     createMarker(icon:any) {
         // append marker to map
         this.marker = L.marker([this.centerLat, this.centerLon], {icon: icon}).addTo(this.rfcxMapComp.rfcxMap);
+    }
+
+    generatePopupHtml() {
+        let html = '<p class=\"d3-tip__row d3-tip__row_date\">' + this.shortname + '</p>';
+        this.data.forEach((item) => {
+            html += '<p class=\"d3-tip__row\">' + item.count + ' ' + item.label + '</p>';
+        });
+        return html;
+    }
+
+    createPopup() {
+        let popup = L.popup({ className: 'd3-tip n' })
+                     .setLatLng([this.centerLat, this.centerLon])
+                     .setContent(this.generatePopupHtml());
+        this.marker.bindPopup(popup);
+        this.marker.on('mouseover', function() {
+            this.openPopup();
+        });
+        this.marker.on('mouseout', function() {
+            this.closePopup();
+        });
     }
 
     updateMarkerIcon(icon:any) {

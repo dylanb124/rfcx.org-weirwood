@@ -29,7 +29,7 @@
         <rfcx-basemap layerType="positron"></rfcx-basemap>
         <ng-container *ngFor="let item of incidents">
             <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
-            <rfcx-map-pie *ngIf="!!item.diameter" [centerLat]="item.coords.lat"
+            <rfcx-map-pie *ngIf="!!item.diameter" [centerLat]="item.coords.lat" [shortname]="item.shortname"
                     [centerLon]="item.coords.lon" [diameter]="item.diameter" [data]="item.events" [colors]="colors"></rfcx-map-pie>
         </ng-container>
     </rfcx-map>
