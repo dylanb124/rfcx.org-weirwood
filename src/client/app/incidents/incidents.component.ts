@@ -38,12 +38,8 @@ export class IncidentsComponent implements OnInit {
   ];
 
   public formats: Array<DropdownItem> = [
-      { value: 'SAV', label: 'SPSS.SAV' },
-      { value: 'PDF', label: 'Adobe.PDF' },
-      { value: 'ODT', label: 'OpenOffice.ODT' },
-      { value: 'XSLX', label: 'Microsoft.XSLX' },
-      { value: 'Microsoft.DOCX', label: 'Microsoft.DOCX' },
-      { value: 'CSV', label: 'Comma-separated.CSV' }
+      { value: 'csv_dates', label: 'csv grouped by dates' },
+      { value: 'csv_guardians', label: 'csv grouped by guardians' }
     ];
 
   public colors: any = {
@@ -54,8 +50,7 @@ export class IncidentsComponent implements OnInit {
 
   // tslint:disable-next-line:no-unused-variable
   private mapDetails: any = {
-    zoom: 10,
-    // minZoom: 12
+    zoom: 10
   };
   private minCircleDiameter: number = 80;
   private maxCircleDiameter: number = 150;
@@ -108,9 +103,9 @@ export class IncidentsComponent implements OnInit {
       };
       this.getDataByGuardians(opts)
           .subscribe((res:any) => {
-              this.incidents = res.json();
+              this.incidents = this.parseIncidentsByGuardians(res.json());
               this.isLoading = false;
-              console.log('incidents', this.incidents);
+              console.log('incidents by guardians', this.incidents);
               this.getInitialMapCenter();
               this.countIncidents();
               this.calculateDiameters();
@@ -118,8 +113,8 @@ export class IncidentsComponent implements OnInit {
 
       this.getDataByDates(opts)
           .subscribe((res:any) => {
-              console.log('incidents by dates', res.json());
               this.incidentsByDates = this.parseIncidentsByDates(res.json());
+              console.log('incidents by dates', this.incidentsByDates);
           });
   }
 
@@ -226,6 +221,15 @@ export class IncidentsComponent implements OnInit {
       this.currentdateEndingBefore = moment(this.currentDate).add(this.currentDaysCount, 'days').format('YYYY-MM-DD HH:mm:ss');
   }
 
+  parseIncidentsByGuardians(incidents: Array<any>) {
+      incidents.forEach((item) => {
+          this.currentIncidentTypeValues.forEach((value) => {
+              item.events[value] = item.events[value] || 0;
+          });
+      });
+      return incidents;
+  };
+
   parseIncidentsByDates(incidentsObj: any) {
       let datesArr: Array<any> = [];
       for (let i = 0; i < this.currentDaysCount; i++) {
@@ -275,7 +279,67 @@ export class IncidentsComponent implements OnInit {
     this.mobileFiltersOpened = !this.mobileFiltersOpened;
   }
 
+  generateCSV(type: string): string {
+      if (['csv_guardians', 'csv_dates'].indexOf(type) === -1) {
+          return null;
+      }
+      let csv = '',
+          arr;
+      // both values sets represent array of items with equal object attribute 'events', but different labels: 'shortname' and 'date'
+      // make an array with similar objects
+      switch (type) {
+          case 'csv_guardians':
+              // for these incidents label will be shortname
+              arr = this.incidents.map((item) => {
+                  item.label = item.shortname;
+                  return item;
+              });
+              csv += 'guardian,';
+              break;
+          case 'csv_dates':
+              // for these incidents label will be date with special format
+              arr = this.incidentsByDates.map((item) => {
+                  item.label = moment(item.date).format('M/D/YYYY');
+                  return item;
+              });
+              csv += 'date,';
+              break;
+      }
+      // combine all type labels in one string for csv header row
+      csv += this.currentIncidentTypeValues.join(',') + '\n';
+      arr.forEach((item) => {
+          csv += item.label + ',';
+          // combine all type values in one string
+          let values = this.currentIncidentTypeValues.map((value) => {
+              return item.events[value];
+          });
+          csv += values.join(',') + '\n';
+      });
+      return csv;
+  }
+
+  combineCSVFileName(type: string) {
+      let name = 'incidents_';
+      name += type;
+      name += '_';
+      name += moment(this.currentdateStartingAfter).format('M/D/YYYY');
+      name += '_';
+      name += moment(this.currentdateEndingBefore).format('M/D/YYYY');
+      name += '.csv';
+      return name;
+  }
+
   formatChanged(event:any) {
-      console.log('formatChanged', event);
+      let type = event.item.value;
+      let csv = this.generateCSV(type);
+      if (!csv) {
+          return;
+      }
+      let blob = new Blob([csv], {'type':'application\/octet-stream'});
+      let a = document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = this.combineCSVFileName(type);
+      a.click();
+      a = null;
   }
 }
