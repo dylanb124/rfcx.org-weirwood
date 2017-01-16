@@ -24,7 +24,8 @@
         <label>No incidents found for this period</label>
     </div>
 
-    <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon"[centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
+    <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon && incidents && incidents.length"
+            [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
             [zoom]="mapDetails.zoom" [data]="incidents">
         <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
         <rfcx-basemap layerType="positron"></rfcx-basemap>
@@ -35,15 +36,16 @@
         </ng-container>
     </rfcx-map>
 
-    <div class="incidents__inner incidents__inner_chart" *ngIf="incidentsByDates">
+    <div class="incidents__inner incidents__inner_chart" *ngIf="incidentsByDates && incidentsByDates.length">
         <incidents-chart [data]="incidentsByDates" [colors]="colors"></incidents-chart>
     </div>
 
-    <div class="incidents__inner incidents__inner_table" *ngIf="incidents">
+    <div class="incidents__inner incidents__inner_table" *ngIf="incidents && incidents.length">
         <incidents-table [data]="incidents"></incidents-table>
     </div>
 
-    <div class="incidents__inner incidents__inner_download">
+    <div class="incidents__inner incidents__inner_download"
+         *ngIf="incidents && incidents.length && incidentsByDates && incidentsByDates.length">
         <div class="incidents-download-data">
             <div class="incidents-download-data__left">
                 <h3 class="incidents__title incidents-download-data__title">Download Data</h3>
