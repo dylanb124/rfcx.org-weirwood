@@ -64,7 +64,6 @@ export class RfcxMapComponent implements OnInit, OnChanges {
         setTimeout(() => {
             // iterate through all map layers
             this.rfcxMap.eachLayer(function(layer:any){
-                // console.log('ssss', layer.options);
                 if (layer.options && layer.options.icon && layer.options.icon.options &&
                     layer.options.icon.options.className === 'mapMarker') {
                     markers.push(layer.getLatLng());
@@ -72,14 +71,10 @@ export class RfcxMapComponent implements OnInit, OnChanges {
             });
             if (markers.length) {
                 let bounds = L.latLngBounds(markers);
-                if (bounds.overlaps(this.rfcxMap.getBounds())) {
-                    this.rfcxMap.fitBounds(bounds, {
+                this.rfcxMap.flyToBounds(bounds, {
                     padding: [30, 30]
                 });
-                }
-
             }
-
         }, 2000);
     }
 
