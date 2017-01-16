@@ -9,6 +9,10 @@
         margin: .4rem 5px;
         height: auto;
     }
+
+    .leaflet-marker-icon {
+        height: auto !important;
+    }
 }
 
 .leaflet-popup {
