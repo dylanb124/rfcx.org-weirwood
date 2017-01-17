@@ -224,4 +224,23 @@
     &.block {
         max-width: 100%;
     }
+
+    &.dropdown-checkboxes {
+        .dropdown-menu {
+            li {
+                a {
+                    padding-left: 0;
+                    padding-right: 0;
+                    label {
+                        cursor: pointer;
+                        padding-left: 16px;
+                        padding-right: 24px;
+                        input {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

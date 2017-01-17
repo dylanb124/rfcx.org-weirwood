@@ -26,6 +26,14 @@ body {
     box-sizing: inherit;
 }
 
+:focus {
+    outline:none;
+}
+
+::-moz-focus-inner {
+    border:0;
+}
+
 input[type="checkbox"] {
     height: auto;
     border-color: #cacaca;
