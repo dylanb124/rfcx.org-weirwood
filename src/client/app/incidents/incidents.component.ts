@@ -342,7 +342,9 @@ export class IncidentsComponent implements OnInit {
       let a = document.createElement('a');
       a.href = window.URL.createObjectURL(blob);
       a.download = this.combineCSVFileName(type);
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       a = null;
   }
 }
