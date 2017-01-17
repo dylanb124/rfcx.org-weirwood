@@ -243,6 +243,21 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
                 }
                 return this.x1(d.name) + offset + internalOffset;
             })
+            // set height to 0, so we can animate from bottom to top
+            // if we don't do this, then animation will work from top to bottom
+            .attr("height", 0)
+            // set y to chart height (bottom of the chart), so we can animate from bottom to top (see previous comment)
+            .attr("y", () => {
+				return this.height;
+			})
+            // fill color before animation, so color will not be transitioned
+            .style('fill', (d:any) => { return d.color; })
+            .transition()
+			.duration(1000)
+            // create a delay for bars inside groups, so they don't animate all at one time
+            .delay((d: any, i: any) => {
+				return i * 250;
+			})
             .attr('y', (d:any) => {
                 if (d.value === 0) {
                     return this.height - this.zeroValueHeight;
@@ -254,9 +269,7 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
                     return this.zeroValueHeight;
                 }
                 return this.height - this.y(d.value);
-            })
-            .style('fill', (d:any) => { return d.color; });
-
+            });
     };
 
     highlightBarGroup(el: any) {
