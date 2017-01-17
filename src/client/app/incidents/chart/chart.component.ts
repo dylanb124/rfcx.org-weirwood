@@ -245,9 +245,9 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
             })
             // set height to 0, so we can animate from bottom to top
             // if we don't do this, then animation will work from top to bottom
-            .attr("height", 0)
+            .attr('height', 0)
             // set y to chart height (bottom of the chart), so we can animate from bottom to top (see previous comment)
-            .attr("y", () => {
+            .attr('y', () => {
 				return this.height;
 			})
             // fill color before animation, so color will not be transitioned
