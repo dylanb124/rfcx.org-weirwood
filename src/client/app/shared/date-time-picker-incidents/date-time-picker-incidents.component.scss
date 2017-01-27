@@ -56,4 +56,27 @@
             color: $dodger-blue;
         }
     }
+    .bootstrap-datetimepicker-widget {
+        table {
+            td {
+                &.today {
+                    border-color: transparent;
+                }
+                &.rfcx-has-events {
+                    span {
+                        border-color: $tealish;
+                    }
+                    &.disabled {
+                        @include mq(desktop) {
+                            &:hover {
+                                span {
+                                    border-color: $tealish;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -55,6 +55,7 @@ export class IncidentsComponent implements OnInit {
   private minCircleDiameter: number = 80;
   private maxCircleDiameter: number = 150;
   private incidents: Array<any>;
+  private incidentsByYear: any;
   private incidentsByDates: Array<any>;
   private today: Date;
   private maxDate: Date;
@@ -116,6 +117,12 @@ export class IncidentsComponent implements OnInit {
               this.incidentsByDates = this.parseIncidentsByDates(res.json());
               console.log('incidents by dates', this.incidentsByDates);
           });
+
+      this.getDataByDates({ url: 'events/stats/year', values: this.currentIncidentTypeValues})
+          .subscribe((res:any) => {
+              this.incidentsByYear = this.parseIncidentsByYear(res.json());
+              console.log('incidents by year', this.incidentsByYear);
+          });
   }
 
   getDataByGuardians(opts: any) {
@@ -146,8 +153,12 @@ export class IncidentsComponent implements OnInit {
 
   getDataByDates(opts: any) {
     let params: URLSearchParams = new URLSearchParams();
-    params.set('starting_after', opts.starting_after);
-    params.set('ending_before', opts.ending_before);
+    if (opts.starting_after) {
+        params.set('starting_after', opts.starting_after);
+    }
+    if (opts.ending_before) {
+        params.set('ending_before', opts.ending_before);
+    }
     opts.values.forEach((value: string) => {
         params.append('values', value);
     });
@@ -164,7 +175,7 @@ export class IncidentsComponent implements OnInit {
 
     let request = this.http
         .get(
-            Config.API + 'events/stats/dates',
+            Config.API + (opts.url || 'events/stats/dates'),
             options
         );
     return request;
@@ -252,6 +263,21 @@ export class IncidentsComponent implements OnInit {
           datesArr.push(obj);
       }
       return datesArr;
+  }
+
+  parseIncidentsByYear(incidentsObj: any) {
+      if (!Object.keys(incidentsObj).length) {
+        return null;
+      }
+      let datesObj: any = {},
+          today = moment();
+      for (var m = moment().subtract(1, 'year'); m.diff(today, 'days') <= 0; m.add(1, 'days')) {
+        datesObj[m.format('M/D/YYYY')] = false;
+      };
+      for (let key in incidentsObj) {
+        datesObj[key] = !!Object.keys(incidentsObj[key]).length;
+      }
+      return datesObj;
   }
 
   incidentsTypeChanged(event: any) {

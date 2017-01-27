@@ -20,6 +20,7 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
   @Input() range: number;
   @Input() disabled: boolean;
   @Input() disabledDates: Array<any>;
+  @Input() incidentsByYear: any;
   @Output() onChange = new EventEmitter();
   private dateTimePickerEl: any;
   private isOpened: boolean;
@@ -48,7 +49,7 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
       icons: {
         previous: 'icon-chevron-left',
         next: 'icon-chevron-right'
-      }
+      },
     });
 
     if (this.range !== 0) {
@@ -59,6 +60,11 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
     this.dateTimePickerEl.on('dp.show', () => {
       this.isOpened = true;
       this.tempDate = this.dateTimePickerEl.data('DateTimePicker').date().toDate();
+      this.highlightNonEmptyDates();
+    });
+
+    this.dateTimePickerEl.on('dp.update', () => {
+      this.highlightNonEmptyDates();
     });
 
     this.dateTimePickerEl.on('dp.hide', () => {
@@ -77,6 +83,19 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
     this.selectedDate = this.dateTimePickerEl.data('DateTimePicker').date().toDate();
   }
 
+  highlightNonEmptyDates() {
+    if (this.incidentsByYear) {
+      for (let dateStr in this.incidentsByYear) {
+        // momentjs complains to date format of `M/D/YYYY` for new instance creation. create simple date first
+        let date = new Date(dateStr);
+        let formattedDate = moment(date).format('MM/DD/YYYY');
+        if (this.incidentsByYear[dateStr] === true) {
+          this.dateTimePickerEl.find('td[data-day="' + formattedDate + '"]').addClass('rfcx-has-events');
+        }
+      }
+    }
+  }
+
   ngOnChanges(changes: any) {
     // if range value was changed, then maxDate should be changed too
     if (changes.maxDate && changes.maxDate.currentValue !== changes.maxDate.previousValue) {
@@ -93,6 +112,9 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
         });
         this.updateLabel();
       }
+    }
+    if (changes.incidentsByYear && changes.incidentsByYear.currentValue !== changes.incidentsByYear.previousValue) {
+      this.highlightNonEmptyDates();
     }
   }
 
