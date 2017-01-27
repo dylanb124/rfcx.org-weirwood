@@ -75,6 +75,7 @@ export class IncidentsComponent implements OnInit {
   ngOnInit() {
       this.intializeFilterValues();
       this.loadData();
+      this.loadYearData();
   }
 
   intializeFilterValues() {
@@ -117,12 +118,14 @@ export class IncidentsComponent implements OnInit {
               this.incidentsByDates = this.parseIncidentsByDates(res.json());
               console.log('incidents by dates', this.incidentsByDates);
           });
+  }
 
+  loadYearData() {
       this.getDataByDates({ url: 'events/stats/year', values: this.currentIncidentTypeValues})
           .subscribe((res:any) => {
               this.incidentsByYear = this.parseIncidentsByYear(res.json());
               console.log('incidents by year', this.incidentsByYear);
-          });
+            });
   }
 
   getDataByGuardians(opts: any) {
@@ -228,8 +231,8 @@ export class IncidentsComponent implements OnInit {
   }
 
   refreshTimeBounds() {
-      this.currentdateStartingAfter = moment(this.currentDate).format('YYYY-MM-DD HH:mm:ss');
-      this.currentdateEndingBefore = moment(this.currentDate).add(this.currentDaysCount, 'days').format('YYYY-MM-DD HH:mm:ss');
+      this.currentdateStartingAfter = moment(this.currentDate).format('YYYY-MM-DD 00:00:00');
+      this.currentdateEndingBefore = moment(this.currentDate).add(this.currentDaysCount, 'days').format('YYYY-MM-DD 00:00:00');
   }
 
   parseIncidentsByGuardians(incidents: Array<any>) {
@@ -248,7 +251,7 @@ export class IncidentsComponent implements OnInit {
       let datesArr: Array<any> = [];
       for (let i = 0; i < this.currentDaysCount; i++) {
           let date = moment(this.currentDate).add(i, 'days');
-          let dateStr = date.format('M/D/YYYY');
+          let dateStr = date.format('MM/DD/YYYY');
           let obj:any = {
               date: date.toDate(),
               events: {}
@@ -272,7 +275,7 @@ export class IncidentsComponent implements OnInit {
       let datesObj: any = {},
           today = moment();
       for (var m = moment().subtract(1, 'year'); m.diff(today, 'days') <= 0; m.add(1, 'days')) {
-        datesObj[m.format('M/D/YYYY')] = false;
+        datesObj[m.format('MM/DD/YYYY')] = false;
       };
       for (let key in incidentsObj) {
         datesObj[key] = !!Object.keys(incidentsObj[key]).length;
@@ -328,7 +331,7 @@ export class IncidentsComponent implements OnInit {
           case 'csv_dates':
               // for these incidents label will be date with special format
               arr = this.incidentsByDates.map((item) => {
-                  item.label = moment(item.date).format('M/D/YYYY');
+                  item.label = moment(item.date).format('MM/DD/YYYY');
                   return item;
               });
               csv += 'date,';
@@ -351,9 +354,9 @@ export class IncidentsComponent implements OnInit {
       let name = 'incidents_';
       name += type;
       name += '_';
-      name += moment(this.currentdateStartingAfter).format('M/D/YYYY');
+      name += moment(this.currentdateStartingAfter).format('MM/DD/YYYY');
       name += '_';
-      name += moment(this.currentdateEndingBefore).format('M/D/YYYY');
+      name += moment(this.currentdateEndingBefore).format('MM/DD/YYYY');
       name += '.csv';
       return name;
   }

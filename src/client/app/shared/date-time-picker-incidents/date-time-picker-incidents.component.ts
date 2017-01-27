@@ -86,11 +86,8 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
   highlightNonEmptyDates() {
     if (this.incidentsByYear) {
       for (let dateStr in this.incidentsByYear) {
-        // momentjs complains to date format of `M/D/YYYY` for new instance creation. create simple date first
-        let date = new Date(dateStr);
-        let formattedDate = moment(date).format('MM/DD/YYYY');
         if (this.incidentsByYear[dateStr] === true) {
-          this.dateTimePickerEl.find('td[data-day="' + formattedDate + '"]').addClass('rfcx-has-events');
+          this.dateTimePickerEl.find('td[data-day="' + dateStr + '"]').addClass('rfcx-has-events');
         }
       }
     }
