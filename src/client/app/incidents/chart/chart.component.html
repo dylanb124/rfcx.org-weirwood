@@ -1,13 +1,12 @@
 <div class="incidents-chart">
-    <div class="incidents-chart__header">
-        <h3 class="incidents__title incidents-chart__title">Breakdown by incident type</h3>
+  <div class="incidents-chart__header">
+    <h3 class="incidents__title incidents-chart__title">Breakdown by incident type</h3>
+  </div>
+  <svg class="incidents-chart__svg"></svg>
+  <div class="incidents-chart__legend" *ngIf="labels && colors">
+    <div class="incidents-chart__legend-item" *ngFor="let label of labels">
+      <div class="incidents-chart__legend-color" [style.background]="colors[label]"></div>
+      <p class="incidents-chart__legend-label">{{label}}</p>
     </div>
-    <svg class="incidents-chart__svg"></svg>
-    <div class="incidents-chart__legend" *ngIf="labels && colors">
-        <div class="incidents-chart__legend-item" *ngFor="let label of labels">
-            <div class="incidents-chart__legend-color" [style.background]="colors[label]"></div>
-            <p class="incidents-chart__legend-label">{{label}}</p>
-        </div>
-    </div>
+  </div>
 </div>
-

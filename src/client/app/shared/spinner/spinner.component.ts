@@ -9,6 +9,6 @@ import { Component, Input } from '@angular/core';
 export class SpinnerComponent {
 
   // tslint:disable-next-line:no-unused-variable
-  @Input() public size:number = 32;
+  @Input() public size: number = 32;
 
 }

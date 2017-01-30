@@ -10,68 +10,68 @@ import { DropdownCheckboxItem } from './dropdown-item';
 })
 export class DropdownCheckboxesComponent implements OnInit {
 
-    @Output() onChange = new EventEmitter();
-    // internal id for twitter bootstrap dropdown interaction
-    // tslint:disable-next-line:no-unused-variable
-    private elementId:number = Math.round(Math.random() * 10000000);
-    private currentItems: Array<DropdownCheckboxItem> = [];
-    @Input() private title: string = 'Choose';
-    @Input() private allItemsTitle: string;
-    @Input() private items: Array<DropdownCheckboxItem> = [];
-    // tslint:disable-next-line:no-unused-variable
-    @Input() private dropup: boolean = false;
-    // tslint:disable-next-line:no-unused-variable
-    @Input() private disabled: boolean = false;
-    // tslint:disable-next-line:no-unused-variable
-    @Input() private block: boolean = false;
-    // tslint:disable-next-line:no-unused-variable
-    @Input() private download: boolean = false;
-    // tslint:disable-next-line:no-unused-variable
-    @Input() private noborder: boolean = false;
+  @Output() onChange = new EventEmitter();
+  // internal id for twitter bootstrap dropdown interaction
+  // tslint:disable-next-line:no-unused-variable
+  private elementId: number = Math.round(Math.random() * 10000000);
+  private currentItems: Array<DropdownCheckboxItem> = [];
+  @Input() private title: string = 'Choose';
+  @Input() private allItemsTitle: string;
+  @Input() private items: Array<DropdownCheckboxItem> = [];
+  // tslint:disable-next-line:no-unused-variable
+  @Input() private dropup: boolean = false;
+  // tslint:disable-next-line:no-unused-variable
+  @Input() private disabled: boolean = false;
+  // tslint:disable-next-line:no-unused-variable
+  @Input() private block: boolean = false;
+  // tslint:disable-next-line:no-unused-variable
+  @Input() private download: boolean = false;
+  // tslint:disable-next-line:no-unused-variable
+  @Input() private noborder: boolean = false;
 
-    ngOnInit() {
-        this.items.forEach((item: DropdownCheckboxItem) => {
-            if (item.checked) {
-                this.currentItems.push(item);
-            }
-        });
+  ngOnInit() {
+    this.items.forEach((item: DropdownCheckboxItem) => {
+      if (item.checked) {
+        this.currentItems.push(item);
+      }
+    });
+  }
+
+  preventLinkClick(event: Event) {
+    event.stopPropagation();
+  }
+
+  changeValue(event: Event, item: DropdownCheckboxItem) {
+    event.stopPropagation();
+
+    if (item.checked) {
+      this.currentItems.push(item);
+    }
+    else {
+      this.currentItems.splice(this.currentItems.indexOf(item), 1);
     }
 
-    preventLinkClick(event: Event) {
-        event.stopPropagation();
+    this.onChange.emit({
+      items: this.currentItems
+    });
+
+    return false;
+  }
+
+  combineDropdownTitle(): string {
+    if (!this.items.length) {
+      return 'No Items';
     }
-
-    changeValue(event: Event, item:DropdownCheckboxItem) {
-        event.stopPropagation();
-
-        if (item.checked) {
-            this.currentItems.push(item);
-        }
-        else {
-            this.currentItems.splice(this.currentItems.indexOf(item), 1);
-        }
-
-        this.onChange.emit({
-            items: this.currentItems
-        });
-
-        return false;
+    if (this.allItemsTitle && this.currentItems.length === this.items.length) {
+      return this.allItemsTitle;
     }
-
-    combineDropdownTitle() :string {
-        if (!this.items.length) {
-            return 'No Items';
-        }
-        if (this.allItemsTitle && this.currentItems.length === this.items.length) {
-            return this.allItemsTitle;
-        }
-        if (!this.currentItems.length) {
-            return this.title;
-        }
-        let labels = this.currentItems.map( (item) => {
-            return item.label;
-        });
-        return labels.join(', ');
+    if (!this.currentItems.length) {
+      return this.title;
     }
+    let labels = this.currentItems.map((item) => {
+      return item.label;
+    });
+    return labels.join(', ');
+  }
 
 }

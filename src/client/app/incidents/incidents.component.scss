@@ -1,332 +1,330 @@
 @import "../../scss/main";
-
 .incidents {
-    &__inner {
-        padding-top: 3.6rem;
-        padding-left: 13.125%;
-        padding-right: 13.125%;
-        @include mq(tablet) {
-            padding-top: 2rem;
-            padding-left: 5%;
-            padding-right: 5%;
-        }
-        @include mq(phone) {
-            padding: 2.8rem 6.5% 0;
-        }
-        &_chart {
-            @include mq(phone) {
-                padding-top: 3.5rem;
-            }
-        }
-        &_table {
-            padding-top: 7rem;
-            margin-bottom: 3.2rem;
-            @include mq(phone) {
-                padding-top: 3.5rem;
-            }
-        }
-        &_download {
-            background: $white-three;
-            padding-top: 3.1rem;
-            padding-bottom: 4.8rem;
-        }
-        &_noresults {
-            padding-top: 13.6rem;
-            padding-bottom: 13.6rem;
-            text-align: center;
-            @include mq(tablet) {
-                padding-top: 8rem;
-                padding-bottom: 8rem;
-            }
-            @include mq(phone) {
-                padding-top: 6rem;
-                padding-bottom: 6rem;
-            }
-        }
+  &__inner {
+    padding-top: 3.6rem;
+    padding-left: 13.125%;
+    padding-right: 13.125%;
+    @include mq(tablet) {
+      padding-top: 2rem;
+      padding-left: 5%;
+      padding-right: 5%;
     }
-    .incidents-nav {
-        @include clearfix;
-        margin-bottom: 2rem;
-        font-size: 0;
+    @include mq(phone) {
+      padding: 2.8rem 6.5% 0;
+    }
+    &_chart {
+      @include mq(phone) {
+        padding-top: 3.5rem;
+      }
+    }
+    &_table {
+      padding-top: 7rem;
+      margin-bottom: 3.2rem;
+      @include mq(phone) {
+        padding-top: 3.5rem;
+      }
+    }
+    &_download {
+      background: $white-three;
+      padding-top: 3.1rem;
+      padding-bottom: 4.8rem;
+    }
+    &_noresults {
+      padding-top: 13.6rem;
+      padding-bottom: 13.6rem;
+      text-align: center;
+      @include mq(tablet) {
+        padding-top: 8rem;
+        padding-bottom: 8rem;
+      }
+      @include mq(phone) {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+      }
+    }
+  }
+  .incidents-nav {
+    @include clearfix;
+    margin-bottom: 2rem;
+    font-size: 0;
+    @include mq(phone) {
+      position: relative;
+      &.mobile-filters-opened {
+        .incidents-nav__left {
+          padding-bottom: 2rem;
+          border-bottom-color: $white-two;
+          position: relative;
+          &:before,
+          &:after {
+            display: block;
+            position: absolute;
+            right: 11px;
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 6px 6px 6px;
+          }
+          &:before {
+            bottom: 0;
+            z-index: 1;
+            border-color: transparent transparent #dfdfdf transparent;
+          }
+          &:after {
+            bottom: -1px;
+            z-index: 2;
+            border-color: transparent transparent #fff transparent;
+          }
+        }
+        .incidents__mobile-filters-btn {
+          color: $dodger-blue;
+        }
+      }
+    }
+    &__left {
+      padding-top: 0.4rem;
+      float: left;
+      width: 40%;
+      @include mq(phone) {
+        border-bottom: 1px solid transparent;
+        float: none;
+        width: 100%;
+        padding-top: 0;
+        text-align: left;
+      }
+    }
+    &__right {
+      float: right;
+      width: 60%;
+      text-align: right;
+      @include mq(phone) {
+        max-height: 0;
+        overflow: hidden;
+        float: none;
+        width: 100%;
+        text-align: left;
+        &.mobile-opened {
+          @include transition(max-height 1s ease);
+          max-height: 1000px;
+        }
+      }
+      spinner {
+        display: none;
+        vertical-align: middle;
+        &.loading {
+          display: inline-block;
+        }
         @include mq(phone) {
+          position: absolute;
+          top: 2.8rem;
+          right: 18%;
+          z-index: 5;
+          &.loading {
+            display: block;
+          }
+          .sk-circle {
+            width: 24px !important;
+            height: 24px !important;
+          }
+        }
+      }
+    }
+    &__inline-dropdown-wrapper {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      @include mq(phone) {
+        display: block;
+        text-align: left;
+        padding: 0.8rem 0 0.9rem;
+        dropdown-checkboxes,
+        dropdown,
+        date-time-picker-incidents,
+        .dropdown-rfcx,
+        .date-time-picker-rfcx {
+          display: block;
+          width: 100%;
+          max-width: 100%;
+          text-align: left;
+        }
+        .dropdown-rfcx {
+          .dropdown-toggle {
+            text-align: left;
+            padding-left: 0;
+            padding-right: 28px;
+            .icon-chevron-up,
+            .icon-chevron-down,
+            .icon-download {
+              right: 10px;
+            }
+          }
+          .dropdown-menu {
+            position: static;
+            float: none;
+            @include box-shadow(none);
+            border: none;
+            padding-bottom: 0.2rem;
+            li {
+              a {
+                padding: .5rem .5rem .6rem 0;
+                &:hover {
+                  background: transparent;
+                }
+              }
+            }
+          }
+          &__label {
+            padding-left: 1px;
+          }
+          &__checkbox {
+            margin-right: 5%;
+          }
+        }
+        .date-time-picker-rfcx {
+          &__label {
+            display: block;
             position: relative;
-            &.mobile-filters-opened {
-                .incidents-nav__left {
-                    padding-bottom: 2rem;
-                    border-bottom-color: $white-two;
-                    position: relative;
-                    &:before,
-                    &:after {
-                        display: block;
-                        position: absolute;
-                        right: 11px;
-                        content: "";
-                        width: 0;
-                        height: 0;
-                        border-style: solid;
-                        border-width: 0 6px 6px 6px;
-                    }
-                    &:before {
-                        bottom: 0;
-                        z-index: 1;
-                        border-color: transparent transparent #dfdfdf transparent;
-                    }
-                    &:after {
-                        bottom: -1px;
-                        z-index: 2;
-                        border-color: transparent transparent #fff transparent;
-                    }
-                }
-                .incidents__mobile-filters-btn {
-                    color: $dodger-blue;
-                }
-            }
-        }
-        &__left {
-            padding-top: 0.4rem;
-            float: left;
-            width: 40%;
             @include mq(phone) {
-                border-bottom: 1px solid transparent;
-                float: none;
+              text-align: left;
+            }
+          }
+          .icon-chevron-down,
+          .icon-chevron-up {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            @include translate(0, -50%);
+          }
+          @include mq(phone) {
+            .bootstrap-datetimepicker-widget {
+              &.dropdown-menu {
+                position: static !important;
+                @include box-shadow(none);
                 width: 100%;
-                padding-top: 0;
-                text-align: left;
+                padding-left: 0;
+                padding-right: 0;
+              }
             }
+          }
         }
-        &__right {
-            float: right;
-            width: 60%;
-            text-align: right;
-            @include mq(phone) {
-                max-height: 0;
-                overflow: hidden;
-                float: none;
-                width: 100%;
-                text-align: left;
-                &.mobile-opened {
-                    @include transition(max-height 1s ease);
-                    max-height: 1000px;
-                }
-            }
-            spinner {
-                display: none;
-                vertical-align: middle;
-                &.loading {
-                    display: inline-block;
-                }
-                @include mq(phone) {
-                    position: absolute;
-                    top: 2.8rem;
-                    right: 18%;
-                    z-index: 5;
-                    &.loading {
-                        display: block;
-                    }
-                    .sk-circle {
-                        width: 24px !important;
-                        height: 24px !important;
-                    }
-                }
-            }
+      }
+      &_type {
+        width: 130px;
+        margin: 0 4px;
+        @include mq(phone) {
+          width: 100%;
+          margin: 0;
+          border-bottom: 1px solid $white-two;
         }
-        &__inline-dropdown-wrapper {
-            display: inline-block;
-            vertical-align: middle;
-            text-align: center;
-            @include mq(phone) {
-                display: block;
-                text-align: left;
-                padding: 0.8rem 0 0.9rem;
-                dropdown-checkboxes,
-                dropdown,
-                date-time-picker-incidents,
-                .dropdown-rfcx,
-                .date-time-picker-rfcx {
-                    display: block;
-                    width: 100%;
-                    max-width: 100%;
-                    text-align: left;
-                }
-                .dropdown-rfcx {
-                    .dropdown-toggle {
-                        text-align: left;
-                        padding-left: 0;
-                        padding-right: 28px;
-                        .icon-chevron-up,
-                        .icon-chevron-down,
-                        .icon-download {
-                            right: 10px;
-                        }
-                    }
-                    .dropdown-menu {
-                        position: static;
-                        float: none;
-                        @include box-shadow(none);
-                        border: none;
-                        padding-bottom: 0.2rem;
-                        li {
-                            a {
-                                padding: .5rem .5rem .6rem 0;
-                                &:hover {
-                                    background: transparent;
-                                }
-                            }
-                        }
-                    }
-                    &__label {
-                        padding-left: 1px;
-                    }
-                    &__checkbox {
-                        margin-right: 5%;
-                    }
-                }
-                .date-time-picker-rfcx {
-                    &__label {
-                        display: block;
-                        position: relative;
-                        @include mq(phone) {
-                            text-align: left;
-                        }
-                    }
-                    .icon-chevron-down,
-                    .icon-chevron-up {
-                        position: absolute;
-                        top: 50%;
-                        right: 10px;
-                        @include translate(0, -50%);
-                    }
-                    @include mq(phone) {
-                        .bootstrap-datetimepicker-widget {
-                            &.dropdown-menu {
-                                position: static !important;
-                                @include box-shadow(none);
-                                width: 100%;
-                                padding-left: 0;
-                                padding-right: 0;
-                            }
-                        }
-                    }
-                }
-            }
-            &_type {
-                width: 130px;
-                margin: 0 4px;
-                @include mq(phone) {
-                    width: 100%;
-                    margin: 0;
-                    border-bottom: 1px solid $white-two;
-                }
-            }
-            &_range {
-                width: 100px;
-                margin: 0 10px;
-                @include mq(phone) {
-                    width: 80px;
-                    margin: 0 5px;
-                }
-                @include mq(phone) {
-                    width: 100%;
-                    margin: 0;
-                    border-bottom: 1px solid $white-two;
-                }
-            }
-            &_date {
-                width: 148px;
-                date-time-picker-incidents {
-                    display: inline-block;
-                }
-                @include mq(phone) {
-                    width: 100%;
-                    margin: 0;
-                    date-time-picker-incidents {
-                        display: block;
-                    }
-                }
-            }
-            &:last-child {
-                margin-right: 0;
-                @include mq(phone) {
-                    margin-right: auto;
-                }
-            }
+      }
+      &_range {
+        width: 100px;
+        margin: 0 10px;
+        @include mq(phone) {
+          width: 80px;
+          margin: 0 5px;
         }
+        @include mq(phone) {
+          width: 100%;
+          margin: 0;
+          border-bottom: 1px solid $white-two;
+        }
+      }
+      &_date {
+        width: 148px;
+        date-time-picker-incidents {
+          display: inline-block;
+        }
+        @include mq(phone) {
+          width: 100%;
+          margin: 0;
+          date-time-picker-incidents {
+            display: block;
+          }
+        }
+      }
+      &:last-child {
+        margin-right: 0;
+        @include mq(phone) {
+          margin-right: auto;
+        }
+      }
+    }
+  }
+  &__title {
+    text-transform: uppercase;
+    margin: 0;
+  }
+  &__title-nophone {
+    @include mq(phone) {
+      display: none;
+    }
+  }
+  &__mobile-filters-btn {
+    display: block;
+    width: 30px;
+    height: 3rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    line-height: 3rem;
+    font-size: 1.8rem;
+    color: $charcoal-grey;
+    position: absolute;
+    top: 2.5rem;
+    right: 7%;
+    z-index: 5;
+    &:hover,
+    &:active {
+      background: transparent;
+      outline: none;
+    }
+    @include mq(tabletAndDesktop) {
+      display: none;
+    }
+  }
+  .rfcx-map {
+    height: 384px;
+  }
+  .incidents-download-data {
+    @include clearfix;
+    &__left,
+    &__right {
+      float: left;
+      width: 50%;
+      @include mq(phone) {
+        float: none;
+        width: 100%;
+      }
+    }
+    &__left {
+      padding-top: 0.5rem;
+      @include mq(phone) {
+        padding-top: 0;
+        margin-bottom: 1.5rem;
+      }
+    }
+    &__right {
+      text-align: right;
+      .dropdown-rfcx {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      @include mq(phone) {
+        text-align: left;
+      }
     }
     &__title {
-        text-transform: uppercase;
-        margin: 0;
+      margin-bottom: 0.4rem;
     }
-    &__title-nophone {
-        @include mq(phone) {
-            display: none;
-        }
+    &__descr {
+      font-size: 1.6rem;
+      line-height: 2.4rem;
+      color: $charcoal-grey;
+      letter-spacing: -0.1px;
+      text-align: left;
+      margin: 0 auto;
     }
-    &__mobile-filters-btn {
-        display: block;
-        width: 30px;
-        height: 3rem;
-        background: transparent;
-        border: none;
-        outline: none;
-        padding: 0;
-        line-height: 3rem;
-        font-size: 1.8rem;
-        color: $charcoal-grey;
-        position: absolute;
-        top: 2.5rem;
-        right: 7%;
-        z-index: 5;
-        &:hover,
-        &:active {
-            background: transparent;
-            outline: none;
-        }
-        @include mq(tabletAndDesktop) {
-            display: none;
-        }
-    }
-    .rfcx-map {
-        height: 384px;
-    }
-
-    .incidents-download-data {
-        @include clearfix;
-        &__left,
-        &__right {
-            float: left;
-            width: 50%;
-            @include mq(phone) {
-                float: none;
-                width: 100%;
-            }
-        }
-        &__left {
-            padding-top: 0.5rem;
-            @include mq(phone) {
-                padding-top: 0;
-                margin-bottom: 1.5rem;
-            }
-        }
-        &__right {
-            text-align: right;
-            .dropdown-rfcx {
-                display: inline-block;
-                vertical-align: middle;
-            }
-            @include mq(phone) {
-                text-align: left;
-            }
-        }
-        &__title {
-            margin-bottom: 0.4rem;
-        }
-        &__descr {
-            font-size: 1.6rem;
-            line-height: 2.4rem;
-            color: $charcoal-grey;
-            letter-spacing: -0.1px;
-            text-align: left;
-            margin: 0 auto;
-        }
-    }
+  }
 }

@@ -1,135 +1,140 @@
 @import "colors";
 @import "mixins";
 @import "vars";
-
 .input {
-    display: block;
-    border: 1px solid $pinkish-grey;
-    height: 3.2rem;
-    border-radius: .4rem;
-    background-color: #ffffff;
-    font-size: 1.4rem;
-    line-height: 1.6rem;
-    padding: .8rem 1.6rem;
-    width: 100%;
-    max-width: none;
-    @include mq(desktop) {
-        @include transition(all .3s);
-        &:hover {
-            border-color: $warm-grey;
-            outline: none;
-        }
+  display: block;
+  border: 1px solid $pinkish-grey;
+  height: 3.2rem;
+  border-radius: .4rem;
+  background-color: #ffffff;
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  padding: .8rem 1.6rem;
+  width: 100%;
+  max-width: none;
+  @include mq(desktop) {
+    @include transition(all .3s);
+    &:hover {
+      border-color: $warm-grey;
+      outline: none;
     }
-    &:required {
-        @include box-shadow(none);
+  }
+  &:required {
+    @include box-shadow(none);
+  }
+  &:focus {
+    border-color: $warm-grey;
+    outline: none;
+  }
+  &.error {
+    border-color: $watermelon;
+  }
+  &:disabled {
+    border-color: $white-two;
+    cursor: no-drop;
+    @include placeholder {
+      color: $white-two;
     }
-    &:focus {
-        border-color: $warm-grey;
-        outline: none;
-    }
-    &.error {
-        border-color: $watermelon;
-    }
-    &:disabled {
-        border-color: $white-two;
-        cursor: no-drop;
-        @include placeholder {
-            color: $white-two;
-        }
-    }
+  }
 }
 
 .button {
-    background: $medium-green;
-    outline: none;
-    width: 100%;
-    max-width: $el-inline-max-width;
-    padding: .8rem;
-    border: 1px solid rgba(50, 58, 69, 0.1);
-    border-radius: .4rem;
-    font-size: 1.4rem;
-    height: 3.2rem;
-    line-height: 1;
-    letter-spacing: -0.1px;
-    @include box-shadow(0 1px 4px 0 rgba(0, 0, 0, 0.1));
-    @include mq(desktop) {
-        @include transition(all .3s);
-        &:hover {
-            background: #309849;
-            @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
-        }
+  background: $medium-green;
+  outline: none;
+  width: 100%;
+  max-width: $el-inline-max-width;
+  padding: .8rem;
+  border: 1px solid rgba(50, 58, 69, 0.1);
+  border-radius: .4rem;
+  font-size: 1.4rem;
+  height: 3.2rem;
+  line-height: 1;
+  letter-spacing: -0.1px;
+  @include box-shadow(0 1px 4px 0 rgba(0, 0, 0, 0.1));
+  @include mq(desktop) {
+    @include transition(all .3s);
+    &:hover {
+      background: #309849;
+      @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
     }
-    &_block {
-        max-width: none;
-    }
-    &:active {
-        background: #309849;
-    }
-    &:active {
-        @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));
-    }
-    &:disabled {
-        background: $white-three;
-        color: #a2a2a2;
-        cursor: no-drop;
-        @include box-shadow(none);
-    }
+  }
+  &_block {
+    max-width: none;
+  }
+  &:active {
+    background: #309849;
+  }
+  &:active {
+    @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));
+  }
+  &:disabled {
+    background: $white-three;
+    color: #a2a2a2;
+    cursor: no-drop;
+    @include box-shadow(none);
+  }
 }
 
 h1 {
-    font-size: 6.8rem;
-    line-height: 7.2rem;
+  font-size: 6.8rem;
+  line-height: 7.2rem;
 }
 
 h2 {
-    font-size: 4.2rem;
-    line-height: 4.8rem;
-    @include mq(phone) {
-        font-size: 3.2rem;
-    }
+  font-size: 4.2rem;
+  line-height: 4.8rem;
+  @include mq(phone) {
+    font-size: 3.2rem;
+  }
 }
 
 h3 {
-    font-size: 1.6rem;
-    line-height: 2.4rem;
-    letter-spacing: -0.1px;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: -0.1px;
 }
 
 p {
-    font-size: 1.6rem;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 2.4rem;
-    letter-spacing: -0.1px;
+  font-size: 1.6rem;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2.4rem;
+  letter-spacing: -0.1px;
 }
 
 label {
-    font-size: 1.4rem;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.6rem;
-    letter-spacing: -0.1px;
+  font-size: 1.4rem;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.6rem;
+  letter-spacing: -0.1px;
 }
 
-h1, h2, h3, p, label {
-    color: $charcoal-grey;
-    &.inverted {
-        color: $white;
-    }
+h1,
+h2,
+h3,
+p,
+label {
+  color: $charcoal-grey;
+  &.inverted {
+    color: $white;
+  }
 }
 
-h1, h2, h3 {
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
+h1,
+h2,
+h3 {
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
 }
 
 a {
+  text-decoration: none;
+  &:hover {
     text-decoration: none;
-    &:hover {
-        text-decoration: none;
-        cursor: pointer;
-    }
+    cursor: pointer;
+  }
 }

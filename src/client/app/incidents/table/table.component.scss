@@ -1,28 +1,27 @@
 @import "../../../scss/main";
 @import "../../../scss/table";
-
 .incidents-table {
-    &__title {
-        margin-bottom: 1.9rem;
-    }
+  &__title {
+    margin-bottom: 1.9rem;
+  }
 }
 
 .table-rfcx_incidents {
-    table-layout: fixed;
-    .table-rfcx__col {
-        &_first {
-            text-align: left;
-            width: 19%;
-            padding-left: 1.6rem;
-            @include mq(tablet) {
-                padding-left: 0.8rem;
-            }
-            @include mq(phone) {
-                padding-left: 0;
-            }
-        }
-        &_last {
-            width: 19.2%;
-        }
+  table-layout: fixed;
+  .table-rfcx__col {
+    &_first {
+      text-align: left;
+      width: 19%;
+      padding-left: 1.6rem;
+      @include mq(tablet) {
+        padding-left: 0.8rem;
+      }
+      @include mq(phone) {
+        padding-left: 0;
+      }
     }
+    &_last {
+      width: 19.2%;
+    }
+  }
 }

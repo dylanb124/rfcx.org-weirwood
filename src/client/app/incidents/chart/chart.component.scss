@@ -1,20 +1,18 @@
 @import "../../../scss/main";
-
 incidents-chart {
   display: block;
   overflow: hidden;
 }
-
 
 .incidents-chart {
   position: relative;
   &__header {
     margin-bottom: 3rem;
     @include mq(tablet) {
-        margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
     }
     @include mq(phone) {
-        margin-bottom: 1rem;
+      margin-bottom: 1rem;
     }
   }
   &__legend {
@@ -78,9 +76,9 @@ incidents-chart {
   }
 }
 
-
 .axis {
-  path, line {
+  path,
+  line {
     shape-rendering: crispEdges;
   }
   &.x {
@@ -111,7 +109,7 @@ incidents-chart {
     .tick {
       line {
         fill: $pinkish-grey;
-        stroke-dasharray: 1,2;
+        stroke-dasharray: 1, 2;
       }
       text {
         fill: $warm-grey;

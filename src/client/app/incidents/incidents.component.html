@@ -1,62 +1,60 @@
 <div class="incidents">
-    <div class="incidents__inner incidents-nav" [ngClass]="{'mobile-filters-opened': mobileFiltersOpened}">
-        <button class="icon-options incidents__mobile-filters-btn" (click)="toggleMobileFilters()"></button>
-        <div class="incidents-nav__left">
-            <h3 class="incidents__title"><span class="incidents__title-nophone">Incident </span>location &amp; frequency</h3>
-        </div>
-        <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
-            <spinner [size]="30" [ngClass]="{'loading': isLoading}"></spinner>
-            <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
-                <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true"
-                    (onChange)="incidentsTypeChanged($event)" allItemsTitle="All incidents"></dropdown-checkboxes>
-            </div>
-            <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_range">
-                <dropdown title="Range" [items]="daysCount" [noborder]="true" (onChange)="daysCountChanged($event)"></dropdown>
-            </div>
-            <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_date">
-                <date-time-picker-incidents [incidentsByYear]="incidentsByYear" [maxDate]="maxDate" (onChange)="dateChanged($event)"
-                    [disabled]="!currentDaysCount" [range]="currentDaysCount? currentDaysCount : 0"></date-time-picker-incidents>
-            </div>
-        </div>
+  <div class="incidents__inner incidents-nav" [ngClass]="{'mobile-filters-opened': mobileFiltersOpened}">
+    <button class="icon-options incidents__mobile-filters-btn" (click)="toggleMobileFilters()"></button>
+    <div class="incidents-nav__left">
+      <h3 class="incidents__title"><span class="incidents__title-nophone">Incident </span>location &amp; frequency</h3>
     </div>
-
-    <div class="incidents__inner incidents__inner_noresults" *ngIf="incidents && !incidents.length">
-        <label>No incidents found for this period</label>
+    <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
+      <spinner [size]="30" [ngClass]="{'loading': isLoading}"></spinner>
+      <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
+        <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true" (onChange)="incidentsTypeChanged($event)"
+          allItemsTitle="All incidents"></dropdown-checkboxes>
+      </div>
+      <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_range">
+        <dropdown title="Range" [items]="daysCount" [noborder]="true" (onChange)="daysCountChanged($event)"></dropdown>
+      </div>
+      <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_date">
+        <date-time-picker-incidents [incidentsByYear]="incidentsByYear" [maxDate]="maxDate" (onChange)="dateChanged($event)" [disabled]="!currentDaysCount"
+          [range]="currentDaysCount? currentDaysCount : 0"></date-time-picker-incidents>
+      </div>
     </div>
+  </div>
 
-    <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon && incidents && incidents.length"
-            [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
-            [zoom]="mapDetails.zoom" [data]="incidents">
-        <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
-        <rfcx-basemap layerType="positron"></rfcx-basemap>
-        <ng-container *ngFor="let item of incidents">
-            <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
-            <rfcx-map-pie *ngIf="!!item.diameter" [centerLat]="item.coords.lat" [shortname]="item.shortname"
-                    [centerLon]="item.coords.lon" [diameter]="item.diameter" [data]="item.events" [colors]="colors"></rfcx-map-pie>
-        </ng-container>
-    </rfcx-map>
+  <div class="incidents__inner incidents__inner_noresults" *ngIf="incidents && !incidents.length">
+    <label>No incidents found for this period</label>
+  </div>
 
-    <div class="incidents__inner incidents__inner_chart" *ngIf="incidentsByDates && incidentsByDates.length">
-        <incidents-chart [data]="incidentsByDates" [colors]="colors"></incidents-chart>
+  <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon && incidents && incidents.length" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
+    [zoom]="mapDetails.zoom" [data]="incidents">
+    <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
+    <rfcx-basemap layerType="positron"></rfcx-basemap>
+    <ng-container *ngFor="let item of incidents">
+      <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
+      <rfcx-map-pie *ngIf="!!item.diameter" [centerLat]="item.coords.lat" [shortname]="item.shortname" [centerLon]="item.coords.lon"
+        [diameter]="item.diameter" [data]="item.events" [colors]="colors"></rfcx-map-pie>
+    </ng-container>
+  </rfcx-map>
+
+  <div class="incidents__inner incidents__inner_chart" *ngIf="incidentsByDates && incidentsByDates.length">
+    <incidents-chart [data]="incidentsByDates" [colors]="colors"></incidents-chart>
+  </div>
+
+  <div class="incidents__inner incidents__inner_table" *ngIf="incidents && incidents.length">
+    <incidents-table [data]="incidents"></incidents-table>
+  </div>
+
+  <div class="incidents__inner incidents__inner_download" *ngIf="incidents && incidents.length && incidentsByDates && incidentsByDates.length">
+    <div class="incidents-download-data">
+      <div class="incidents-download-data__left">
+        <h3 class="incidents__title incidents-download-data__title">Download Data</h3>
+        <p class="incidents-download-data__descr">
+          Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.
+        </p>
+      </div>
+      <div class="incidents-download-data__right">
+        <dropdown title="Choose format" [download]="true" [items]="formats" (onChange)="formatChanged($event)"></dropdown>
+      </div>
     </div>
-
-    <div class="incidents__inner incidents__inner_table" *ngIf="incidents && incidents.length">
-        <incidents-table [data]="incidents"></incidents-table>
-    </div>
-
-    <div class="incidents__inner incidents__inner_download"
-         *ngIf="incidents && incidents.length && incidentsByDates && incidentsByDates.length">
-        <div class="incidents-download-data">
-            <div class="incidents-download-data__left">
-                <h3 class="incidents__title incidents-download-data__title">Download Data</h3>
-                <p class="incidents-download-data__descr">
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt.
-                </p>
-            </div>
-            <div class="incidents-download-data__right">
-                <dropdown title="Choose format" [download]="true" [items]="formats" (onChange)="formatChanged($event)"></dropdown>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
 <rfcx-footer></rfcx-footer>

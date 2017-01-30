@@ -1,60 +1,59 @@
 @import "colors";
 @import "mixins";
-
 .table-rfcx {
-    width: 100%;
-    max-width: 100%;
-    &__row {
-        &_head,
-        &_foot {
-            .table-rfcx__col {
-                font-size: 1.6rem;
-                line-height: 3.2rem;
-                color: $charcoal-grey;
-                font-weight: bold;
-                border-top: 1px solid $pinkish-grey;
-                text-transform: capitalize;
-                padding: 1.6rem;
-                @include mq(tablet) {
-                    font-size: 1.4rem;
-                    line-height: 2.8rem;
-                    padding: 1rem 0.5rem;
-                }
-                @include mq(phone) {
-                    font-size: 1.2rem;
-                    line-height: 2.6rem;
-                    padding: 0.8rem 0.5rem;
-                }
-            }
-        }
-        &_head {
-            border-bottom: 1px solid $pinkish-grey;
-        }
-        &_odd {
-            .table-rfcx__col {
-                background: $white-three;
-            }
-        }
-    }
-    &__col {
+  width: 100%;
+  max-width: 100%;
+  &__row {
+    &_head,
+    &_foot {
+      .table-rfcx__col {
         font-size: 1.6rem;
-        line-height: 2.4rem;
+        line-height: 3.2rem;
         color: $charcoal-grey;
-        letter-spacing: -0.1px;
-        border: none;
-        outline: none;
-        text-align: center;
-        padding: 2rem;
-        background: $white;
+        font-weight: bold;
+        border-top: 1px solid $pinkish-grey;
+        text-transform: capitalize;
+        padding: 1.6rem;
         @include mq(tablet) {
-            font-size: 1.4rem;
-            line-height: 2.2rem;
-            padding: 1.4rem 0.5rem;
+          font-size: 1.4rem;
+          line-height: 2.8rem;
+          padding: 1rem 0.5rem;
         }
         @include mq(phone) {
-            font-size: 1.2rem;
-            line-height: 2rem;
-            padding: 1rem 0.5rem;
+          font-size: 1.2rem;
+          line-height: 2.6rem;
+          padding: 0.8rem 0.5rem;
         }
+      }
     }
+    &_head {
+      border-bottom: 1px solid $pinkish-grey;
+    }
+    &_odd {
+      .table-rfcx__col {
+        background: $white-three;
+      }
+    }
+  }
+  &__col {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    color: $charcoal-grey;
+    letter-spacing: -0.1px;
+    border: none;
+    outline: none;
+    text-align: center;
+    padding: 2rem;
+    background: $white;
+    @include mq(tablet) {
+      font-size: 1.4rem;
+      line-height: 2.2rem;
+      padding: 1.4rem 0.5rem;
+    }
+    @include mq(phone) {
+      font-size: 1.2rem;
+      line-height: 2rem;
+      padding: 1rem 0.5rem;
+    }
+  }
 }

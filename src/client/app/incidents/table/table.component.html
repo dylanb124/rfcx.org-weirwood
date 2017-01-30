@@ -1,31 +1,30 @@
 <div class="incidents-table">
-    <h3 class="incidents__title incidents-table__title">Incidents per Sector</h3>
-    <table class="table-rfcx table-rfcx_incidents">
-        <thead>
-            <tr class="table-rfcx__row table-rfcx__row_head">
-                <th class="table-rfcx__col table-rfcx__col_first">Sector</th>
-                <th class="table-rfcx__col" *ngFor="let label of labels">{{label}}</th>
-                <th class="table-rfcx__col table-rfcx__col_last">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="table-rfcx__row" [ngClass]="{ 'table-rfcx__row_odd': odd, 'table-rfcx__row_even': even }"
-                *ngFor="let sector of data; let odd=odd; let even=even;">
-                <td class="table-rfcx__col table-rfcx__col_first">{{sector.shortname}}</td>
-                <td class="table-rfcx__col" *ngFor="let label of labels">
-                    {{sector.events[label]? sector.events[label] : 0}}
-                </td>
-                <td class="table-rfcx__col table-rfcx__col_last">{{sector.total? sector.total : 0}}</td>
-            </tr>
-        </tbody>
-        <tfoot *ngIf="labels && labels.length > 1">
-            <tr class="table-rfcx__row table-rfcx__row_foot">
-                <td class="table-rfcx__col table-rfcx__col_first">Total</td>
-                <td class="table-rfcx__col" *ngFor="let label of labels">
-                    {{labelsTotal[label]? labelsTotal[label] : 0}}
-                </td>
-                <td class="table-rfcx__col table-rfcx__col_last">{{labelsTotal.total? labelsTotal.total : 0}}</td>
-            </tr>
-        </tfoot>
-    </table>
+  <h3 class="incidents__title incidents-table__title">Incidents per Sector</h3>
+  <table class="table-rfcx table-rfcx_incidents">
+    <thead>
+      <tr class="table-rfcx__row table-rfcx__row_head">
+        <th class="table-rfcx__col table-rfcx__col_first">Sector</th>
+        <th class="table-rfcx__col" *ngFor="let label of labels">{{label}}</th>
+        <th class="table-rfcx__col table-rfcx__col_last">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-rfcx__row" [ngClass]="{ 'table-rfcx__row_odd': odd, 'table-rfcx__row_even': even }" *ngFor="let sector of data; let odd=odd; let even=even;">
+        <td class="table-rfcx__col table-rfcx__col_first">{{sector.shortname}}</td>
+        <td class="table-rfcx__col" *ngFor="let label of labels">
+          {{sector.events[label]? sector.events[label] : 0}}
+        </td>
+        <td class="table-rfcx__col table-rfcx__col_last">{{sector.total? sector.total : 0}}</td>
+      </tr>
+    </tbody>
+    <tfoot *ngIf="labels && labels.length > 1">
+      <tr class="table-rfcx__row table-rfcx__row_foot">
+        <td class="table-rfcx__col table-rfcx__col_first">Total</td>
+        <td class="table-rfcx__col" *ngFor="let label of labels">
+          {{labelsTotal[label]? labelsTotal[label] : 0}}
+        </td>
+        <td class="table-rfcx__col table-rfcx__col_last">{{labelsTotal.total? labelsTotal.total : 0}}</td>
+      </tr>
+    </tfoot>
+  </table>
 </div>

@@ -1,171 +1,173 @@
 <div class="container styleguide">
-    <div class="page-header">
-        <h2>Colors</h2>
+  <div class="page-header">
+    <h2>Colors</h2>
+  </div>
+  <div class="color-swatches">
+    <div class="color-swatch color-red">
+      <div class="color-swatch__name">$watermelon</div>
     </div>
-    <div class="color-swatches">
-        <div class="color-swatch color-red">
-            <div class="color-swatch__name">$watermelon</div>
-        </div>
-        <div class="color-swatch color-orange">
-            <div class="color-swatch__name">$squash</div>
-        </div>
-        <div class="color-swatch color-green">
-            <div class="color-swatch__name">$medium-green</div>
-        </div>
-        <div class="color-swatch color-teal">
-            <div class="color-swatch__name">$tealish</div>
-        </div>
-        <div class="color-swatch color-blue">
-            <div class="color-swatch__name">$dodger-blue</div>
-        </div>
-        <div class="color-swatch color-blue-grey">
-            <div class="color-swatch__name">$charcoal-grey</div>
-        </div>
-        <div class="color-swatch color-grey-05">
-            <div class="color-swatch__name">$white-three</div>
-        </div>
-        <div class="color-swatch color-grey-10">
-            <div class="color-swatch__name">$white-two</div>
-        </div>
-        <div class="color-swatch color-grey-20">
-            <div class="color-swatch__name">$pinkish-grey</div>
-        </div>
-        <div class="color-swatch color-grey-30">
-            <div class="color-swatch__name">$warm-grey</div>
-        </div>
+    <div class="color-swatch color-orange">
+      <div class="color-swatch__name">$squash</div>
     </div>
+    <div class="color-swatch color-green">
+      <div class="color-swatch__name">$medium-green</div>
+    </div>
+    <div class="color-swatch color-teal">
+      <div class="color-swatch__name">$tealish</div>
+    </div>
+    <div class="color-swatch color-blue">
+      <div class="color-swatch__name">$dodger-blue</div>
+    </div>
+    <div class="color-swatch color-blue-grey">
+      <div class="color-swatch__name">$charcoal-grey</div>
+    </div>
+    <div class="color-swatch color-grey-05">
+      <div class="color-swatch__name">$white-three</div>
+    </div>
+    <div class="color-swatch color-grey-10">
+      <div class="color-swatch__name">$white-two</div>
+    </div>
+    <div class="color-swatch color-grey-20">
+      <div class="color-swatch__name">$pinkish-grey</div>
+    </div>
+    <div class="color-swatch color-grey-30">
+      <div class="color-swatch__name">$warm-grey</div>
+    </div>
+  </div>
 
-    <div class="page-header">
-        <h2>UI</h2>
+  <div class="page-header">
+    <h2>UI</h2>
+  </div>
+  <div class="styleguide__row">
+    <div class="row">
+      <div class="col-md-4">
+        <input type="text" class="input" placeholder="Input placeholder" value="">
+        <p class="styleguide__code">input.input</p>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="input error" placeholder="Input placeholder" value="">
+        <p class="styleguide__code">input.input.error</p>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="input" placeholder="Input placeholder" value="" disabled>
+        <p class="styleguide__code">input.input[disabled]</p>
+      </div>
     </div>
-    <div class="styleguide__row">
-        <div class="row">
-            <div class="col-md-4">
-                <input type="text" class="input" placeholder="Input placeholder" value="">
-                <p class="styleguide__code">input.input</p>
-            </div>
-            <div class="col-md-4">
-                <input type="text" class="input error" placeholder="Input placeholder" value="">
-                <p class="styleguide__code">input.input.error</p>
-            </div>
-            <div class="col-md-4">
-                <input type="text" class="input" placeholder="Input placeholder" value="" disabled>
-                <p class="styleguide__code">input.input[disabled]</p>
-            </div>
-        </div>
+  </div>
+  <div class="styleguide__row">
+    <div class="row">
+      <div class="col-md-4">
+        <button class="button">Click me</button>
+        <p class="styleguide__code">button.button</p>
+      </div>
+      <div class="col-md-4">
+        <button class="button button_block">Click me</button>
+        <p class="styleguide__code">button.button.button_block</p>
+      </div>
+      <div class="col-md-4">
+        <button class="button" disabled>Click me</button>
+        <p class="styleguide__code">button.button[disabled]</p>
+      </div>
     </div>
-    <div class="styleguide__row">
-        <div class="row">
-            <div class="col-md-4">
-                <button class="button">Click me</button>
-                <p class="styleguide__code">button.button</p>
-            </div>
-            <div class="col-md-4">
-                <button class="button button_block">Click me</button>
-                <p class="styleguide__code">button.button.button_block</p>
-            </div>
-            <div class="col-md-4">
-                <button class="button" disabled>Click me</button>
-                <p class="styleguide__code">button.button[disabled]</p>
-            </div>
-        </div>
+  </div>
+  <div class="styleguide__row">
+    <div class="row">
+      <div class="col-md-4">
+        <dropdown title="Choose" [items]="dropdownItems" (onChange)="dropDownChanged($event)"></dropdown>
+        <p class="styleguide__code">dropdown[title="Choose" [items]="dropdownItems" (onChange)="dropDownChanged(\$event)"]</p>
+      </div>
+      <div class="col-md-4">
+        <dropdown title="Choose" [block]="true" [items]="dropdownItems" (onChange)="dropDownChanged($event)"></dropdown>
+        <p class="styleguide__code">dropdown[[block]="true"]</p>
+      </div>
+      <div class="col-md-4">
+        <dropdown [disabled]="true"></dropdown>
+        <p class="styleguide__code">dropdown[[disabled]="true"]</p>
+      </div>
     </div>
-    <div class="styleguide__row">
-        <div class="row">
-            <div class="col-md-4">
-                <dropdown title="Choose" [items]="dropdownItems" (onChange)="dropDownChanged($event)"></dropdown>
-                <p class="styleguide__code">dropdown[title="Choose" [items]="dropdownItems" (onChange)="dropDownChanged(\$event)"]</p>
-            </div>
-            <div class="col-md-4">
-                <dropdown title="Choose" [block]="true" [items]="dropdownItems" (onChange)="dropDownChanged($event)"></dropdown>
-                <p class="styleguide__code">dropdown[[block]="true"]</p>
-            </div>
-            <div class="col-md-4">
-                <dropdown [disabled]="true"></dropdown>
-                <p class="styleguide__code">dropdown[[disabled]="true"]</p>
-            </div>
-        </div>
-    </div>
+  </div>
 
-    <div class="styleguide__row">
-        <div class="row">
-            <div class="col-md-4">
-                <dropdown title="Download" [download]="true" [items]="dropdownItems"></dropdown>
-                <p class="styleguide__code">dropdown[title="Download" [download]="true"]</p>
-            </div>
-            <div class="col-md-4">
-                <dropdown title="Choose period" [noborder]="true" [items]="dropdownDaysItems"></dropdown>
-                <p class="styleguide__code">dropdown[title="Choose period" [noborder]="true"]</p>
-            </div>
-        </div>
+  <div class="styleguide__row">
+    <div class="row">
+      <div class="col-md-4">
+        <dropdown title="Download" [download]="true" [items]="dropdownItems"></dropdown>
+        <p class="styleguide__code">dropdown[title="Download" [download]="true"]</p>
+      </div>
+      <div class="col-md-4">
+        <dropdown title="Choose period" [noborder]="true" [items]="dropdownDaysItems"></dropdown>
+        <p class="styleguide__code">dropdown[title="Choose period" [noborder]="true"]</p>
+      </div>
     </div>
+  </div>
 
-    <div class="styleguide__row">
-        <div class="row">
-            <div class="col-md-4">
-                <spinner></spinner>
-                <p class="styleguide__code">spinner</p>
-            </div>
-            <div class="col-md-4">
-                <spinner [size]="64"></spinner>
-                <p class="styleguide__code">spinner[[size]="64"]</p>
-            </div>
-            <div class="col-md-4">
-                <spinner [size]="100"></spinner>
-                <p class="styleguide__code">spinner[[size]="100"]</p>
-            </div>
-        </div>
+  <div class="styleguide__row">
+    <div class="row">
+      <div class="col-md-4">
+        <spinner></spinner>
+        <p class="styleguide__code">spinner</p>
+      </div>
+      <div class="col-md-4">
+        <spinner [size]="64"></spinner>
+        <p class="styleguide__code">spinner[[size]="64"]</p>
+      </div>
+      <div class="col-md-4">
+        <spinner [size]="100"></spinner>
+        <p class="styleguide__code">spinner[[size]="100"]</p>
+      </div>
     </div>
+  </div>
 
-    <div class="page-header">
-        <h2>Typography</h2>
-    </div>
-    <div class="styleguide__row">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="styleguide__row">
-                    <h1>Header 1</h1>
-                    <p class="styleguide__code">h1</p>
-                </div>
-                <div class="styleguide__row">
-                    <h2>Header 2</h2>
-                    <p class="styleguide__code">h2</p>
-                </div>
-                <div class="styleguide__row">
-                    <h3>Header 3</h3>
-                    <p class="styleguide__code">h3</p>
-                </div>
-                <div class="styleguide__row">
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
-                    <p class="styleguide__code">p</p>
-                </div>
-                <div class="styleguide__row">
-                    <label>label</label>
-                    <p class="styleguide__code">label</p>
-                </div>
-            </div>
-            <div class="col-md-6" style="background: #2fb04a;">
-                <div class="styleguide__row">
-                    <h1 class="inverted">Header 1</h1>
-                    <p class="styleguide__code styleguide__code_inverted">h1.inverted</p>
-                </div>
-                <div class="styleguide__row">
-                    <h2 class="inverted">Header 2</h2>
-                    <p class="styleguide__code styleguide__code_inverted">h2.inverted</p>
-                </div>
-                <div class="styleguide__row">
-                    <h3 class="inverted">Header 3</h3>
-                    <p class="styleguide__code styleguide__code_inverted">h3.inverted</p>
-                </div>
-                <div class="styleguide__row">
-                    <p class="inverted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. </p>
-                    <p class="styleguide__code styleguide__code_inverted">p.inverted/p>
-                </div>
-                <div class="styleguide__row">
-                    <label class="inverted">label</label>
-                    <p class="styleguide__code styleguide__code_inverted">label.inverted</p>
-                </div>
-            </div>
+  <div class="page-header">
+    <h2>Typography</h2>
+  </div>
+  <div class="styleguide__row">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="styleguide__row">
+          <h1>Header 1</h1>
+          <p class="styleguide__code">h1</p>
         </div>
-    </div>
+        <div class="styleguide__row">
+          <h2>Header 2</h2>
+          <p class="styleguide__code">h2</p>
+        </div>
+        <div class="styleguide__row">
+          <h3>Header 3</h3>
+          <p class="styleguide__code">h3</p>
+        </div>
+        <div class="styleguide__row">
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+            magna aliquam erat volutpat. </p>
+          <p class="styleguide__code">p</p>
+        </div>
+        <div class="styleguide__row">
+          <label>label</label>
+          <p class="styleguide__code">label</p>
+        </div>
+      </div>
+      <div class="col-md-6" style="background: #2fb04a;">
+<div class="styleguide__row">
+  <h1 class="inverted">Header 1</h1>
+  <p class="styleguide__code styleguide__code_inverted">h1.inverted</p>
+</div>
+<div class="styleguide__row">
+  <h2 class="inverted">Header 2</h2>
+  <p class="styleguide__code styleguide__code_inverted">h2.inverted</p>
+</div>
+<div class="styleguide__row">
+  <h3 class="inverted">Header 3</h3>
+  <p class="styleguide__code styleguide__code_inverted">h3.inverted</p>
+</div>
+<div class="styleguide__row">
+  <p class="inverted">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna
+    aliquam erat volutpat. </p>
+  <p class="styleguide__code styleguide__code_inverted">p.inverted/p>
+</div>
+<div class="styleguide__row">
+  <label class="inverted">label</label>
+  <p class="styleguide__code styleguide__code_inverted">label.inverted</p>
+</div>
+</div>
+</div>
+</div>
 </div>

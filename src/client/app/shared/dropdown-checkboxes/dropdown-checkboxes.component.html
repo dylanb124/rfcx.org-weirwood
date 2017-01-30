@@ -1,19 +1,18 @@
-<div class="dropdown dropdown-rfcx dropdown-checkboxes"
-    [ngClass]="{'dropup': dropup === true, 'block': !!block, 'noborder': !!noborder}">
-  <button class="btn btn-default dropdown-toggle" type="button" id="'dropdownMenu' + elementId"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" [disabled]="!items.length || !!disabled">
+<div class="dropdown dropdown-rfcx dropdown-checkboxes" [ngClass]="{'dropup': dropup === true, 'block': !!block, 'noborder': !!noborder}">
+  <button class="btn btn-default dropdown-toggle" type="button" id="'dropdownMenu' + elementId" data-toggle="dropdown" aria-haspopup="true"
+    aria-expanded="true" [disabled]="!items.length || !!disabled">
     <span class="dropdown-rfcx__title">{{combineDropdownTitle()}}</span>
     <span class="icon-chevron-up"></span>
     <span class="icon-chevron-down"></span>
   </button>
   <ul class="dropdown-menu" aria-labelledby="'dropdownMenu' + elementId">
     <li *ngFor='let item of items; let idx = index;'>
-        <a>
-          <label class="dropdown-rfcx__label" (click)="preventLinkClick($event)">
+      <a>
+        <label class="dropdown-rfcx__label" (click)="preventLinkClick($event)">
             <input class="dropdown-rfcx__checkbox" type="checkbox" [(ngModel)]="item.checked" (change)="changeValue($event, item)">
             {{item.label}}
           </label>
-        </a>
-      </li>
+      </a>
+    </li>
   </ul>
 </div>

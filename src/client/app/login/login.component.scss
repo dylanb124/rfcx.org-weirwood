@@ -1,139 +1,138 @@
 @import "../../scss/main";
-
 .login {
-    height: 100vh;
-    min-height: 600px;
-    background: url(assets/img/login/background.png) no-repeat left center;
-    background-size: auto 100%;
-    position: relative;
-    @include respond-between($tabletMin, 1100px) {
-        background-position: -100px center;
-    }
-    @media only screen and (min-height: 800px) and (max-width: 1024px) {
-        background-position: -100px center;
-    }
-    @media only screen and (min-height: 900px) and (max-width: 1024px) {
-        background-position: -250px center;
-    }
-    @media only screen and (min-height: 1025px) and (max-width: 1024px) {
-        background-position: -300px center;
+  height: 100vh;
+  min-height: 600px;
+  background: url(assets/img/login/background.png) no-repeat left center;
+  background-size: auto 100%;
+  position: relative;
+  @include respond-between($tabletMin, 1100px) {
+    background-position: -100px center;
+  }
+  @media only screen and (min-height: 800px) and (max-width: 1024px) {
+    background-position: -100px center;
+  }
+  @media only screen and (min-height: 900px) and (max-width: 1024px) {
+    background-position: -250px center;
+  }
+  @media only screen and (min-height: 1025px) and (max-width: 1024px) {
+    background-position: -300px center;
+  }
+  @include mq(phone) {
+    background: none;
+    min-height: none;
+    height: auto;
+  }
+  &__content {
+    display: block;
+    width: 86.6%;
+    max-width: 352px;
+    position: absolute;
+    top: 20%;
+    left: 41.8%;
+    @include mq(tablet) {
+      left: 50%;
     }
     @include mq(phone) {
-        background: none;
-        min-height: none;
-        height: auto;
+      position: static;
+      left: auto;
+      top: auto;
+      margin: 0 auto;
+      max-width: 312px;
+      text-align: center;
+      padding-top: 8rem;
     }
-    &__content {
-        display: block;
-        width: 86.6%;
-        max-width: 352px;
-        position: absolute;
-        top: 20%;
-        left: 41.8%;
-        @include mq(tablet) {
-            left: 50%;
-        }
+  }
+  &__get-in-touch {
+    width: 86.6%;
+    max-width: 352px;
+    position: absolute;
+    left: 41.8%;
+    bottom: 8.4%;
+    @include mq(tablet) {
+      left: 50%;
+    }
+    @include mq(phone) {
+      position: static;
+      left: auto;
+      top: auto;
+      margin: 0 auto;
+      max-width: 312px;
+      text-align: center;
+      margin-top: 4rem;
+    }
+  }
+  &__get-in-touch-text {
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    letter-spacing: -0.1px;
+    color: $charcoal-grey;
+    margin: 0;
+  }
+  &__get-in-touch-link {
+    color: $dodger-blue;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__logo {
+    display: block;
+    color: $medium-green;
+    font-size: 6.4rem;
+    margin-bottom: 2.44rem;
+    margin-left: 3.1%;
+    @include mq(phone) {
+      margin-left: 0;
+      display: inline-block;
+    }
+  }
+  &__title {
+    margin: 0 auto 3.2rem;
+  }
+  .form-login {
+    display: block;
+    max-width: 352px;
+    margin: 0 auto;
+    text-align: left;
+    &__row {
+      position: relative;
+      &_controls {
+        margin-top: 2.6rem;
+        margin-bottom: 0;
         @include mq(phone) {
-            position: static;
-            left: auto;
-            top: auto;
-            margin: 0 auto;
-            max-width: 312px;
-            text-align: center;
-            padding-top: 8rem;
+          text-align: left;
         }
-    }
-    &__get-in-touch {
-        width: 86.6%;
-        max-width: 352px;
-        position: absolute;
-        left: 41.8%;
-        bottom: 8.4%;
-        @include mq(tablet) {
-            left: 50%;
-        }
-        @include mq(phone) {
-            position: static;
-            left: auto;
-            top: auto;
-            margin: 0 auto;
-            max-width: 312px;
-            text-align: center;
-            margin-top: 4rem;
-        }
-    }
-    &__get-in-touch-text {
-        font-size: 1.4rem;
-        line-height: 1.6rem;
-        letter-spacing: -0.1px;
-        color: $charcoal-grey;
-        margin: 0;
-    }
-    &__get-in-touch-link {
-        color: $dodger-blue;
-        text-decoration: underline;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-    &__logo {
-        display: block;
-        color: $medium-green;
-        font-size: 6.4rem;
-        margin-bottom: 2.44rem;
-        margin-left: 3.1%;
-        @include mq(phone) {
-            margin-left: 0;
-            display: inline-block;
-        }
-    }
-    &__title {
-        margin: 0 auto 3.2rem;
-    }
-    .form-login {
-        display: block;
-        max-width: 352px;
-        margin: 0 auto;
-        text-align: left;
-        &__row {
-            position: relative;
-            &_controls {
-                margin-top: 2.6rem;
-                margin-bottom: 0;
-                @include mq(phone) {
-                    text-align: left;
-                }
-                spinner {
-                    display: inline-block;
-                    vertical-align: middle;
-                    margin-right: 5%;
-                    @include mq(phone) {
-                        margin: 0;
-                        position: absolute;
-                        top: 50%;
-                        left: 2%;
-                        @include translate(0, -50%);
-                    }
-                }
-                .button {
-                    @include mq(phone) {
-                        display: block;
-                        width: 100%;
-                        max-width: none;
-                    }
-                }
-            }
-        }
-        &__forgot-link {
+        spinner {
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 5%;
+          @include mq(phone) {
+            margin: 0;
             position: absolute;
-            top: 0.6rem;
-            right: 0;
-            font-size: 1.4rem;
-            font-weight: normal;
-            font-style: normal;
-            font-stretch: normal;
-            letter-spacing: -0.1px;
-            color: $warm-grey;
+            top: 50%;
+            left: 2%;
+            @include translate(0, -50%);
+          }
         }
+        .button {
+          @include mq(phone) {
+            display: block;
+            width: 100%;
+            max-width: none;
+          }
+        }
+      }
     }
+    &__forgot-link {
+      position: absolute;
+      top: 0.6rem;
+      right: 0;
+      font-size: 1.4rem;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: -0.1px;
+      color: $warm-grey;
+    }
+  }
 }

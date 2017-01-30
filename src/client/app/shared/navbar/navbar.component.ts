@@ -10,23 +10,23 @@ import { UserService } from '../user/user.service';
 })
 export class NavbarComponent implements OnInit {
 
-    private userData: any;
+  private userData: any;
 
-    constructor(
-        private userService: UserService,
-        private router: Router
-    ) {}
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) { }
 
-    ngOnInit() {
-        this.userData = this.userService.getUserData();
-    }
+  ngOnInit() {
+    this.userData = this.userService.getUserData();
+  }
 
-    logOut() {
-        this.userService.logOut();
-    }
+  logOut() {
+    this.userService.logOut();
+  }
 
-    isRouteActive(route: string): boolean {
-        return this.router.isActive(route, true);
-    }
+  isRouteActive(route: string): boolean {
+    return this.router.isActive(route, true);
+  }
 
 }

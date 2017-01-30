@@ -1,82 +1,81 @@
 @import '../../../scss/main';
 @import '../../../scss/date-time-picker';
-
 .date-time-picker-rfcx {
-    &__input {
-        display: inline-block;
-        vertical-align: middle;
-        height: 0;
-        width: 0;
-        border: none;
-        outline: none;
-        padding: 0;
-        margin: 0;
-        background: transparent;
-        color: transparent;
+  &__input {
+    display: inline-block;
+    vertical-align: middle;
+    height: 0;
+    width: 0;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    color: transparent;
+  }
+  &__label {
+    color: $charcoal-grey;
+    margin: 0;
+    padding: 0.6rem 0;
+    background: transparent;
+    border: none;
+    width: auto;
+    white-space: normal;
+    &.disabled {
+      color: $pinkish-grey;
+      .icon-chevron-down {
+        color: $pinkish-grey;
+      }
     }
-    &__label {
-        color: $charcoal-grey;
-        margin: 0;
-        padding: 0.6rem 0;
-        background: transparent;
-        border: none;
-        width: auto;
-        white-space: normal;
-        &.disabled {
-            color: $pinkish-grey;
-            .icon-chevron-down {
-                color: $pinkish-grey;
-            }
-        }
+  }
+  &__label-text {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .icon-chevron-down,
+  .icon-chevron-up {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: .6rem;
+    color: $charcoal-grey;
+    margin-left: 15px;
+  }
+  .icon-chevron-up {
+    display: none;
+  }
+  &.opened {
+    .date-time-picker-rfcx__label {
+      color: $dodger-blue;
     }
-    &__label-text {
-        display: inline-block;
-        vertical-align: middle;
+    .icon-chevron-down {
+      display: none;
     }
-    .icon-chevron-down,
     .icon-chevron-up {
-        display: inline-block;
-        vertical-align: middle;
-        font-size: .6rem;
-        color: $charcoal-grey;
-        margin-left: 15px;
+      display: inline-block;
+      color: $dodger-blue;
     }
-    .icon-chevron-up {
-        display: none;
-    }
-    &.opened {
-        .date-time-picker-rfcx__label {
-            color: $dodger-blue;
+  }
+  .bootstrap-datetimepicker-widget {
+    table {
+      td {
+        &.today {
+          border-color: transparent;
         }
-        .icon-chevron-down {
-            display: none;
-        }
-        .icon-chevron-up {
-            display: inline-block;
-            color: $dodger-blue;
-        }
-    }
-    .bootstrap-datetimepicker-widget {
-        table {
-            td {
-                &.today {
-                    border-color: transparent;
+        &.rfcx-has-events {
+          span {
+            border-color: $tealish;
+          }
+          &.disabled {
+            @include mq(desktop) {
+              &:hover {
+                span {
+                  border-color: $tealish;
                 }
-                &.rfcx-has-events {
-                    span {
-                        border-color: $tealish;
-                    }
-                    &.disabled {
-                        @include mq(desktop) {
-                            &:hover {
-                                span {
-                                    border-color: $tealish;
-                                }
-                            }
-                        }
-                    }
-                }
+              }
             }
+          }
         }
+      }
     }
+  }
 }

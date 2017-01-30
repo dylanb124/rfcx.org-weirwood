@@ -19,7 +19,7 @@ export class DateTimePickerComponent implements OnInit {
   @Output() onChange = new EventEmitter();
   private dateTimePickerEl: any;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
   ngOnInit() {
     this.dateTimePickerEl = jQuery(this.elementRef.nativeElement.getElementsByClassName('js-datetimepicker')[0]);
@@ -36,7 +36,7 @@ export class DateTimePickerComponent implements OnInit {
     this.dateTimePickerEl.on('dp.change', () => {
       let newDate = this.dateTimePickerEl.data('DateTimePicker').date();
       this.onChange.emit({
-          date: newDate
+        date: newDate
       });
     });
   }

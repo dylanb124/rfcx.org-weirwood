@@ -1,123 +1,121 @@
 @import "../../../scss/main";
-
-$white-footer: rgba(255,255,255,0.89);
-$white2-footer: rgba(255,255,255,0.80);
-
+$white-footer: rgba(255, 255, 255, 0.89);
+$white2-footer: rgba(255, 255, 255, 0.80);
 .rfcx-footer {
-    padding: 2.8rem 13.125% 12.85rem;
-    background: $medium-green;
-    color: $white-footer;
-    @include mq(tablet) {
-        padding: 2rem 5%;
-    }
+  padding: 2.8rem 13.125% 12.85rem;
+  background: $medium-green;
+  color: $white-footer;
+  @include mq(tablet) {
+    padding: 2rem 5%;
+  }
+  @include mq(phone) {
+    padding: 2.8rem 6.5% 5.5rem;
+  }
+  &__inner {
+    @include clearfix;
     @include mq(phone) {
-        padding: 2.8rem 6.5% 5.5rem;
+      padding-bottom: 4.4rem;
+      position: relative;
     }
-    &__inner {
-        @include clearfix;
-        @include mq(phone) {
-            padding-bottom: 4.4rem;
-            position: relative;
-        }
+  }
+  &__left,
+  &__right {
+    float: left;
+    @include mq(phone) {
+      float: none;
     }
-    &__left,
-    &__right {
-        float: left;
-        @include mq(phone) {
-            float: none;
-        }
+  }
+  &__left {
+    width: 40.7%;
+    padding-right: 7%;
+    @include mq(phone) {
+      width: 100%;
+      padding-right: 0;
     }
-    &__left {
-        width: 40.7%;
-        padding-right: 7%;
-        @include mq(phone) {
-            width: 100%;
-            padding-right: 0;
-        }
+  }
+  &__right {
+    @include clearfix;
+    width: 59.3%;
+    @include mq(phone) {
+      width: 100%;
     }
-    &__right {
-        @include clearfix;
-        width: 59.3%;
-        @include mq(phone) {
-            width: 100%;
-        }
+  }
+  &__title {
+    text-transform: uppercase;
+    margin: 0;
+    color: $white-footer;
+    margin-bottom: 1.2rem;
+  }
+  &__descr {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    letter-spacing: -0.1px;
+    margin: 0 auto 2.4rem;
+    color: $white2-footer;
+    @include mq(phone) {
+      margin-bottom: 2.8rem;
     }
-    &__title {
-        text-transform: uppercase;
-        margin: 0;
-        color: $white-footer;
-        margin-bottom: 1.2rem;
+  }
+  &__link-col {
+    float: left;
+    width: 33.33%;
+    @include mq(phone) {
+      float: none;
+      width: 100%;
+      margin-bottom: 2rem;
     }
-    &__descr {
-        font-size: 1.6rem;
-        line-height: 2.4rem;
-        letter-spacing: -0.1px;
-        margin: 0 auto 2.4rem;
-        color: $white2-footer;
-        @include mq(phone) {
-            margin-bottom: 2.8rem;
-        }
+    &_support {
+      padding-left: 1%;
+      @include mq(tablet) {
+        padding-left: 6%;
+      }
+      @include mq(phone) {
+        padding-left: 0;
+      }
     }
-    &__link-col {
-        float: left;
-        width: 33.33%;
-        @include mq(phone) {
-            float: none;
-            width: 100%;
-            margin-bottom: 2rem;
-        }
-        &_support {
-            padding-left: 1%;
-            @include mq(tablet) {
-                padding-left: 6%;
-            }
-            @include mq(phone) {
-                padding-left: 0;
-            }
-        }
-        &_about {
-            padding-left: 2%;
-            @include mq(tablet) {
-                padding-left: 10%;
-            }
-            @include mq(phone) {
-                padding-left: 0;
-            }
-        }
+    &_about {
+      padding-left: 2%;
+      @include mq(tablet) {
+        padding-left: 10%;
+      }
+      @include mq(phone) {
+        padding-left: 0;
+      }
     }
-    &__list {
-        padding: 0;
-        list-style: none;
-        margin: 0;
+  }
+  &__list {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+  }
+  &__list-item {
+    display: block;
+    margin: 0 auto 0.8rem;
+    @include mq(phone) {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 23px;
     }
-    &__list-item {
-        display: block;
-        margin: 0 auto 0.8rem;
-        @include mq(phone) {
-            display: inline-block;
-            vertical-align: middle;
-            margin-right: 23px;
-        }
+  }
+  &__link {
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+    letter-spacing: -0.1px;
+    color: $white2-footer;
+  }
+  &__social {
+    @include mq(phone) {
+      position: absolute;
+      left: 0;
+      bottom: 0;
     }
-    &__link {
-        font-size: 1.6rem;
-        line-height: 2.4rem;
-        letter-spacing: -0.1px;
-        color: $white2-footer;
+  }
+  &__social-link {
+    font-size: 2.8rem;
+    color: $white;
+    margin-right: 16px;
+    &:last-child {
+      margin-right: 0;
     }
-    &__social {
-        @include mq(phone) {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-        }
-    }
-    &__social-link {
-        font-size: 2.8rem;
-        color: $white;
-        margin-right: 16px;
-        &:last-child {
-            margin-right: 0;
-        }
-    }
+  }
 }

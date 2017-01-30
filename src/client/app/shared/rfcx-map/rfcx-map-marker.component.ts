@@ -5,10 +5,10 @@ import * as L from 'leaflet';
 let iconSize: any = [20, 28];
 
 const mapIcon = L.icon({
-    iconUrl: 'assets/img/map/location-marker@2x.png',
-    iconSize: iconSize,
-    iconAnchor: [10, 28],
-    className: 'mapMarker'
+  iconUrl: 'assets/img/map/location-marker@2x.png',
+  iconSize: iconSize,
+  iconAnchor: [10, 28],
+  className: 'mapMarker'
 });
 
 @Component({
@@ -18,26 +18,26 @@ const mapIcon = L.icon({
 })
 export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
-    @Input() lat: number;
-    @Input() lon: number;
-    private rfcxMapComp: any;
-    private marker: any;
+  @Input() lat: number;
+  @Input() lon: number;
+  private rfcxMapComp: any;
+  private marker: any;
 
-    constructor(
-        @Inject(forwardRef(() => RfcxMapComponent)) map:RfcxMapComponent
-    ) {
-        this.rfcxMapComp = map;
-    }
+  constructor(
+    @Inject(forwardRef(() => RfcxMapComponent)) map: RfcxMapComponent
+  ) {
+    this.rfcxMapComp = map;
+  }
 
-    ngOnInit() {
-        this.appendToMap();
-    }
+  ngOnInit() {
+    this.appendToMap();
+  }
 
-    ngOnDestroy() {
-        this.rfcxMapComp.rfcxMap.removeLayer(this.marker);
-    }
+  ngOnDestroy() {
+    this.rfcxMapComp.rfcxMap.removeLayer(this.marker);
+  }
 
-    appendToMap() {
-        this.marker = L.marker([this.lat, this.lon], {icon: mapIcon}).addTo(this.rfcxMapComp.rfcxMap);
-    }
+  appendToMap() {
+    this.marker = L.marker([this.lat, this.lon], { icon: mapIcon }).addTo(this.rfcxMapComp.rfcxMap);
+  }
 }

@@ -1,19 +1,18 @@
 @import "colors";
-
 .form {
-    &__row {
-        margin-bottom: 1.5rem;
-    }
-    &__label {
-        font-size: 1.6rem;
-        font-weight: bold;
-        line-height: 3.2rem;
-        letter-spacing: -0.1px;
-        margin-bottom: .8rem;
-    }
-    &__input-alert {
-        margin: .8rem 0 0;
-        text-align: left;
-        color: $watermelon;
-    }
+  &__row {
+    margin-bottom: 1.5rem;
+  }
+  &__label {
+    font-size: 1.6rem;
+    font-weight: bold;
+    line-height: 3.2rem;
+    letter-spacing: -0.1px;
+    margin-bottom: .8rem;
+  }
+  &__input-alert {
+    margin: .8rem 0 0;
+    text-align: left;
+    color: $watermelon;
+  }
 }

@@ -1,73 +1,72 @@
 @import "../../scss/main";
-
 .styleguide {
-    &__row {
-        margin-bottom: 40px;
+  &__row {
+    margin-bottom: 40px;
+  }
+  &__code {
+    display: block;
+    color: rgba(0, 0, 0, 0.3);
+    margin: 1rem 0 0;
+    &:before {
+      content: "| ";
     }
-    &__code {
-        display: block;
-        color: rgba(0,0,0,0.3);
-        margin: 1rem 0 0;
-        &:before {
-            content: "| ";
-        }
-        &_inverted {
-            color: rgba(255,255,255,0.7);
-        }
+    &_inverted {
+      color: rgba(255, 255, 255, 0.7);
     }
+  }
 }
 
 .color-swatch {
-    display: inline-block;
-    vertical-align: middle;
-    width: 100px;
-    height: 100px;
-    margin: 5px;
-    border: 1px solid rgba(0,0,0,0.3);
-    border-radius: 3px;
-    position: relative;
-    &__name {
-        position: absolute;
-        bottom: 10%;
-        left: 5%;
-        font-size: 12px;
-        color: #fff;
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  position: relative;
+  &__name {
+    position: absolute;
+    bottom: 10%;
+    left: 5%;
+    font-size: 12px;
+    color: #fff;
+  }
+  &.color-red {
+    background: $watermelon;
+  }
+  &.color-orange {
+    background: $squash;
+  }
+  &.color-green {
+    background: $medium-green;
+  }
+  &.color-teal {
+    background: $tealish;
+  }
+  &.color-blue {
+    background: $dodger-blue;
+  }
+  &.color-blue-grey {
+    background: $charcoal-grey;
+  }
+  &.color-grey-05 {
+    background: $white-three;
+  }
+  &.color-grey-10 {
+    background: $white-two;
+  }
+  &.color-grey-20 {
+    background: $pinkish-grey;
+  }
+  &.color-grey-30 {
+    background: $warm-grey;
+  }
+  &.color-grey-05,
+  &.color-grey-10,
+  &.color-grey-20 {
+    .color-swatch__name {
+      color: #000;
     }
-    &.color-red {
-        background: $watermelon;
-    }
-    &.color-orange {
-        background: $squash;
-    }
-    &.color-green {
-        background: $medium-green;
-    }
-    &.color-teal {
-        background: $tealish;
-    }
-    &.color-blue {
-        background: $dodger-blue;
-    }
-    &.color-blue-grey {
-        background: $charcoal-grey;
-    }
-    &.color-grey-05 {
-        background: $white-three;
-    }
-    &.color-grey-10 {
-        background: $white-two;
-    }
-    &.color-grey-20 {
-        background: $pinkish-grey;
-    }
-    &.color-grey-30 {
-        background: $warm-grey;
-    }
-    &.color-grey-05,
-    &.color-grey-10,
-    &.color-grey-20 {
-        .color-swatch__name {
-            color: #000;
-        }
-    }
+  }
 }

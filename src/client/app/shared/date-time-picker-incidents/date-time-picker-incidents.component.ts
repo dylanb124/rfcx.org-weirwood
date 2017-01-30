@@ -27,7 +27,7 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
   private label: string = 'Choose date';
   private tempDate: Date;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
 
   updateLabel() {
     if (this.range - 1 < 2) {
@@ -35,7 +35,7 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
     }
     else {
       this.label = moment(this.selectedDate).format(labelFormat) + ' — ' +
-                   moment(this.selectedDate).add(this.range, 'days').format(labelFormat);
+        moment(this.selectedDate).add(this.range, 'days').format(labelFormat);
     }
   }
 

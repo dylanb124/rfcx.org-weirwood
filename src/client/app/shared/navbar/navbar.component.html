@@ -1,8 +1,8 @@
 <nav class="navbar navbar-default navbar-rfcx">
   <div class="container-fluid">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle icon-menu collapsed" data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1" aria-expanded="false"></button>
+      <button type="button" class="navbar-toggle icon-menu collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+        aria-expanded="false"></button>
       <a class="icon-logo navbar-brand hide-on-phone" [routerLink]="['/']"></a>
       <div class="navbar-rfcx__mobile-title hide-on-tablet hide-on-desktop">
         <span *ngIf="isRouteActive('incidents')">Incidents</span>
@@ -29,9 +29,8 @@
             data-target=".navbar-collapse.in">Home</a>
         </li>-->
         <li>
-          <a class="nav__link" [routerLink]="['/incidents']" [routerLinkActive]="['active']"
-            [routerLinkActiveOptions]="{exact:true}" data-toggle="collapse"
-            data-target=".navbar-collapse.in">Incidents</a>
+          <a class="nav__link" [routerLink]="['/incidents']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"
+            data-toggle="collapse" data-target=".navbar-collapse.in">Incidents</a>
         </li>
         <!--<li>
           <a class="nav__link" [routerLink]="['/wildlife']" [routerLinkActive]="['active']"
@@ -49,9 +48,8 @@
             data-target=".navbar-collapse.in">Reports</a>
         </li>-->
         <li class="hide-on-tablet hide-on-desktop">
-          <a class="nav__link" (click)="logOut()" data-toggle="collapse"
-            data-target=".navbar-collapse.in">Log out</a>
-          </li>
+          <a class="nav__link" (click)="logOut()" data-toggle="collapse" data-target=".navbar-collapse.in">Log out</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right hide-on-phone">
         <li class="dropdown">
