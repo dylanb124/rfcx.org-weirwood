@@ -57,7 +57,6 @@ export class IncidentsComponent implements OnInit {
   private incidents: Array<any>;
   private incidentsByYear: any;
   private incidentsByDates: Array<any>;
-  private today: Date;
   private maxDate: Date;
   private currentDate: Date;
   private currentDaysCount: number = 5;
@@ -223,7 +222,7 @@ export class IncidentsComponent implements OnInit {
 
   recalculateDates() {
     if (this.currentDaysCount > 1) {
-      this.maxDate = moment(this.today).subtract(this.currentDaysCount, 'days').toDate();
+      this.maxDate = moment().subtract(this.currentDaysCount, 'days').toDate();
     }
     else {
       this.maxDate = new Date();
@@ -281,6 +280,26 @@ export class IncidentsComponent implements OnInit {
       datesObj[key] = !!Object.keys(incidentsObj[key]).length;
     }
     return datesObj;
+  }
+
+  findNearestDateInPast(): Date {
+    if (!this.incidentsByYear) {
+      return null;
+    }
+    let closestDate: any = null;
+    for (let dateStr in this.incidentsByYear) {
+      // boolean value
+      let item = this.incidentsByYear[dateStr];
+      // if date has incidents
+      if (item) {
+        let itemDate = new Date(dateStr);
+        // if this date is in the past
+        if (itemDate < new Date() && itemDate > closestDate) {
+          closestDate = itemDate;
+        }
+      }
+    }
+    return closestDate;
   }
 
   incidentsTypeChanged(event: any) {
