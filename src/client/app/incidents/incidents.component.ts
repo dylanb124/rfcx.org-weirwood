@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
 import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 import { CookieService } from 'angular2-cookie/core';
 import { Config } from '../shared/config/env.config.js';
 
@@ -73,8 +74,7 @@ export class IncidentsComponent implements OnInit {
 
   ngOnInit() {
     this.intializeFilterValues();
-    this.loadData();
-    this.loadYearData();
+    this.loadData({ initial: true });
   }
 
   intializeFilterValues() {
@@ -82,6 +82,40 @@ export class IncidentsComponent implements OnInit {
     this.recalculateDates();
     this.refreshTimeBounds();
     this.currentIncidentTypeValues = this.getCheckedIncidentTypeValues();
+  }
+
+  loadData(opts?: any) {
+    this.isLoading = true;
+    let observArr = [
+      this.getDataByGuardians(),
+      this.getDataByDates({
+        starting_after: this.currentdateStartingAfter,
+        ending_before: this.currentdateEndingBefore,
+        values: this.currentIncidentTypeValues
+      })
+    ];
+    if (opts && opts.initial) {
+      observArr.push(
+        this.getDataByDates({
+          url: 'events/stats/year',
+          values: this.currentIncidentTypeValues
+        })
+      );
+    }
+    Observable
+      .forkJoin(observArr)
+      .subscribe(
+        data => {
+          this.isLoading = false;
+          this.onDataByGuardians(data[0]);
+          this.onDataByDates(data[1]);
+          if (opts && opts.initial) {
+            this.onDataByYears(data[2]);
+            this.checkInitialLoadedData();
+          }
+        },
+        err => console.log('Error loading incidents', err)
+      );
   }
 
   getCheckedIncidentTypeValues(incidentTypes?: Array<DropdownCheckboxItem>) {
@@ -95,43 +129,11 @@ export class IncidentsComponent implements OnInit {
     return arr;
   }
 
-  loadData() {
-    this.isLoading = true;
-    let opts: any = {
-      starting_after: this.currentdateStartingAfter,
-      ending_before: this.currentdateEndingBefore,
-      values: this.currentIncidentTypeValues
-    };
-    this.getDataByGuardians(opts)
-      .subscribe((res: any) => {
-        this.incidents = this.parseIncidentsByGuardians(res.json());
-        this.isLoading = false;
-        console.log('incidents by guardians', this.incidents);
-        this.getInitialMapCenter();
-        this.countIncidents();
-        this.calculateDiameters();
-      });
-
-    this.getDataByDates(opts)
-      .subscribe((res: any) => {
-        this.incidentsByDates = this.parseIncidentsByDates(res.json());
-        console.log('incidents by dates', this.incidentsByDates);
-      });
-  }
-
-  loadYearData() {
-    this.getDataByDates({ url: 'events/stats/year', values: this.currentIncidentTypeValues })
-      .subscribe((res: any) => {
-        this.incidentsByYear = this.parseIncidentsByYear(res.json());
-        console.log('incidents by year', this.incidentsByYear);
-      });
-  }
-
-  getDataByGuardians(opts: any) {
+  getDataByGuardians() {
     let params: URLSearchParams = new URLSearchParams();
-    params.set('starting_after', opts.starting_after);
-    params.set('ending_before', opts.ending_before);
-    opts.values.forEach((value: string) => {
+    params.set('starting_after', this.currentdateStartingAfter);
+    params.set('ending_before', this.currentdateEndingBefore);
+    this.currentIncidentTypeValues.forEach((value: string) => {
       params.append('values', value);
     });
 
@@ -145,12 +147,16 @@ export class IncidentsComponent implements OnInit {
       search: params
     });
 
-    let request = this.http
-      .get(
-      Config.API + 'events/stats/guardian',
-      options
-      );
-    return request;
+    return this.http.get(Config.API + 'events/stats/guardian', options)
+                    .map((res) => res.json());
+  }
+
+  onDataByGuardians(data: any) {
+    this.incidents = this.parseIncidentsByGuardians(data);
+    console.log('incidents by guardians', this.incidents);
+    this.getInitialMapCenter();
+    this.countIncidents();
+    this.calculateDiameters();
   }
 
   getDataByDates(opts: any) {
@@ -175,12 +181,18 @@ export class IncidentsComponent implements OnInit {
       search: params
     });
 
-    let request = this.http
-      .get(
-      Config.API + (opts.url || 'events/stats/dates'),
-      options
-      );
-    return request;
+    return this.http.get(Config.API + (opts.url || 'events/stats/dates'), options)
+                    .map((res) => res.json());
+  }
+
+  onDataByDates(data: any) {
+    this.incidentsByDates = this.parseIncidentsByDates(data);
+    console.log('incidents by dates', this.incidentsByDates);
+  }
+
+  onDataByYears(data: any) {
+    this.incidentsByYear = this.parseIncidentsByYear(data);
+    console.log('incidents by year', this.incidentsByYear);
   }
 
   getInitialMapCenter() {
@@ -280,6 +292,19 @@ export class IncidentsComponent implements OnInit {
       datesObj[key] = !!Object.keys(incidentsObj[key]).length;
     }
     return datesObj;
+  }
+
+  checkInitialLoadedData() {
+    if (!this.incidentsByDates.length) {
+      console.log('Incidents for this range not found. Searching for latest ones.');
+      let date = this.findNearestDateInPast();
+      if (date) {
+        console.log('Latest incidents were on', moment(date).format('MMMM Do YYYY'));
+        this.currentDate = date;
+        this.refreshTimeBounds();
+        this.loadData();
+      }
+    }
   }
 
   findNearestDateInPast(): Date {

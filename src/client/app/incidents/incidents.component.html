@@ -15,7 +15,7 @@
       </div>
       <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_date">
         <date-time-picker-incidents [incidentsByYear]="incidentsByYear" [maxDate]="maxDate" (onChange)="dateChanged($event)" [disabled]="!currentDaysCount"
-          [range]="currentDaysCount? currentDaysCount : 0"></date-time-picker-incidents>
+          [range]="currentDaysCount? currentDaysCount : 0" [date]="currentDate"></date-time-picker-incidents>
       </div>
     </div>
   </div>

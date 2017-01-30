@@ -15,6 +15,7 @@ const labelFormat: string = 'MMM D';
 export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
 
   public selectedDate: Date;
+  @Input() date: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
   @Input() range: number;
@@ -112,6 +113,12 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
     }
     if (changes.incidentsByYear && changes.incidentsByYear.currentValue !== changes.incidentsByYear.previousValue) {
       this.highlightNonEmptyDates();
+    }
+    if (changes.date && changes.date.currentValue !== changes.date.previousValue &&
+        !!this.selectedDate && changes.date.currentValue !== this.selectedDate) {
+      this.dateTimePickerEl.data('DateTimePicker').date(changes.date.currentValue);
+      this.refreshSelectedDate();
+      this.updateLabel();
     }
   }
 
