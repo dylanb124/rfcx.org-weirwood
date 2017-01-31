@@ -69,7 +69,7 @@ export class ProjectConfig extends SeedConfig {
     });
     this.mergeObject(this.SYSTEM_BUILDER_CONFIG['packages'], {
       'angular2-cookie': {
-        main: 'core.js',
+        main: './core.js',
         defaultExtension: 'js'
       },
       'moment': {

@@ -52,6 +52,10 @@ module.exports = function (config) {
       // suppress annoying 404 warnings for resources, images, etc.
       { pattern: 'dist/dev/assets/**/*', watched: false, included: false, served: true },
 
+      // angular2-cookie
+      { pattern: 'node_modules/angular2-cookie/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/angular2-cookie/**/*.js.map', included: false, watched: false },
+
       'test-config.js',
       'dist/dev/app/system-config.js',
       'test-main.js'
