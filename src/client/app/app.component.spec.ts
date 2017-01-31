@@ -13,24 +13,29 @@ import {
   RouterTestingModule
 } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
+import { SharedModule } from './shared/shared.module';
+import { APP_CONFIG, AppConfig } from './app.config';
 
 export function main() {
 
   describe('App component', () => {
 
     let config: Route[] = [
-      { path: '', component: HomeComponent },
+      // { path: '', component: HomeComponent }
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, RouterTestingModule.withRoutes(config)],
-        declarations: [TestComponent,
-          NavbarComponent, AppComponent,
-          HomeComponent],
+        imports: [
+          FormsModule,
+          RouterTestingModule.withRoutes(config),
+          SharedModule.forRoot()
+        ],
+        declarations: [
+          TestComponent,
+          AppComponent],
         providers: [
-          { provide: APP_BASE_HREF, useValue: '/' }
+          { provide: APP_BASE_HREF, useValue: '/' },
+          { provide: APP_CONFIG, useValue: AppConfig }
         ]
       });
     });
@@ -56,6 +61,3 @@ export function main() {
 
 class TestComponent {
 }
-
-
-

@@ -1,4 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -11,6 +12,8 @@ import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent, RfcxMapMarkerComponent, RfcxMapPieComponent } from './rfcx-map/index';
 import { DateTimePickerComponent } from './date-time-picker/index';
 import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/index';
+import { UserService } from './user/user.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -18,6 +21,7 @@ import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/i
 
 @NgModule({
   imports: [
+    HttpModule,
     CommonModule,
     RouterModule,
     FormsModule
@@ -56,7 +60,10 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: []
+      providers: [
+        UserService,
+        CookieService
+      ]
     };
   }
 }

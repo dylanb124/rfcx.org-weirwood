@@ -14,7 +14,6 @@ import { IncidentsModule } from './incidents/incidents.module';
 import { SharedModule } from './shared/shared.module';
 
 import { UserService } from './shared/user/user.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { LoggedInGuard } from './shared/user/logged-in.guard';
 import { APP_CONFIG, AppConfig } from './app.config';
@@ -35,7 +34,6 @@ import { APP_CONFIG, AppConfig } from './app.config';
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: APP_CONFIG, useValue: AppConfig },
-    CookieService,
     UserService,
     LoggedInGuard
   ],

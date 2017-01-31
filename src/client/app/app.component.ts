@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Config } from './shared/index';
-import { UserService } from './shared/user/user.service';
+import { UserService } from './shared/index';
 import { Router, NavigationEnd } from '@angular/router';
 import { APP_CONFIG, IAppConfig } from './app.config';
 import './operators';

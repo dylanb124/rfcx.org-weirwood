@@ -58,9 +58,8 @@ module.exports = function (config) {
       { pattern: 'node_modules/leaflet/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/leaflet/**/*.js.map', included: false, watched: false },
       { pattern: 'node_modules/moment/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/moment/**/*.js.map', included: false, watched: false },
       { pattern: 'node_modules/d3/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/d3/**/*.js.map', included: false, watched: false },
+      { pattern: 'node_modules/d3-tip/**/*.js', included: false, watched: false },
 
       'test-config.js',
       'dist/dev/app/system-config.js',
