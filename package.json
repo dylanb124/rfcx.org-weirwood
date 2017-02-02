@@ -25,7 +25,7 @@
     "karma.start": "karma start",
     "postinstall": "gulp check.versions && gulp build.bundle.rxjs && npm prune && gulp webdriver && gulp print.banner",
     "reinstall": "npm cache clean && npm install",
-    "serve.coverage": "remap-istanbul -b src/ -i coverage/coverage-final.json -o coverage -t html && npm run gulp -- serve.coverage --color",
+    "serve.coverage": "gulp serve.coverage --color",
     "serve.dev": "gulp serve.dev --color --config-env dev",
     "serve.staging": "gulp serve.prod --color --config-env staging",
     "serve.e2e": "gulp serve.e2e --color",
