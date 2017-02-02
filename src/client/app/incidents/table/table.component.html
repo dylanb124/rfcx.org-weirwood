@@ -20,9 +20,7 @@
     <tfoot *ngIf="labels && labels.length > 1">
       <tr class="table-rfcx__row table-rfcx__row_foot">
         <td class="table-rfcx__col table-rfcx__col_first">Total</td>
-        <td class="table-rfcx__col" *ngFor="let label of labels">
-          {{labelsTotal[label]? labelsTotal[label] : 0}}
-        </td>
+        <td class="table-rfcx__col" *ngFor="let label of labels" [attr.data-label]="label">{{labelsTotal[label]? labelsTotal[label] : 0}}</td>
         <td class="table-rfcx__col table-rfcx__col_last">{{labelsTotal.total? labelsTotal.total : 0}}</td>
       </tr>
     </tfoot>

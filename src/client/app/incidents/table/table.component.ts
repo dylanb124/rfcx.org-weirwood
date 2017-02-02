@@ -12,8 +12,8 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 export class IncidentsTableComponent implements OnInit {
 
   public labels: Array<string>;
+  public labelsTotal: any;
   @Input() public data: Array<any>;
-  private labelsTotal: any;
 
   ngOnInit() {
     this.parseData();
