@@ -53,13 +53,15 @@ module.exports = function (config) {
       { pattern: 'dist/dev/assets/**/*', watched: false, included: false, served: true },
 
       // angular2-cookie
+      { pattern: 'node_modules/jquery/dist/jquery.min.js', watched: false },
       { pattern: 'node_modules/angular2-cookie/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/angular2-cookie/**/*.js.map', included: false, watched: false },
-      { pattern: 'node_modules/leaflet/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/leaflet/**/*.js.map', included: false, watched: false },
-      { pattern: 'node_modules/moment/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/d3/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/d3-tip/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/leaflet/dist/leaflet.js', included: false, watched: false },
+      { pattern: 'node_modules/moment/moment.js', watched: false },
+      { pattern: 'node_modules/bootstrap/dist/js/bootstrap.min.js', watched: false },
+      { pattern: 'node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', watched: false },
+      { pattern: 'node_modules/d3/build/d3.js', included: false, watched: false },
+      { pattern: 'node_modules/d3-tip/index.js', included: false, watched: false },
 
       'test-config.js',
       'dist/dev/app/system-config.js',
