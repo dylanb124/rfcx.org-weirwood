@@ -116,6 +116,10 @@ module.exports = function (config) {
       Chrome_travis_ci: {
         base: 'Chrome',
         flags: ['--no-sandbox']
+      },
+      Chrome_custom: {
+        base: 'Chrome',
+        flags: ['--window-size=1280,800']
       }
     },
 
@@ -128,6 +132,8 @@ module.exports = function (config) {
       files: argv.files
     }
   });
+
+  config.browsers = ['Chrome_custom'];
 
   if (process.env.APPVEYOR) {
     config.browsers = ['IE'];
