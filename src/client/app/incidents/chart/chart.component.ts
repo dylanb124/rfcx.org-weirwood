@@ -1,9 +1,9 @@
 import { Component, OnInit, OnChanges, ElementRef, ViewEncapsulation, Input } from '@angular/core';
 
+let jQuery: any = (window as any)['$'];
 import * as d3 from 'd3';
 import * as d3tip from 'd3-tip';
 import * as moment from 'moment';
-let jQuery: any = (window as any)['$'];
 // way to ignore d3Tip compiler error
 let d3Tip: any = d3tip;
 
@@ -19,33 +19,38 @@ let d3Tip: any = d3tip;
 })
 export class IncidentsChartComponent implements OnInit, OnChanges {
 
-  @Input() private data: Array<any>;
-  @Input() private colors: any;
-  private labels: Array<string>;
-  private svgEl: any;
-  private svg: any;
+  @Input() data: Array<any>;
+  @Input() colors: any;
+  public labels: Array<string>;
+  public margin: any;
+  public height: number;
+  public x: any;
+  public x1: any;
+  public y: any;
+  public xAxis: any;
+  public yAxis: any;
+  public svgEl: any;
+  public svg: any;
+  public width: number;
+  public tip: any;
   private svgG: any;
-  private tip: any;
   private isTipOpened: boolean = false;
-  private x: any;
-  private x1: any;
-  private y: any;
-  private margin: any;
-  private width: number;
-  private height: number;
-  private xAxis: any;
-  private yAxis: any;
   private resizeTimeout: any;
   private zeroValueHeight: number = 3;
-
   private formatTipDate = d3.timeFormat('%B %e, %Y');
 
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit() {
+    this.checkRequiredParams();
     this.labels = this.getAllLabels(this.data);
     this.prepareD3Chart();
     this.renderD3Chart(this.data);
+  }
+
+  checkRequiredParams() {
+    if (this.data === undefined) throw new Error('"data" input is required');
+    if (this.colors === undefined) throw new Error('"colors" input is required');
   }
 
   onResize(event: any) {
