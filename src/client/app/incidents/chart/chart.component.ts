@@ -187,7 +187,6 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
     let barGroup = this.svgG.selectAll('.bar-group').data(data).enter()
       .append('g')
       .attr('class', 'bar-group')
-      .attr('label', (d: any) => { return d; })
       .attr('transform', (d: any) => { return 'translate(' + this.x(d.date) + ',0)'; })
       .on('click', function (d: any) {
         if (jQuery(window).width() > 1024) {
