@@ -127,7 +127,7 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
 
   createMarker(icon: any) {
     // append marker to map
-    this.marker = L.marker([this.centerLat, this.centerLon], { icon: icon }).addTo(this.rfcxMapComp.rfcxMap);
+    this.marker = L.marker([this.centerLat, this.centerLon], { icon: icon, options: {} }).addTo(this.rfcxMapComp.rfcxMap);
   }
 
   generatePopupHtml() {
@@ -135,7 +135,7 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
     this.data.forEach((item) => {
       html += '<p class=\"d3-tip__row\">' + item.count + ' ' + item.label + '</p>';
     });
-    return html;
+    return () => { return html };
   }
 
   createPopup() {

@@ -38,6 +38,6 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   }
 
   appendToMap() {
-    this.marker = L.marker([this.lat, this.lon], { icon: mapIcon }).addTo(this.rfcxMapComp.rfcxMap);
+    this.marker = L.marker([this.lat, this.lon], { icon: mapIcon, options: {} }).addTo(this.rfcxMapComp.rfcxMap);
   }
 }
