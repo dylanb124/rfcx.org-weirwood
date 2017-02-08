@@ -62,7 +62,7 @@ module.exports = function (config) {
       { pattern: 'node_modules/moment/moment.js', watched: false },
       { pattern: 'node_modules/bootstrap/dist/js/bootstrap.min.js', watched: false },
       { pattern: 'node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', watched: false },
-      { pattern: 'node_modules/d3/build/d3.js', included: false, watched: false },
+      { pattern: 'node_modules/d3/build/d3.min.js', included: false, watched: false },
       { pattern: 'node_modules/d3-tip/index.js', included: false, watched: false },
 
       'test-config.js',
