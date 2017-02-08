@@ -49,23 +49,22 @@ export class IncidentsComponent implements OnInit {
     chainsaw: 'rgba(245, 166, 35, 1)'
   };
 
-  // tslint:disable-next-line:no-unused-variable
-  private mapDetails: any = {
+  public mapDetails: any = {
     zoom: 10
   };
-  private minCircleDiameter: number = 80;
-  private maxCircleDiameter: number = 150;
-  private incidents: Array<any>;
-  private incidentsByYear: any;
-  private incidentsByDates: Array<any>;
-  private maxDate: Date;
-  private currentDate: Date;
-  private currentDaysCount: number = 5;
-  private currentdateStartingAfter: string;
-  private currentdateEndingBefore: string;
-  private currentIncidentTypeValues: Array<string>;
-  private mobileFiltersOpened: boolean = false;
-  private isLoading: boolean = false;
+  public minCircleDiameter: number = 80;
+  public maxCircleDiameter: number = 150;
+  public incidents: Array<any>;
+  public incidentsByYear: any;
+  public incidentsByDates: Array<any>;
+  public maxDate: Date;
+  public currentDate: Date;
+  public currentDaysCount: number = 5;
+  public currentdateStartingAfter: string;
+  public currentdateEndingBefore: string;
+  public currentIncidentTypeValues: Array<string>;
+  public mobileFiltersOpened: boolean = false;
+  public isLoading: boolean = false;
 
   constructor(
     private http: Http,

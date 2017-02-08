@@ -12,22 +12,16 @@ export class DropdownCheckboxesComponent implements OnInit {
 
   @Output() onChange = new EventEmitter();
   // internal id for twitter bootstrap dropdown interaction
-  // tslint:disable-next-line:no-unused-variable
-  private elementId: number = Math.round(Math.random() * 10000000);
-  private currentItems: Array<DropdownCheckboxItem> = [];
-  @Input() private title: string = 'Choose';
-  @Input() private allItemsTitle: string;
-  @Input() private items: Array<DropdownCheckboxItem> = [];
-  // tslint:disable-next-line:no-unused-variable
-  @Input() private dropup: boolean = false;
-  // tslint:disable-next-line:no-unused-variable
-  @Input() private disabled: boolean = false;
-  // tslint:disable-next-line:no-unused-variable
-  @Input() private block: boolean = false;
-  // tslint:disable-next-line:no-unused-variable
-  @Input() private download: boolean = false;
-  // tslint:disable-next-line:no-unused-variable
-  @Input() private noborder: boolean = false;
+  public elementId: number = Math.round(Math.random() * 10000000);
+  public currentItems: Array<DropdownCheckboxItem> = [];
+  @Input() title: string = 'Choose';
+  @Input() allItemsTitle: string;
+  @Input() items: Array<DropdownCheckboxItem> = [];
+  @Input() dropup: boolean = false;
+  @Input() disabled: boolean = false;
+  @Input() block: boolean = false;
+  @Input() download: boolean = false;
+  @Input() noborder: boolean = false;
 
   ngOnInit() {
     this.items.forEach((item: DropdownCheckboxItem) => {

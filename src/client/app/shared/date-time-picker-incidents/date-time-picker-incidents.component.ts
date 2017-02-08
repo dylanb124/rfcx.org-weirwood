@@ -15,6 +15,10 @@ const labelFormat: string = 'MMM D';
 export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
 
   public selectedDate: Date;
+  public dateTimePickerEl: any;
+  public isOpened: boolean;
+  public label: string = 'Choose date';
+  public tempDate: Date;
   @Input() date: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
@@ -23,10 +27,6 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
   @Input() disabledDates: Array<any>;
   @Input() incidentsByYear: any;
   @Output() onChange = new EventEmitter();
-  private dateTimePickerEl: any;
-  private isOpened: boolean;
-  private label: string = 'Choose date';
-  private tempDate: Date;
 
   constructor(private elementRef: ElementRef) { }
 

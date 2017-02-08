@@ -11,7 +11,6 @@ import * as L from 'leaflet';
 export class RfcxMapComponent implements OnInit, OnChanges {
 
   private rfcxMap: any;
-  // tslint:disable-next-line:no-unused-variable
   @Input() private data: Array<any>;
   @Input() private centerLat: number;
   @Input() private centerLon: number;

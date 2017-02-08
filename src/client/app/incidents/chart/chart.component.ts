@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, ElementRef, ViewEncapsulation, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, ElementRef, ViewEncapsulation, Input, HostListener } from '@angular/core';
 
 let jQuery: any = (window as any)['$'];
 import * as d3 from 'd3';
@@ -13,9 +13,9 @@ let d3Tip: any = d3tip;
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
   encapsulation: ViewEncapsulation.None,
-  host: {
-    '(window:resize)': 'onResize($event)'
-  }
+  // host: {
+  //   '(window:resize)': 'onResize($event)'
+  // }
 })
 export class IncidentsChartComponent implements OnInit, OnChanges {
 
@@ -48,17 +48,18 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
     this.renderD3Chart(this.data);
   }
 
-  checkRequiredParams() {
-    if (this.data === undefined) throw new Error('"data" input is required');
-    if (this.colors === undefined) throw new Error('"colors" input is required');
-  }
-
+  @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     clearTimeout(this.resizeTimeout);
     this.resizeTimeout = setTimeout(() => {
       this.renderD3Chart(this.data);
       this.toggleTipVisibility(false);
     }, 500);
+  }
+
+  checkRequiredParams() {
+    if (this.data === undefined) throw new Error('"data" input is required');
+    if (this.colors === undefined) throw new Error('"colors" input is required');
   }
 
   getAllLabels(data: Array<any>) {

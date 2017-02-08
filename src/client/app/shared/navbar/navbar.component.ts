@@ -10,7 +10,7 @@ import { UserService } from '../user/user.service';
 })
 export class NavbarComponent implements OnInit {
 
-  private userData: any;
+  public userData: any;
 
   constructor(
     private userService: UserService,

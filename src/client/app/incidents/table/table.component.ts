@@ -1,6 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-
-// let jQuery: any = (window as any)['$'];
+import { Component, Input, OnInit, OnChanges, ViewEncapsulation } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -9,7 +7,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./table.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class IncidentsTableComponent implements OnInit {
+export class IncidentsTableComponent implements OnInit, OnChanges {
 
   public labels: Array<string>;
   public labelsTotal: any;
