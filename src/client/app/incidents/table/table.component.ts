@@ -38,7 +38,7 @@ export class IncidentsTableComponent implements OnInit {
 
   calculateTotalPerSector() {
     this.data.forEach((item) => {
-      item.total = Object.values(item.events).reduce((a: string, b: string) => {
+      item.total = (<any>Object).values(item.events).reduce((a: string, b: string) => {
         return parseInt(a) + parseInt(b);
       }, 0);
     });

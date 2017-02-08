@@ -360,7 +360,7 @@ export class IncidentsComponent implements OnInit {
       return null;
     }
     let csv = '',
-      arr;
+      arr: any;
     // both values sets represent array of items with equal object attribute 'events', but different labels: 'shortname' and 'date'
     // make an array with similar objects
     switch (type) {
@@ -383,7 +383,7 @@ export class IncidentsComponent implements OnInit {
     }
     // combine all type labels in one string for csv header row
     csv += this.currentIncidentTypeValues.join(',') + '\n';
-    arr.forEach((item) => {
+    arr.forEach((item: any) => {
       csv += item.label + ',';
       // combine all type values in one string
       let values = this.currentIncidentTypeValues.map((value) => {

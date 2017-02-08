@@ -21,10 +21,10 @@ then
   if [[ $REPLY =~ ^[Pp]$ ]]
   then
     echo -e "\nBuilding the 'production' environment.\n"
-    ./node_modules/.bin/gulp build.prod ---config-env prod;
+    ./node_modules/.bin/gulp build.prod --env-config prod --build-type prod;
   else
     echo -e "\nBuilding the 'staging' environment.\n"
-    ./node_modules/.bin/gulp build.prod ---config-env staging;
+    ./node_modules/.bin/gulp build.prod --env-config staging --build-type prod;
   fi
 
 

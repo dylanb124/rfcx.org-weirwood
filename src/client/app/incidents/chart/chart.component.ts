@@ -144,7 +144,7 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
     }
 
     let yMax = d3.max(data, (d: any) => {
-      return d3.max(Object.values(d.events));
+      return d3.max((<any>Object).values(d.events));
     });
 
     this.yAxis
