@@ -3,6 +3,8 @@ import { async } from '@angular/core/testing';
 
 import { IncidentsChartComponent } from './chart.component';
 
+let jQuery: any = (window as any)['$'];
+
 export function main() {
 
   describe('Incidents Chart Component', () => {
@@ -758,6 +760,217 @@ export function main() {
                 }
               });
               expect(widthTrue).toEqual(true);
+            });
+        });
+
+      });
+
+      describe('highlighting bars', () => {
+
+        beforeEach(() => {
+          expectedData = initialData.slice(0);
+          fixture.detectChanges();
+        });
+
+        it('should add transparented class to all bar groups except first', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.highlightBarGroup(barGroups[0]);
+              expect(barGroups[1].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[2].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[3].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[4].getAttribute('class')).toEqual('bar-group transparented');
+            });
+        });
+
+        it('should add transparented class to all bar groups except second', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.highlightBarGroup(barGroups[1]);
+              expect(barGroups[0].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[2].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[3].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[4].getAttribute('class')).toEqual('bar-group transparented');
+            });
+        });
+
+        it('should add transparented class to all bar groups except last', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.highlightBarGroup(barGroups[4]);
+              expect(barGroups[0].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[1].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[2].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[3].getAttribute('class')).toEqual('bar-group transparented');
+            });
+        });
+
+        it('should remove transparented class from all bar groups from second to last', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.highlightBarGroup(barGroups[0]);
+              expect(barGroups[1].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[2].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[3].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[4].getAttribute('class')).toEqual('bar-group transparented');
+              comp.resetBarGroupsHighlight();
+              expect(barGroups[0].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[1].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[2].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[3].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[4].getAttribute('class')).toEqual('bar-group');
+            });
+        });
+
+        it('should remove transparented class from all bar groups from first to penultimate', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.highlightBarGroup(barGroups[4]);
+              expect(barGroups[0].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[1].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[2].getAttribute('class')).toEqual('bar-group transparented');
+              expect(barGroups[3].getAttribute('class')).toEqual('bar-group transparented');
+              comp.resetBarGroupsHighlight();
+              expect(barGroups[0].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[1].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[2].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[3].getAttribute('class')).toEqual('bar-group');
+              expect(barGroups[4].getAttribute('class')).toEqual('bar-group');
+            });
+        });
+
+      });
+
+      describe('tooltips', () => {
+
+        beforeEach(() => {
+          expectedData = initialData.slice(0);
+          fixture.detectChanges();
+        });
+
+        it('should call show method on tip with data from first day and set isTipOpened to true', () => {
+          let spyShow = spyOn(comp.tip, 'show').and.returnValue(true);
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.toggleTipVisibility(true, expectedData[0], barGroups[0]);
+              expect(spyShow.calls.count()).toBe(1);
+              expect(spyShow.calls.first().args[0]).toBe(expectedData[0], barGroups[0]);
+              expect(comp.isTipOpened).toEqual(true);
+            });
+        });
+
+        it('should call show method on tip with data from second day and set isTipOpened to true', () => {
+          let spyShow = spyOn(comp.tip, 'show').and.returnValue(true);
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.toggleTipVisibility(true, expectedData[1], barGroups[1]);
+              expect(spyShow.calls.count()).toBe(1);
+              expect(spyShow.calls.first().args[0]).toBe(expectedData[1], barGroups[1]);
+              expect(comp.isTipOpened).toEqual(true);
+            });
+        });
+
+        it('should call show method on tip with data from last day and set isTipOpened to true', () => {
+          let spyShow = spyOn(comp.tip, 'show').and.returnValue(true);
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              comp.toggleTipVisibility(true, expectedData[4], barGroups[4]);
+              expect(spyShow.calls.count()).toBe(1);
+              expect(spyShow.calls.first().args[0]).toBe(expectedData[4], barGroups[4]);
+              expect(comp.isTipOpened).toEqual(true);
+            });
+        });
+
+        it('should call show method on tip with data from first day and set isTipOpened to true', () => {
+          let spyHide = spyOn(comp.tip, 'hide').and.returnValue(true);
+          TestBed
+            .compileComponents()
+            .then(() => {
+              comp.toggleTipVisibility(false);
+              expect(spyHide.calls.count()).toBe(1);
+              expect(comp.isTipOpened).toEqual(false);
+            });
+        });
+
+        it('should fill d3-tip element with generated html for first date', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              expect(document.querySelector('.d3-tip__row_event-chainsaw')).toBeNull();
+              expect(document.querySelector('.d3-tip__row_event-shot')).toBeNull();
+              expect(document.querySelector('.d3-tip__row_event-vehicle')).toBeNull();
+              comp.toggleTipVisibility(true, expectedData[0], barGroups[0]);
+              fixture.detectChanges();
+              expect(document.querySelector('.d3-tip__row_event-chainsaw').textContent).toEqual('2 chainsaw');
+              expect(document.querySelector('.d3-tip__row_event-shot').textContent).toEqual('2 shot');
+              expect(document.querySelector('.d3-tip__row_event-vehicle').textContent).toEqual('1 vehicle');
+            });
+        });
+
+      });
+
+      describe('events', () => {
+
+        beforeEach(() => {
+          expectedData = initialData.slice(0);
+          fixture.detectChanges();
+        });
+
+        it('should call renderD3Chart and toggleTipVisibility after 500ms timeout on window resize event', (done) => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let spyRender = spyOn(comp, 'renderD3Chart').and.returnValue(true);
+              let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+              window.dispatchEvent(new Event('resize'));
+              setTimeout(() => {
+                expect(spyRender.calls.count()).toEqual(1);
+                expect(spyToggle.calls.count()).toEqual(1);
+                done();
+              }, 501);
+            });
+        });
+
+        it('should call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let spyHighlight = spyOn(comp, 'highlightBarGroup').and.returnValue(true);
+              let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              barGroups[0].dispatchEvent(new Event('mouseover'));
+              expect(spyHighlight.calls.count()).toEqual(1);
+              expect(spyToggle.calls.count()).toEqual(1);
+            });
+        });
+
+        it('should call resetBarGroupsHighlight and toggleTipVisibility methods on mouseout from bar-group', () => {
+          TestBed
+            .compileComponents()
+            .then(() => {
+              let spyReset = spyOn(comp, 'resetBarGroupsHighlight').and.returnValue(true);
+              let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+              barGroups[0].dispatchEvent(new Event('mouseout'));
+              expect(spyReset.calls.count()).toEqual(1);
+              expect(spyToggle.calls.count()).toEqual(1);
             });
         });
 

@@ -13,9 +13,6 @@ let d3Tip: any = d3tip;
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
   encapsulation: ViewEncapsulation.None,
-  // host: {
-  //   '(window:resize)': 'onResize($event)'
-  // }
 })
 export class IncidentsChartComponent implements OnInit, OnChanges {
 
@@ -33,8 +30,8 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
   public svg: any;
   public width: number;
   public tip: any;
+  public isTipOpened: boolean = false;
   private svgG: any;
-  private isTipOpened: boolean = false;
   private resizeTimeout: any;
   private zeroValueHeight: number = 3;
   private formatTipDate = d3.timeFormat('%B %e, %Y');
@@ -109,9 +106,9 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
       .attr('class', 'd3-tip')
       .offset([-8, 0])
       .html((d: any) => {
-        let html = '<p class=\"d3-tip__row d3-tip__row_date\">' + this.formatTipDate(d.date) + '</p>';
+        let html = '<p class="d3-tip__row d3-tip__row_date">' + this.formatTipDate(d.date) + '</p>';
         for (let label in d.events) {
-          html += '<p class=\"d3-tip__row\">' + d.events[label] + ' ' + label + '</p>';
+          html += '<p class="d3-tip__row d3-tip__row_event d3-tip__row_event-' + label + '">' + d.events[label] + ' ' + label + '</p>';
         }
         return html;
       });
