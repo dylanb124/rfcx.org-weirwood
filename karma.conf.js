@@ -119,9 +119,13 @@ module.exports = function (config) {
         base: 'Chrome',
         flags: ['--no-sandbox']
       },
-      Chrome_custom: {
+      Chrome_desktop: {
         base: 'Chrome',
         flags: ['--window-size=1280,800']
+      },
+      Chrome_tablet: {
+        base: 'Chrome',
+        flags: ['--window-size=1024,768']
       }
     },
 
@@ -135,7 +139,7 @@ module.exports = function (config) {
     }
   });
 
-  config.browsers = ['Chrome_custom'];
+  config.browsers = ['Chrome_desktop', 'Chrome_tablet'];
 
   if (process.env.APPVEYOR) {
     config.browsers = ['IE'];
