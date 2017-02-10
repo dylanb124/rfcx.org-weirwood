@@ -67,9 +67,10 @@ export function main() {
           expectedData = changedData.slice(0);
           comp.incidents = expectedData;
           fixture.detectChanges();
-          expect(barGroups[0].querySelectorAll('.bar')[0].getAttribute('data-value')).toEqual('5');
-          expect(barGroups[0].querySelectorAll('.bar')[1].getAttribute('data-value')).toEqual('4');
-          expect(barGroups[0].querySelectorAll('.bar')[2].getAttribute('data-value')).toEqual('3');
+          let barGroupsUpdated = el.querySelectorAll('.incidents-chart__svg .bar-group');
+          expect(barGroupsUpdated[0].querySelectorAll('.bar')[0].getAttribute('data-value')).toEqual('5');
+          expect(barGroupsUpdated[0].querySelectorAll('.bar')[1].getAttribute('data-value')).toEqual('4');
+          expect(barGroupsUpdated[0].querySelectorAll('.bar')[2].getAttribute('data-value')).toEqual('3');
         });
     });
 
