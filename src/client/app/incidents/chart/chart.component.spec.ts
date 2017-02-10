@@ -943,7 +943,8 @@ export function main() {
         });
 
         if (jQuery(window).width() < 1025) {
-          it('should not call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group if window width is smaller than 1025', () => {
+          it('should not call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group if ' +
+              'window width is smaller than 1025', () => {
             TestBed
               .compileComponents()
               .then(() => {
@@ -957,7 +958,8 @@ export function main() {
           });
         }
         else {
-          it('should call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group if window width is greater than 1024', () => {
+          it('should call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group if ' +
+              'window width is greater than 1024', () => {
             TestBed
               .compileComponents()
               .then(() => {
@@ -1000,7 +1002,8 @@ export function main() {
               });
           });
 
-          it('should call toggleTipVisibility method on click over bar-group if window width is smaller than 1025 with another params', () => {
+          it('should call toggleTipVisibility method on click over bar-group if window width is smaller than 1025 ' +
+              'with another params', () => {
             TestBed
               .compileComponents()
               .then(() => {

@@ -55,8 +55,8 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
   }
 
   checkRequiredParams() {
-    if (this.data === undefined) throw new Error('"data" input is required');
-    if (this.colors === undefined) throw new Error('"colors" input is required');
+    if (this.data === undefined) throw new Error('"data" input is required for IncidentsChartComponent');
+    if (this.colors === undefined) throw new Error('"colors" input is required for IncidentsChartComponent');
   }
 
   getAllLabels(data: Array<any>) {
@@ -187,9 +187,6 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
       .attr('class', 'bar-group')
       .attr('transform', (d: any) => { return 'translate(' + this.x(d.date) + ',0)'; })
       .on('click', function (d: any) {
-        // if (jQuery(window).width() > 1024) {
-        //   return;
-        // }
         if (jQuery(window).width() < 1025) {
           self.toggleTipVisibility(!self.isTipOpened, d, this);
         }
@@ -224,6 +221,9 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
       .enter()
       .append('rect')
       .attr('class', 'bar')
+      .attr('data-value', (d: any) => {
+        return d.value;
+      })
       .attr('width', (d: any) => {
         // set maximum bar width to 24px
         // this code will choose width based on calculated value from d3 and our max width
