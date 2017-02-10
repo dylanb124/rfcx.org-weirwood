@@ -155,14 +155,6 @@ export function main() {
           });
       });
 
-      it('should set svg width to 1264', () => {
-        TestBed
-          .compileComponents()
-          .then(() => {
-            expect(comp.svg.attr('width')).toEqual('1264');
-          });
-      });
-
       it('should create d3 tip object', () => {
         TestBed
           .compileComponents()
@@ -943,23 +935,43 @@ export function main() {
               setTimeout(() => {
                 expect(spyRender.calls.count()).toEqual(1);
                 expect(spyToggle.calls.count()).toEqual(1);
+                expect(spyRender.calls.first().args[0]).toEqual(expectedData);
+                expect(spyToggle.calls.first().args[0]).toEqual(false);
                 done();
               }, 501);
             });
         });
 
-        it('should call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group', () => {
-          TestBed
-            .compileComponents()
-            .then(() => {
-              let spyHighlight = spyOn(comp, 'highlightBarGroup').and.returnValue(true);
-              let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
-              let barGroups = comp.svgEl.querySelectorAll('.bar-group');
-              barGroups[0].dispatchEvent(new Event('mouseover'));
-              expect(spyHighlight.calls.count()).toEqual(1);
-              expect(spyToggle.calls.count()).toEqual(1);
-            });
-        });
+        if (jQuery(window).width() < 1025) {
+          it('should not call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group if window width is smaller than 1025', () => {
+            TestBed
+              .compileComponents()
+              .then(() => {
+                let spyHighlight = spyOn(comp, 'highlightBarGroup').and.returnValue(true);
+                let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+                let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+                barGroups[0].dispatchEvent(new Event('mouseover'));
+                expect(spyHighlight.calls.count()).toEqual(0);
+                expect(spyToggle.calls.count()).toEqual(0);
+              });
+          });
+        }
+        else {
+          it('should call highlightBarGroup and toggleTipVisibility methods on mouseover over bar-group if window width is greater than 1024', () => {
+            TestBed
+              .compileComponents()
+              .then(() => {
+                let spyHighlight = spyOn(comp, 'highlightBarGroup').and.returnValue(true);
+                let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+                let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+                barGroups[0].dispatchEvent(new Event('mouseover'));
+                expect(spyHighlight.calls.count()).toEqual(1);
+                expect(spyToggle.calls.count()).toEqual(1);
+                expect(spyHighlight.calls.first().args[0]).toEqual(barGroups[0]);
+                expect(spyToggle.calls.first().args).toEqual([true, expectedData[0], barGroups[0]]);
+              });
+          });
+        }
 
         it('should call resetBarGroupsHighlight and toggleTipVisibility methods on mouseout from bar-group', () => {
           TestBed
@@ -971,8 +983,49 @@ export function main() {
               barGroups[0].dispatchEvent(new Event('mouseout'));
               expect(spyReset.calls.count()).toEqual(1);
               expect(spyToggle.calls.count()).toEqual(1);
+              expect(spyToggle.calls.first().args[0]).toEqual(false);
             });
         });
+
+        if (jQuery(window).width() < 1025) {
+          it('should call toggleTipVisibility method on click over bar-group if window width is smaller than 1025', () => {
+            TestBed
+              .compileComponents()
+              .then(() => {
+                let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+                let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+                barGroups[0].dispatchEvent(new Event('click'));
+                expect(spyToggle.calls.count()).toEqual(1);
+                expect(spyToggle.calls.first().args).toEqual([true, expectedData[0], barGroups[0]]);
+              });
+          });
+
+          it('should call toggleTipVisibility method on click over bar-group if window width is smaller than 1025 with another params', () => {
+            TestBed
+              .compileComponents()
+              .then(() => {
+                comp.isTipOpened = true;
+                fixture.detectChanges();
+                let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+                let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+                barGroups[0].dispatchEvent(new Event('click'));
+                expect(spyToggle.calls.count()).toEqual(1);
+                expect(spyToggle.calls.first().args).toEqual([false, expectedData[0], barGroups[0]]);
+              });
+          });
+        }
+        else {
+          it('should not call toggleTipVisibility method on click over bar-group if window width is greater than 1024', () => {
+            TestBed
+              .compileComponents()
+              .then(() => {
+                let spyToggle = spyOn(comp, 'toggleTipVisibility').and.returnValue(true);
+                let barGroups = comp.svgEl.querySelectorAll('.bar-group');
+                barGroups[0].dispatchEvent(new Event('click'));
+                expect(spyToggle.calls.count()).toEqual(0);
+              });
+          });
+        }
 
       });
 

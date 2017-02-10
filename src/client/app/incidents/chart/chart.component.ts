@@ -187,10 +187,12 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
       .attr('class', 'bar-group')
       .attr('transform', (d: any) => { return 'translate(' + this.x(d.date) + ',0)'; })
       .on('click', function (d: any) {
-        if (jQuery(window).width() > 1024) {
-          return;
+        // if (jQuery(window).width() > 1024) {
+        //   return;
+        // }
+        if (jQuery(window).width() < 1025) {
+          self.toggleTipVisibility(!self.isTipOpened, d, this);
         }
-        self.toggleTipVisibility(!self.isTipOpened, d, this);
       })
       .on('mouseover', function (d: any) {
         if (jQuery(window).width() < 1025) {
