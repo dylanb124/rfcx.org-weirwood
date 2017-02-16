@@ -24,6 +24,7 @@ export class DropdownComponent implements OnInit {
   public currentItem: DropdownItem;
 
   ngOnInit() {
+    this.checkRequiredParams();
     let selectedItems = this.items.filter((item: DropdownItem) => {
       return item.selected === true;
     });
@@ -31,15 +32,21 @@ export class DropdownComponent implements OnInit {
       this.currentItem = selectedItems[0];
     }
     if (selectedItems.length > 1) {
-      console.error('You have selected more than one selected item for', module.id);
+      throw new Error('You have selected more than one selected item for ' + module.id);
     }
+  }
+
+  checkRequiredParams() {
+    if (this.items === undefined) throw new Error('"items" input is required for DropdownComponent');
   }
 
   changeValue(item: DropdownItem) {
     this.currentItem = item;
-    this.onChange.emit({
-      item: item
-    });
+    if (this.onChange) {
+      this.onChange.emit({
+        item: item
+      });
+    }
   }
 
 }

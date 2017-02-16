@@ -7,8 +7,8 @@
     <span class="icon-chevron-up"></span>
   </button>
   <ul class="dropdown-menu" aria-labelledby="'dropdownMenu' + elementId">
-    <li *ngFor='let item of items'>
-      <a href="javascript:void(0)" (click)="changeValue(item)">{{item.label}}</a>
+    <li *ngFor='let item of items' class="dropdown-rfcx__item">
+      <a class="dropdown-rfcx__link" href="javascript:void(0)" (click)="changeValue(item)">{{item.label}}</a>
     </li>
   </ul>
 </div>
