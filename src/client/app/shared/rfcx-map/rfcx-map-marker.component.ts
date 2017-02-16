@@ -8,7 +8,7 @@ const mapIcon = L.icon({
   iconUrl: 'assets/img/map/location-marker@2x.png',
   iconSize: iconSize,
   iconAnchor: [10, 28],
-  className: 'mapMarker'
+  className: 'rfcx-map-marker'
 });
 
 @Component({
@@ -20,8 +20,8 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
   @Input() lat: number;
   @Input() lon: number;
-  private rfcxMapComp: any;
-  private marker: any;
+  public rfcxMapComp: any;
+  public marker: any;
 
   constructor(
     @Inject(forwardRef(() => RfcxMapComponent)) map: RfcxMapComponent
@@ -38,6 +38,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   }
 
   appendToMap() {
-    this.marker = L.marker([this.lat, this.lon], { icon: mapIcon }).addTo(this.rfcxMapComp.rfcxMap);
+    this.marker = L.marker([this.lat, this.lon], { icon: mapIcon });
+    this.marker.addTo(this.rfcxMapComp.rfcxMap);
   }
 }

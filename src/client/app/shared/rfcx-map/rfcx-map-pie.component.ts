@@ -83,6 +83,7 @@ export class RfcxMapPieComponent implements OnInit, OnDestroy {
     let svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     // get d3 representation of svg object
     let svg = d3.select(svgEl);
+    svg.attr('class', 'rfcx-map-pie');
 
     // define sizes for arcs
     let arc: any = d3.arc()

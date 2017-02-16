@@ -10,12 +10,12 @@ import * as L from 'leaflet';
 })
 export class RfcxMapComponent implements OnInit, OnChanges {
 
-  private rfcxMap: any;
-  @Input() private data: Array<any>;
-  @Input() private centerLat: number;
-  @Input() private centerLon: number;
-  @Input() private zoom: number;
-  @Input() private minZoom?: number;
+  public rfcxMap: any;
+  @Input() data: Array<any>;
+  @Input() centerLat: number;
+  @Input() centerLon: number;
+  @Input() zoom: number;
+  @Input() minZoom?: number;
 
   constructor(private elementRef: ElementRef) { }
 
@@ -64,7 +64,7 @@ export class RfcxMapComponent implements OnInit, OnChanges {
       // iterate through all map layers
       this.rfcxMap.eachLayer(function (layer: any) {
         if (layer.options && layer.options.icon && layer.options.icon.options &&
-          layer.options.icon.options.className === 'mapMarker') {
+          layer.options.icon.options.className === 'rfcx-map-marker') {
           markers.push(layer.getLatLng());
         }
       });
