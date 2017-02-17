@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { DropdownCheckboxItem } from './dropdown-item';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   moduleId: module.id,
@@ -15,12 +16,11 @@ export class DropdownCheckboxesComponent implements OnInit {
   public elementId: number = Math.round(Math.random() * 10000000);
   public currentItems: Array<DropdownCheckboxItem> = [];
   @Input() title: string = 'Choose';
-  @Input() allItemsTitle: string;
+  @Input() allItemsTitle: string = 'All items';
   @Input() items: Array<DropdownCheckboxItem> = [];
   @Input() dropup: boolean = false;
   @Input() disabled: boolean = false;
   @Input() block: boolean = false;
-  @Input() download: boolean = false;
   @Input() noborder: boolean = false;
 
   ngOnInit() {
@@ -54,7 +54,7 @@ export class DropdownCheckboxesComponent implements OnInit {
 
   combineDropdownTitle(): string {
     if (!this.items.length) {
-      return 'No Items';
+      return 'No items';
     }
     if (this.allItemsTitle && this.currentItems.length === this.items.length) {
       return this.allItemsTitle;
