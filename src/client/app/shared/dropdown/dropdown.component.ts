@@ -42,11 +42,9 @@ export class DropdownComponent implements OnInit {
 
   changeValue(item: DropdownItem) {
     this.currentItem = item;
-    if (this.onChange) {
-      this.onChange.emit({
-        item: item
-      });
-    }
+    this.onChange.emit({
+      item: item
+    });
   }
 
 }
