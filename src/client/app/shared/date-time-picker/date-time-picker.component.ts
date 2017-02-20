@@ -15,21 +15,23 @@ export class DateTimePickerComponent implements OnInit {
   @Input() minDate: Date;
   @Input() maxDate: Date;
   @Input() disabled: boolean;
-  @Input() disabledDates: Array<any>;
   @Output() onChange = new EventEmitter();
-  private dateTimePickerEl: any;
+  public dateTimePicker: any;
+  public dateTimePickerEl: any;
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(
+    public elementRef: ElementRef
+  ) { }
 
   ngOnInit() {
     this.dateTimePickerEl = jQuery(this.elementRef.nativeElement.getElementsByClassName('js-datetimepicker')[0]);
-    this.dateTimePickerEl.datetimepicker({
+    this.dateTimePicker = this.dateTimePickerEl.datetimepicker({
       format: 'DD/MM/YYYY',
       minDate: this.minDate || false,
       maxDate: this.maxDate || false,
       icons: {
-        previous: 'icon-chevron-left',
-        next: 'icon-chevron-right'
+        next: 'icon-chevron-right',
+        previous: 'icon-chevron-left'
       }
     });
 
