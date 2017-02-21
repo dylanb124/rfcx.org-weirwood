@@ -3,5 +3,3 @@
  */
 export * from './incidents.component';
 export * from './incidents.routes';
-export * from './chart/chart.component';
-export * from './table/table.component';

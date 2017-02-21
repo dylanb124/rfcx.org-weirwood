@@ -11,7 +11,6 @@ import { DropdownComponent } from './dropdown/index';
 import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent, RfcxMapMarkerComponent, RfcxMapPieComponent } from './rfcx-map/index';
 import { DateTimePickerComponent } from './date-time-picker/index';
-import { DateTimePickerIncidentsComponent } from './date-time-picker-incidents/index';
 import { UserService } from './user/user.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
@@ -36,8 +35,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RfcxBaseMapComponent,
     RfcxMapMarkerComponent,
     RfcxMapPieComponent,
-    DateTimePickerComponent,
-    DateTimePickerIncidentsComponent
+    DateTimePickerComponent
   ],
   exports: [
     NavbarComponent,
@@ -52,8 +50,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RfcxBaseMapComponent,
     RfcxMapMarkerComponent,
     RfcxMapPieComponent,
-    DateTimePickerComponent,
-    DateTimePickerIncidentsComponent
+    DateTimePickerComponent
   ]
 })
 export class SharedModule {

@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation, OnInit, OnChanges } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import * as moment from 'moment';
 // use this hack to get jQuery (as jQuery conflicts with protractor)
@@ -8,27 +9,30 @@ const labelFormat: string = 'MMM D';
 @Component({
   moduleId: module.id,
   selector: 'date-time-picker-incidents',
-  templateUrl: 'date-time-picker-incidents.component.html',
-  styleUrls: ['date-time-picker-incidents.component.css'],
+  templateUrl: 'date-time-picker.component.html',
+  styleUrls: ['date-time-picker.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
+export class IncidentsDateTimePickerComponent implements OnInit, OnChanges {
 
   public selectedDate: Date;
+  public dateTimePicker: any;
   public dateTimePickerEl: any;
-  public isOpened: boolean;
+  public isOpened: boolean = false;
   public label: string = 'Choose date';
   public tempDate: Date;
+  // is used in ngOnChanges
   @Input() date: Date;
   @Input() minDate: Date;
   @Input() maxDate: Date;
-  @Input() range: number;
+  @Input() range: number = 0;
   @Input() disabled: boolean;
-  @Input() disabledDates: Array<any>;
   @Input() incidentsByYear: any;
   @Output() onChange = new EventEmitter();
 
-  constructor(private elementRef: ElementRef) { }
+  constructor(
+    public elementRef: ElementRef
+  ) { }
 
   updateLabel() {
     if (this.range - 1 < 2) {
@@ -42,14 +46,14 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.dateTimePickerEl = jQuery(this.elementRef.nativeElement.getElementsByClassName('js-datetimepicker')[0]);
-    this.dateTimePickerEl.datetimepicker({
+    this.dateTimePicker = this.dateTimePickerEl.datetimepicker({
       format: 'DD/MM/YYYY',
       minDate: this.minDate || false,
       maxDate: this.maxDate || false,
       keepOpen: false,
       icons: {
-        previous: 'icon-chevron-left',
-        next: 'icon-chevron-right'
+        next: 'icon-chevron-right',
+        previous: 'icon-chevron-left'
       },
     });
 
@@ -71,7 +75,7 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
     this.dateTimePickerEl.on('dp.hide', () => {
       this.isOpened = false;
       this.refreshSelectedDate();
-      if (this.tempDate.getTime() !== this.selectedDate.getTime()) {
+      if (!!this.tempDate && !!this.selectedDate && (this.tempDate.getTime() !== this.selectedDate.getTime())) {
         this.onChange.emit({
           date: this.selectedDate
         });
@@ -81,11 +85,13 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
   }
 
   refreshSelectedDate() {
-    this.selectedDate = this.dateTimePickerEl.data('DateTimePicker').date().toDate();
+    if (this.dateTimePickerEl.data('DateTimePicker').date()) {
+      this.selectedDate = this.dateTimePickerEl.data('DateTimePicker').date().toDate();
+    }
   }
 
   highlightNonEmptyDates() {
-    if (this.incidentsByYear) {
+    if (this.incidentsByYear && this.dateTimePickerEl) {
       for (let dateStr in this.incidentsByYear) {
         if (this.incidentsByYear[dateStr] === true) {
           this.dateTimePickerEl.find('td[data-day="' + dateStr + '"]').addClass('rfcx-has-events');
@@ -114,8 +120,8 @@ export class DateTimePickerIncidentsComponent implements OnInit, OnChanges {
     if (changes.incidentsByYear && changes.incidentsByYear.currentValue !== changes.incidentsByYear.previousValue) {
       this.highlightNonEmptyDates();
     }
-    if (changes.date && changes.date.currentValue !== changes.date.previousValue &&
-        !!this.selectedDate && changes.date.currentValue !== this.selectedDate) {
+    if (changes.date && changes.date.currentValue !== changes.date.previousValue && this.dateTimePickerEl &&
+        changes.date.currentValue !== this.selectedDate) {
       this.dateTimePickerEl.data('DateTimePicker').date(changes.date.currentValue);
       this.refreshSelectedDate();
       this.updateLabel();
