@@ -18,12 +18,11 @@ export class UserService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    let request = this.http
-      .post(
+    let request = this.http.post(
       Config.API + 'users/login',
       JSON.stringify({ email, password }),
       options
-      );
+    );
     request.subscribe(
       (res) => {
         let body = res.json();
@@ -45,7 +44,7 @@ export class UserService {
         if (error) {
           let errBody = error.json();
           if (errBody && errBody.message) {
-            console.log('Error', errBody);
+            console.log('Error', errBody.message);
           }
         }
       }

@@ -1,6 +1,6 @@
 import { LoggedInGuard } from './logged-in.guard';
 import { TestBed, inject } from '@angular/core/testing';
-import { Router, RouterModule, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from './user.service';
 
 export function main() {
@@ -17,7 +17,6 @@ export function main() {
   describe('LoggedInGuard', () => {
     let service: LoggedInGuard;
     let userObj: UserService;
-    // let routerObj: Router;
     let snapObj: ActivatedRouteSnapshot;
     let stateObj: RouterStateSnapshot;
     let spyRouter: any;
@@ -35,7 +34,6 @@ export function main() {
     beforeEach(inject([Router, UserService, ActivatedRouteSnapshot, RouterStateSnapshot],
       (router: Router, user: UserService, snap: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
       userObj = user;
-      // routerObj = router;
       snapObj = snap;
       stateObj = state;
       spyRouter = spyOn(router, 'navigate').and.callFake(() => { return true; });

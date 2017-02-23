@@ -1,4 +1,5 @@
 import { DebugElement } from '@angular/core';
+import { Response } from '@angular/http';
 
 /** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
 export const ButtonClickEvents = {
@@ -13,4 +14,9 @@ export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClic
   } else {
     el.triggerEventHandler('click', eventObj);
   }
+}
+
+export class ErrorResponse extends Response implements Error {
+    name: any;
+    message: any;
 }
