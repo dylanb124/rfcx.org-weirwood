@@ -13,8 +13,8 @@ export class NavbarComponent implements OnInit {
   public userData: any;
 
   constructor(
-    private userService: UserService,
-    private router: Router
+    public userService: UserService,
+    public router: Router
   ) { }
 
   ngOnInit() {

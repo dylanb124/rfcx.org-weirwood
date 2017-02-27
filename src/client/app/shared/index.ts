@@ -7,3 +7,4 @@ export * from './user/user.service';
 export * from './user/logged-in.guard';
 export * from './config/env.config';
 export * from './testing/helpers';
+export * from './testing/mocks/routes';
