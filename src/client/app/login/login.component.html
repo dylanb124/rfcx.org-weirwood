@@ -6,7 +6,7 @@
       <div class="form-group form__row">
         <label for="email" class="form__label">Email</label>
         <input type="email" class="input form-login__input" id="email" [(ngModel)]="login.email" [ngClass]="{'error': !email.valid && !email.pristine}"
-          (keyup)="onKey($event)" name="email" #email="ngModel" placeholder="your@email.com" required autofocus>
+          (keyup)="onKey()" name="email" #email="ngModel" placeholder="your@email.com" required autofocus>
         <label for="email" [hidden]="email.valid || email.pristine" class="form__input-alert">E-mail is required</label>
       </div>
       <div class="form-group form__row form-login__row">

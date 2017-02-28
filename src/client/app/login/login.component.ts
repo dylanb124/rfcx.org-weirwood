@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Response } from '@angular/http';
 
 import { UserService } from '../shared/user/user.service';
 
@@ -22,19 +22,18 @@ export class LoginComponent {
     email: '',
     password: ''
   };
-  message: string;
+  message: string = null;
 
   constructor(
-    private userService: UserService,
-    private router: Router
+    public userService: UserService
   ) { }
 
-  onKey(event: any) {
+  onKey() {
     // reset error message when user started to edit data
     this.message = null;
   }
 
-  onFinally(err: any) {
+  onFinally(err: Response) {
     this.isLoading = false;
     this.message = null;
     if (err) {
@@ -45,10 +44,11 @@ export class LoginComponent {
 
   onSubmit() {
     this.isLoading = true;
-    this.userService.logIn(this.login.email, this.login.password)
+    this.userService
+      .logIn(this.login.email, this.login.password)
       .subscribe(
-      res => this.onFinally(null),
-      err => this.onFinally(err)
+        (res: Response) => this.onFinally(null),
+        (err: Response) => this.onFinally(err)
       );
   }
 };

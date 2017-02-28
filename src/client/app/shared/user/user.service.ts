@@ -22,7 +22,7 @@ export class UserService {
       Config.API + 'users/login',
       JSON.stringify({ email, password }),
       options
-    );
+    ).share();
     request.subscribe(
       (res) => {
         let body = res.json();
