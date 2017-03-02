@@ -18,12 +18,6 @@ import * as moment from 'moment';
 
 export class IncidentsComponent implements OnInit {
 
-  public incidentsColors = {
-    vehicles: 'rgba(34, 176, 163, 0.8)',
-    shots: 'rgba(240, 65, 84, 0.8)',
-    chainsaws: 'rgba(245, 166, 35, 0.8)'
-  };
-
   public incidentTypes: Array<DropdownCheckboxItem> = [
     { value: 'vehicle', label: 'Vehicles', checked: true },
     { value: 'shot', label: 'Shots', checked: true },
@@ -57,7 +51,7 @@ export class IncidentsComponent implements OnInit {
   public incidents: Array<any>;
   public incidentsByYear: any;
   public incidentsByDates: Array<any>;
-  public maxDate: Date;
+  public maxDate: Date = new Date();
   public currentDate: Date;
   public currentDaysCount: number = 5;
   public currentdateStartingAfter: string;
@@ -67,8 +61,8 @@ export class IncidentsComponent implements OnInit {
   public isLoading: boolean = false;
 
   constructor(
-    private http: Http,
-    private cookieService: CookieService,
+    public http: Http,
+    public cookieService: CookieService,
   ) { }
 
   ngOnInit() {
@@ -166,9 +160,11 @@ export class IncidentsComponent implements OnInit {
     if (opts.ending_before) {
       params.set('ending_before', opts.ending_before);
     }
-    opts.values.forEach((value: string) => {
-      params.append('values', value);
-    });
+    if (opts.values) {
+      opts.values.forEach((value: string) => {
+        params.append('values', value);
+      });
+    }
 
     let headers = new Headers({
       'Content-Type': 'application/json',
@@ -195,8 +191,8 @@ export class IncidentsComponent implements OnInit {
   }
 
   getInitialMapCenter() {
-    this.mapDetails.lat = this.incidents.length ? this.incidents[0].coords.lat : 37.773972;
-    this.mapDetails.lon = this.incidents.length ? this.incidents[0].coords.lon : -122.431297;
+    this.mapDetails.lat = this.incidents && this.incidents.length ? this.incidents[0].coords.lat : 37.773972;
+    this.mapDetails.lon = this.incidents && this.incidents.length ? this.incidents[0].coords.lon : -122.431297;
   }
 
   countIncidents() {
@@ -211,11 +207,11 @@ export class IncidentsComponent implements OnInit {
 
   calculateDiameters() {
     let deltaPx = this.maxCircleDiameter - this.minCircleDiameter;
-    let diameters = this.incidents.map((item) => {
+    let eventCounts = this.incidents.map((item) => {
       return item.eventsCount;
     });
-    let min = Math.min.apply(null, diameters);
-    let max = Math.max.apply(null, diameters);
+    let min = Math.min.apply(null, eventCounts);
+    let max = Math.max.apply(null, eventCounts);
     let deltaInc = max - min;
     this.incidents.forEach((item) => {
       if (item.eventsCount === min) {
@@ -288,6 +284,13 @@ export class IncidentsComponent implements OnInit {
       datesObj[m.format('MM/DD/YYYY')] = false;
     };
     for (let key in incidentsObj) {
+      let item = incidentsObj[key];
+      // ignore redundant incident values
+      for (let value in item) {
+        if (this.currentIncidentTypeValues.indexOf(value) === -1) {
+          delete item[value];
+        }
+      }
       datesObj[key] = !!Object.keys(incidentsObj[key]).length;
     }
     return datesObj;
@@ -297,7 +300,7 @@ export class IncidentsComponent implements OnInit {
     if (!this.incidentsByDates.length) {
       console.log('Incidents for this range not found. Searching for latest ones.');
       let date = this.findNearestDateInPast();
-      if (date) {
+      if (!!date) {
         console.log('Latest incidents were on', moment(date).format('MMMM Do YYYY'));
         this.currentDate = date;
         this.refreshTimeBounds();
@@ -307,7 +310,7 @@ export class IncidentsComponent implements OnInit {
   }
 
   findNearestDateInPast(): Date {
-    if (!this.incidentsByYear) {
+    if (!this.incidentsByYear || !Object.keys(this.incidentsByYear).length) {
       return null;
     }
     let closestDate: any = null;
