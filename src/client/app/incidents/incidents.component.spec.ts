@@ -1175,6 +1175,328 @@ export function main() {
 
     });
 
+    describe('incidentsTypeChanged function', () => {
+
+      let spyGet: any, spyLoad: any;
+
+      beforeEach(() => {
+        spyGet = spyOn(comp, 'getCheckedIncidentTypeValues').and.returnValue([1, 2, 3]);
+        spyLoad = spyOn(comp, 'loadData').and.returnValue(true);
+      });
+
+      it('should call getCheckedIncidentTypeValues with items, set currentIncidentTypeValues to result ' +
+          'and call loadData', () => {
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let res = comp.incidentsTypeChanged({
+              items: ['a', 'b', 'c']
+            });
+            expect(spyGet.calls.count()).toEqual(1);
+            expect(spyGet.calls.first().args[0]).toEqual(['a', 'b', 'c']);
+            expect(comp.currentIncidentTypeValues).toEqual([1, 2, 3]);
+            expect(spyLoad.calls.count()).toEqual(1);
+          });
+      });
+
+      it('should call getCheckedIncidentTypeValues with items, set currentIncidentTypeValues to result ' +
+          'and set incidents and incidentsByDates to empty arrays', () => {
+        comp.incidents = [{ events: {} }, { events: {} }, { events: {} }];
+        comp.incidentsByDates = [{ events: {} }, { events: {} }, { events: {} }];
+        spyGet.and.returnValue([]);
+        fixture.detectChanges();
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let res = comp.incidentsTypeChanged({
+              items: ['a', 'b', 'c']
+            });
+            expect(spyGet.calls.count()).toEqual(1);
+            expect(spyGet.calls.first().args[0]).toEqual(['a', 'b', 'c']);
+            expect(comp.currentIncidentTypeValues).toEqual([]);
+            expect(spyLoad.calls.count()).toEqual(0);
+            expect(comp.incidents).toEqual([]);
+            expect(comp.incidentsByDates).toEqual([]);
+          });
+      });
+
+    });
+
+    it('should set currentDaysCount to event.item.value and call recalculateDates and refreshTimeBounds ' +
+        'on daysCountChanged call', () => {
+      let spyRecalc = spyOn(comp, 'recalculateDates').and.returnValue(true);
+      let spyRefresh = spyOn(comp, 'refreshTimeBounds').and.returnValue(true);
+      fixture.detectChanges();
+      TestBed
+        .compileComponents()
+        .then(() => {
+          comp.daysCountChanged({
+            item: {
+              value: 3
+            }
+          });
+          expect(comp.currentDaysCount).toEqual(3);
+          expect(spyRecalc.calls.count()).toEqual(1);
+          expect(spyRefresh.calls.count()).toEqual(1);
+        });
+    });
+
+    it('should set currentDate to event.date and call refreshTimeBounds and loadData ' +
+        'on dateChanged call', () => {
+      let date = new Date('03/02/2017');
+      let spyRefresh = spyOn(comp, 'refreshTimeBounds').and.returnValue(true);
+      let spyLoad = spyOn(comp, 'loadData').and.returnValue(true);
+      fixture.detectChanges();
+      TestBed
+        .compileComponents()
+        .then(() => {
+          comp.dateChanged({
+            date: date
+          });
+          expect(comp.currentDate).toEqual(date);
+          expect(spyRefresh.calls.count()).toEqual(1);
+          expect(spyLoad.calls.count()).toEqual(1);
+        });
+    });
+
+    it('should set mobileFiltersOpened to true if mobileFiltersOpened is false on toggleMobileFilters call', () => {
+      comp.mobileFiltersOpened = false;
+      fixture.detectChanges();
+      TestBed
+        .compileComponents()
+        .then(() => {
+          comp.toggleMobileFilters();
+          expect(comp.mobileFiltersOpened).toEqual(true);
+        });
+    });
+
+    it('should set mobileFiltersOpened to false if mobileFiltersOpened is true on toggleMobileFilters call', () => {
+      comp.mobileFiltersOpened = true;
+      fixture.detectChanges();
+      TestBed
+        .compileComponents()
+        .then(() => {
+          comp.toggleMobileFilters();
+          expect(comp.mobileFiltersOpened).toEqual(false);
+        });
+    });
+
+    describe('generateCSV function', () => {
+
+      beforeEach(() => {
+
+        comp.incidents = [
+          {
+            coords: { lat: -2.15635, lon: -80.09 },
+            events: { chainsaw: 10, shot: 5, vehicle: 0 },
+            eventsCount: 15,
+            guid: '124567890',
+            shortname: 'Name 1'
+          },
+          {
+            coords: { lat: -2.14294, lon: -80.0884 },
+            events: { chainsaw: 30, shot: 2, vehicle: 12 },
+            eventsCount: 44,
+            guid: '987654321',
+            shortname: 'Name 2'
+          }
+        ];
+
+        comp.incidentsByDates = [
+          { date: new Date('03/01/2017'), events: { chainsaw: 5, shot: 2, vehicle: 3 } },
+          { date: new Date('03/02/2017'), events: { chainsaw: 15, shot: 12, vehicle: 13 } },
+          { date: new Date('03/03/2017'), events: { chainsaw: 25, shot: 22, vehicle: 23 } },
+        ];
+        comp.currentIncidentTypeValues = ['chainsaw', 'shot', 'vehicle'];
+
+      });
+
+      it('should return null if specified type is not in predefined list', () => {
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let csv = comp.generateCSV('custom_type');
+            expect(csv).toBeNull();
+          });
+      });
+
+      it('should return correct string with csv for csv_guardians type', () => {
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let csv = comp.generateCSV('csv_guardians');
+            expect(csv).toEqual('guardian,chainsaw,shot,vehicle\nName 1,10,5,0\nName 2,30,2,12\n');
+          });
+      });
+
+      it('should return another correct string with csv for csv_guardians type', () => {
+        comp.incidents = [
+          {
+            coords: { lat: -2.15635, lon: -80.09 },
+            events: { chainsaw: 15, shot: 50, vehicle: 3 },
+            eventsCount: 15,
+            guid: '124567890',
+            shortname: 'Name 1'
+          },
+          {
+            coords: { lat: -2.14294, lon: -80.0884 },
+            events: { chainsaw: 0, shot: 20, vehicle: 120 },
+            eventsCount: 44,
+            guid: '987654321',
+            shortname: 'Name 2'
+          }
+        ];
+        fixture.detectChanges();
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let csv = comp.generateCSV('csv_guardians');
+            expect(csv).toEqual('guardian,chainsaw,shot,vehicle\nName 1,15,50,3\nName 2,0,20,120\n');
+          });
+      });
+
+      it('should return third correct string with csv for csv_guardians type', () => {
+        comp.currentIncidentTypeValues = ['chainsaw'];
+        fixture.detectChanges();
+        TestBed
+        .compileComponents()
+        .then(() => {
+          let csv = comp.generateCSV('csv_guardians');
+          expect(csv).toEqual('guardian,chainsaw\nName 1,10\nName 2,30\n');
+        });
+      });
+
+      it('should return correct string with csv for csv_dates type', () => {
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let csv = comp.generateCSV('csv_dates');
+            expect(csv).toEqual('date,chainsaw,shot,vehicle\n03/01/2017,5,2,3\n03/02/2017,15,12,13\n03/03/2017,25,22,23\n');
+          });
+      });
+
+      it('should return another correct string with csv for csv_dates type', () => {
+        comp.incidentsByDates = [
+          { date: new Date('03/01/2017'), events: { chainsaw: 50, shot: 20, vehicle: 0 } },
+          { date: new Date('03/02/2017'), events: { chainsaw: 150, shot: 120, vehicle: 130 } },
+          { date: new Date('03/03/2017'), events: { chainsaw: 25, shot: 22, vehicle: 23 } },
+        ];
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let csv = comp.generateCSV('csv_dates');
+            expect(csv)
+              .toEqual('date,chainsaw,shot,vehicle\n03/01/2017,50,20,0\n03/02/2017,150,120,130\n03/03/2017,25,22,23\n');
+          });
+      });
+
+      it('should return third correct string with csv for csv_dates type', () => {
+        comp.currentIncidentTypeValues = ['chainsaw'];
+        fixture.detectChanges();
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let csv = comp.generateCSV('csv_dates');
+            expect(csv).toEqual('date,chainsaw\n03/01/2017,5\n03/02/2017,15\n03/03/2017,25\n');
+          });
+      });
+
+    });
+
+    describe('combineCSVFileName function', () => {
+
+      it('should return incidents_some_type_03/01/2017_03/03/2017.csv', () => {
+        comp.currentdateStartingAfter = '2017-03-01';
+        comp.currentdateEndingBefore = '2017-03-03';
+        fixture.detectChanges();
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let str = comp.combineCSVFileName('some_type');
+            expect(str).toEqual('incidents_some_type_03/01/2017_03/03/2017.csv');
+          });
+      });
+
+      it('should return incidents_aaa_10/10/2016_01/29/2017.csv', () => {
+        comp.currentdateStartingAfter = '2016-10-10';
+        comp.currentdateEndingBefore = '2017-01-29';
+        fixture.detectChanges();
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let str = comp.combineCSVFileName('aaa');
+            expect(str).toEqual('incidents_aaa_10/10/2016_01/29/2017.csv');
+          });
+      });
+
+    });
+
+    describe('formatChanged function', () => {
+
+      let spyGener: any, spyCreate: any, spyCreateWin: any, spyComb: any, spyA: any, spyAppend: any, spyRemove: any;
+      let aMock = {
+        click: () => {
+          return true;
+        }
+      };
+
+      beforeEach(() => {
+        spyGener = spyOn(comp, 'generateCSV').and.returnValue('asd');
+        spyCreate = spyOn(document, 'createElement').and.returnValue(aMock);
+        spyCreateWin = spyOn(window.URL, 'createObjectURL').and.returnValue('ddd');
+        spyComb = spyOn(comp, 'combineCSVFileName').and.returnValue('sss');
+        spyAppend = spyOn(document.body, 'appendChild').and.returnValue(true);
+        spyA = spyOn(aMock, 'click').and.returnValue(true);
+        spyRemove = spyOn(document.body, 'removeChild').and.returnValue(true);
+        fixture.detectChanges();
+      });
+
+      it('should do all stuff', () => {
+        TestBed
+          .compileComponents()
+          .then(() => {
+            comp.formatChanged({
+              item: {
+                value: 'csv_dates'
+              }
+            });
+            expect(spyGener.calls.count()).toEqual(1);
+            expect(spyGener.calls.first().args[0]).toEqual('csv_dates');
+            expect(spyCreate.calls.count()).toEqual(1);
+            expect(spyCreate.calls.first().args[0]).toEqual('a');
+            expect(spyCreateWin.calls.count()).toEqual(1);
+            expect(spyComb.calls.count()).toEqual(1);
+            expect(spyComb.calls.first().args[0]).toEqual('csv_dates');
+            expect(spyAppend.calls.count()).toEqual(1);
+            expect(spyA.calls.count()).toEqual(1);
+            expect(spyRemove.calls.count()).toEqual(1);
+          });
+      });
+
+      it('should do nothing if csv is null', () => {
+        spyGener.and.returnValue(null);
+        fixture.detectChanges();
+        TestBed
+          .compileComponents()
+          .then(() => {
+            comp.formatChanged({
+              item: {
+                value: 'csv_dates'
+              }
+            });
+            expect(spyGener.calls.count()).toEqual(1);
+            expect(spyGener.calls.first().args[0]).toEqual('csv_dates');
+            expect(spyCreate.calls.count()).toEqual(0);
+            expect(spyCreateWin.calls.count()).toEqual(0);
+            expect(spyComb.calls.count()).toEqual(0);
+            expect(spyAppend.calls.count()).toEqual(0);
+            expect(spyA.calls.count()).toEqual(0);
+            expect(spyRemove.calls.count()).toEqual(0);
+          });
+      });
+
+    });
+
   });
 
 }
