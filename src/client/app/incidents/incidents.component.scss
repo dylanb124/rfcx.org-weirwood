@@ -84,7 +84,7 @@
     &__left {
       padding-top: 0.4rem;
       float: left;
-      width: 40%;
+      width: 30%;
       @include mq(phone) {
         border-bottom: 1px solid transparent;
         float: none;
@@ -95,7 +95,7 @@
     }
     &__right {
       float: right;
-      width: 60%;
+      width: 70%;
       text-align: right;
       @include mq(phone) {
         max-height: 0;
@@ -208,9 +208,22 @@
           }
         }
       }
+      &_site,
       &_type {
         width: 130px;
         margin: 0 4px;
+        @include respond-between($tabletMax + 1, 1100px) {
+          width: 110px;
+          margin: 0 2px;
+        }
+        @include mq(tablet) {
+          width: 110px;
+          margin: 0 2px;
+        }
+        @include respond-between($tabletMin, 800px) {
+          width: 100px;
+          margin: 0 2px;
+        }
         @include mq(phone) {
           width: 100%;
           margin: 0;
@@ -220,9 +233,11 @@
       &_range {
         width: 100px;
         margin: 0 10px;
-        @include mq(phone) {
-          width: 80px;
-          margin: 0 5px;
+        @include respond-between($tabletMax + 1, 1100px) {
+          margin: 0 2px;
+        }
+        @include respond-between($tabletMin, 800px) {
+          margin: 0 2px;
         }
         @include mq(phone) {
           width: 100%;
@@ -254,6 +269,15 @@
   &__title {
     text-transform: uppercase;
     margin: 0;
+    @include respond-between($tabletMax + 1, 1100px) {
+      font-size: 1.4rem;
+    }
+    @include mq(tablet) {
+      font-size: 1.4rem;
+    }
+    @include respond-between($tabletMin, 800px) {
+      font-size: 1.3rem;
+    }
   }
   &__title-nophone {
     @include mq(phone) {

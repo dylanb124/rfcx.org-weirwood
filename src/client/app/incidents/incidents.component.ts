@@ -18,6 +18,8 @@ import * as moment from 'moment';
 
 export class IncidentsComponent implements OnInit {
 
+  public sitesList: Array<DropdownCheckboxItem> = [];
+
   public incidentTypes: Array<DropdownCheckboxItem> = [
     { value: 'vehicle', label: 'Vehicles', checked: true },
     { value: 'shot', label: 'Shots', checked: true },
@@ -57,6 +59,7 @@ export class IncidentsComponent implements OnInit {
   public currentdateStartingAfter: string;
   public currentdateEndingBefore: string;
   public currentIncidentTypeValues: Array<string>;
+  public currentSiteValues: Array<string>;
   public mobileFiltersOpened: boolean = false;
   public isLoading: boolean = false;
 
@@ -66,15 +69,18 @@ export class IncidentsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.intializeFilterValues();
-    this.loadData({ initial: true });
+    // start loading initial data only after loading all sites
+    this.intializeFilterValues(() => {
+      this.loadData({ initial: true });
+    });
   }
 
-  intializeFilterValues() {
+  intializeFilterValues(cb: Function) {
     this.currentDate = moment(this.maxDate).subtract(this.currentDaysCount, 'days').toDate();
     this.recalculateDates();
     this.refreshTimeBounds();
-    this.currentIncidentTypeValues = this.getCheckedIncidentTypeValues();
+    this.currentIncidentTypeValues = this.getCheckedDropdownCheckboxItems(this.incidentTypes);
+    this.initSitesFilter(cb);
   }
 
   loadData(opts?: any) {
@@ -84,7 +90,8 @@ export class IncidentsComponent implements OnInit {
       this.getDataByDates({
         starting_after: this.currentdateStartingAfter,
         ending_before: this.currentdateEndingBefore,
-        values: this.currentIncidentTypeValues
+        values: this.currentIncidentTypeValues,
+        sites: this.currentSiteValues
       })
     ];
     if (opts && opts.initial) {
@@ -111,15 +118,49 @@ export class IncidentsComponent implements OnInit {
       );
   }
 
-  getCheckedIncidentTypeValues(incidentTypes?: Array<DropdownCheckboxItem>) {
-    incidentTypes = incidentTypes || this.incidentTypes;
+  getCheckedDropdownCheckboxItems(items: Array<DropdownCheckboxItem>) {
     let arr: Array<string> = [];
-    incidentTypes.forEach((item) => {
+    items.forEach((item) => {
       if (item.checked) {
         arr.push(item.value);
       }
     });
     return arr;
+  }
+
+  initSitesFilter(cb: Function) {
+    let observ = this.getSites();
+    observ.subscribe(
+      data => {
+        if (data && data.length) {
+          this.sitesList = data.map((item: any) => {
+            return {
+              label: item.name,
+              value: item.guid,
+              checked: true
+            }
+          });
+        }
+        this.currentSiteValues = this.getCheckedDropdownCheckboxItems(this.sitesList);
+        cb();
+      },
+      err => console.log('Error loading sites', err)
+    )
+    return observ;
+  }
+
+  getSites() {
+    let headers = new Headers({
+      'x-auth-user': 'user/' + this.cookieService.get('guid'),
+      'x-auth-token': this.cookieService.get('token')
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+
+    return this.http.get(Config.API + 'sites', options)
+                    .map((res) => res.json())
+                    .share();
   }
 
   getDataByGuardians() {
@@ -128,6 +169,9 @@ export class IncidentsComponent implements OnInit {
     params.set('ending_before', this.currentdateEndingBefore);
     this.currentIncidentTypeValues.forEach((value: string) => {
       params.append('values', value);
+    });
+    this.currentSiteValues.forEach((value: string) => {
+      params.append('sites[]', value);
     });
 
     let headers = new Headers({
@@ -163,6 +207,11 @@ export class IncidentsComponent implements OnInit {
     if (opts.values) {
       opts.values.forEach((value: string) => {
         params.append('values', value);
+      });
+    }
+    if (opts.sites) {
+      opts.sites.forEach((value: string) => {
+        params.append('sites[]', value);
       });
     }
 
@@ -329,8 +378,19 @@ export class IncidentsComponent implements OnInit {
     return closestDate;
   }
 
+  siteChanged(event: any) {
+    this.currentSiteValues = this.getCheckedDropdownCheckboxItems(event.items);
+    if (this.currentSiteValues.length) {
+      this.loadData();
+    }
+    else {
+      this.incidents = [];
+      this.incidentsByDates = [];
+    }
+  }
+
   incidentsTypeChanged(event: any) {
-    this.currentIncidentTypeValues = this.getCheckedIncidentTypeValues(event.items);
+    this.currentIncidentTypeValues = this.getCheckedDropdownCheckboxItems(event.items);
     if (this.currentIncidentTypeValues.length) {
       this.loadData();
     }
