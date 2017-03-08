@@ -132,20 +132,18 @@ export class IncidentsComponent implements OnInit {
     let observ = this.getSites();
     observ.subscribe(
       data => {
-        if (data && data.length) {
-          this.sitesList = data.map((item: any) => {
-            return {
-              label: item.name,
-              value: item.guid,
-              checked: true
-            }
-          });
-        }
+        this.sitesList = data.map((item: any) => {
+          return {
+            label: item.name,
+            value: item.guid,
+            checked: true
+          };
+        });
         this.currentSiteValues = this.getCheckedDropdownCheckboxItems(this.sitesList);
         cb();
       },
       err => console.log('Error loading sites', err)
-    )
+    );
     return observ;
   }
 
@@ -171,7 +169,7 @@ export class IncidentsComponent implements OnInit {
       params.append('values', value);
     });
     this.currentSiteValues.forEach((value: string) => {
-      params.append('sites[]', value);
+      params.append('sites', value);
     });
 
     let headers = new Headers({
@@ -211,7 +209,7 @@ export class IncidentsComponent implements OnInit {
     }
     if (opts.sites) {
       opts.sites.forEach((value: string) => {
-        params.append('sites[]', value);
+        params.append('sites', value);
       });
     }
 

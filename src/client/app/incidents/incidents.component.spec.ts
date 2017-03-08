@@ -84,7 +84,7 @@ export function main() {
     it('should initialize component variables and call intializeFilterValues and loadData', () => {
       fixture = TestBed.createComponent(IncidentsComponent);
       comp = fixture.componentInstance;
-      let spyFilt = spyOn(comp, 'intializeFilterValues').and.callFake(() => { return; });
+      let spyFilt = spyOn(comp, 'intializeFilterValues').and.callFake((cb: Function) => { cb(); return; });
       let spyLoad = spyOn(comp, 'loadData').and.callFake(() => { return; });
       fixture.detectChanges();
       TestBed
@@ -119,10 +119,9 @@ export function main() {
     });
 
     it('should set currentDate, call recalculateDates, refreshTimeBounds and set currentIncidentTypeValues to result of ' +
-        'getCheckedIncidentTypeValues call on intializeFilterValues call', () => {
+        'getCheckedDropdownCheckboxItems call on intializeFilterValues call', () => {
       fixture = TestBed.createComponent(IncidentsComponent);
       comp = fixture.componentInstance;
-      spyOn(comp, 'loadData').and.callFake(() => { return; });
       let spyFilter = spyOn(comp, 'intializeFilterValues').and.callFake(() => { return; });
       fixture.detectChanges();
       TestBed
@@ -131,10 +130,10 @@ export function main() {
           spyFilter.and.callThrough();
           let spyRecalc = spyOn(comp, 'recalculateDates').and.returnValue(true);
           let spyRefr = spyOn(comp, 'refreshTimeBounds').and.returnValue(true);
-          let spyGet = spyOn(comp, 'getCheckedIncidentTypeValues').and.returnValue({aa: 'bb'});
+          let spyGet = spyOn(comp, 'getCheckedDropdownCheckboxItems').and.returnValue({aa: 'bb'});
           let date = new Date();
           date.setDate(date.getDate() - comp.currentDaysCount);
-          comp.intializeFilterValues();
+          comp.intializeFilterValues(() => { return ; });
           expect('' + comp.currentDate.getDate() + comp.currentDate.getMonth() + comp.currentDate.getFullYear())
             .toEqual('' + date.getDate() + date.getMonth() + date.getFullYear());
           expect(spyRecalc.calls.count()).toEqual(1);
@@ -159,6 +158,7 @@ export function main() {
 
       it('should call getDataByGuardians one time and getDataByDates two times with correct params', () => {
         comp.currentIncidentTypeValues = ['aaa', 'bbb', 'ccc'];
+        comp.currentSiteValues = ['111', '222', '333'];
         comp.currentdateStartingAfter = '12345';
         comp.currentdateEndingBefore = '67890';
         TestBed
@@ -173,7 +173,8 @@ export function main() {
               [{
                 starting_after: '12345',
                 ending_before: '67890',
-                values: ['aaa', 'bbb', 'ccc']
+                values: ['aaa', 'bbb', 'ccc'],
+                sites: ['111', '222', '333']
               }],
               [{
                 url: 'events/stats/year',
@@ -185,6 +186,7 @@ export function main() {
 
       it('should call getDataByGuardians getDataByDates one time (if initial param not set) with correct params', () => {
         comp.currentIncidentTypeValues = ['aaa', 'bbb', 'ccc'];
+        comp.currentSiteValues = ['111', '222', '333'];
         comp.currentdateStartingAfter = '12345';
         comp.currentdateEndingBefore = '67890';
         TestBed
@@ -199,7 +201,8 @@ export function main() {
               [{
                 starting_after: '12345',
                 ending_before: '67890',
-                values: ['aaa', 'bbb', 'ccc']
+                values: ['aaa', 'bbb', 'ccc'],
+                sites: ['111', '222', '333']
               }]
             ]);
           });
@@ -265,18 +268,18 @@ export function main() {
 
     });
 
-    describe('getCheckedIncidentTypeValues function', () => {
+    describe('getCheckedDropdownCheckboxItems function', () => {
 
-      it('should return ["vehicle", shot", "chainsaw"] on getCheckedIncidentTypeValues', () => {
+      it('should return ["vehicle", shot", "chainsaw"] on getCheckedDropdownCheckboxItems', () => {
         TestBed
           .compileComponents()
           .then(() => {
-            let res = comp.getCheckedIncidentTypeValues();
+            let res = comp.getCheckedDropdownCheckboxItems(comp.incidentTypes);
             expect(res).toEqual(['vehicle', 'shot', 'chainsaw']);
           });
       });
 
-      it('should return ["shot", "chainsaw"] on getCheckedIncidentTypeValues', () => {
+      it('should return ["shot", "chainsaw"] on getCheckedDropdownCheckboxItems', () => {
         comp.incidentTypes = [
           { value: 'vehicle', label: 'Vehicles', checked: false },
           { value: 'shot', label: 'Shots', checked: true },
@@ -285,12 +288,12 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let res = comp.getCheckedIncidentTypeValues();
+            let res = comp.getCheckedDropdownCheckboxItems(comp.incidentTypes);
             expect(res).toEqual(['shot', 'chainsaw']);
           });
       });
 
-      it('should return empty array on getCheckedIncidentTypeValues', () => {
+      it('should return empty array on getCheckedDropdownCheckboxItems', () => {
         comp.incidentTypes = [
           { value: 'vehicle', label: 'Vehicles', checked: false },
           { value: 'shot', label: 'Shots', checked: false },
@@ -299,10 +302,119 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let res = comp.getCheckedIncidentTypeValues();
+            let res = comp.getCheckedDropdownCheckboxItems(comp.incidentTypes);
             expect(res).toEqual([]);
           });
       });
+
+    });
+
+    describe('initSitesFilter', () => {
+
+      let mockSites: any;
+
+      beforeEach(() => {
+        mockSites = {
+          subscribe: (success: Function, error: Function) => { success([
+            { name: 'name111', guid: '111' },
+            { name: 'name222', guid: '222' },
+            { name: 'name333', guid: '333' }
+          ]); }
+        };
+      });
+
+      it('should call getSites function', () => {
+        let spyGet = spyOn(comp, 'getSites').and.returnValue(mockSites);
+        TestBed
+          .compileComponents()
+          .then(() => {
+            comp.initSitesFilter(() => { return; });
+            expect(spyGet.calls.count()).toEqual(1);
+          });
+      });
+
+      it('should set sitesList to array with correct values, call getCheckedDropdownCheckboxItems and call callback method', () => {
+        spyOn(comp, 'getSites').and.returnValue(mockSites);
+        let spyGet = spyOn(comp, 'getCheckedDropdownCheckboxItems').and.returnValue(['111', '333']);
+        let obj = {
+          cb: () => { return; }
+        };
+        let spyCb = spyOn(obj, 'cb');
+        TestBed
+          .compileComponents()
+          .then(() => {
+            comp.initSitesFilter(obj.cb);
+            expect(comp.sitesList).toEqual([
+              { label: 'name111', value: '111', checked: true },
+              { label: 'name222', value: '222', checked: true },
+              { label: 'name333', value: '333', checked: true }
+            ]);
+            expect(spyGet.calls.count()).toEqual(1);
+            expect(spyGet.calls.first().args[0]).toEqual([
+              { label: 'name111', value: '111', checked: true },
+              { label: 'name222', value: '222', checked: true },
+              { label: 'name333', value: '333', checked: true }
+            ]);
+            expect(comp.currentSiteValues).toEqual(['111', '333']);
+            expect(spyCb.calls.count()).toEqual(1);
+          });
+      });
+
+      it('should show error on error response', () => {
+        mockSites = {
+          subscribe: (success: Function, error: Function) => { error({message: 'some'}); }
+        };
+        spyOn(comp, 'getSites').and.returnValue(mockSites);
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let sp = spyOn(console, 'log');
+            comp.initSitesFilter(() => {return;});
+            expect(sp.calls.count()).toEqual(1);
+            expect(sp.calls.first().args).toEqual(['Error loading sites', {message: 'some'}]);
+          });
+      });
+
+    });
+
+    describe('getSites', () => {
+
+      beforeEach(() => {
+        spyOn(comp.cookieService, 'get').and.callFake((attr: string) => {
+          if (attr === 'guid') {
+            return '123456';
+          }
+          if (attr === 'token') {
+            return '654321';
+          }
+          return attr;
+        });
+      });
+
+      it('should get data by guardians',
+        inject([MockBackend], (mockBackend: MockBackend) => {
+
+        const mockResponse = [{
+          aaa: 'bbb'
+        }];
+
+        mockBackend.connections.subscribe((connection: MockConnection) => {
+          expect(connection.request.headers.get('x-auth-user')).toEqual('user/123456');
+          expect(connection.request.headers.get('x-auth-token')).toEqual('654321');
+          let url = connection.request.url;
+          let expUrl = 'sites';
+          expect(url.indexOf(expUrl, url.length - expUrl.length)).not.toEqual(-1);
+          connection.mockRespond(new Response(new ResponseOptions({
+            body: JSON.stringify(mockResponse)
+          })));
+        });
+
+        let req = comp.getSites();
+        req.subscribe((res: any) => {
+          expect(res).toEqual([{aaa: 'bbb'}]);
+        });
+
+      }));
 
     });
 
@@ -312,6 +424,7 @@ export function main() {
         comp.currentdateStartingAfter = 'abcdef';
         comp.currentdateEndingBefore = 'fedcba';
         comp.currentIncidentTypeValues = ['111', '222', '333'];
+        comp.currentSiteValues = ['asd', 'aaa', 'bbb'];
         spyOn(comp.cookieService, 'get').and.callFake((attr: string) => {
           if (attr === 'guid') {
             return '123456';
@@ -335,7 +448,8 @@ export function main() {
           expect(connection.request.headers.get('x-auth-user')).toEqual('user/123456');
           expect(connection.request.headers.get('x-auth-token')).toEqual('654321');
           let url = connection.request.url;
-          let expUrl = 'events/stats/guardian?starting_after=abcdef&ending_before=fedcba&values=111&values=222&values=333';
+          let expUrl = 'events/stats/guardian?starting_after=abcdef&ending_before=fedcba&values=111&values=222&values=333' +
+                        '&sites=asd&sites=aaa&sites=bbb';
           expect(url.indexOf(expUrl, url.length - expUrl.length)).not.toEqual(-1);
           connection.mockRespond(new Response(new ResponseOptions({
             body: JSON.stringify(mockResponse)
@@ -353,6 +467,7 @@ export function main() {
         inject([MockBackend], (mockBackend: MockBackend) => {
 
         comp.currentIncidentTypeValues = [];
+        comp.currentSiteValues = [];
         const mockResponse = [{
           ccc: 'ddd'
         }];
@@ -422,7 +537,8 @@ export function main() {
           expect(connection.request.headers.get('x-auth-user')).toEqual('user/123456');
           expect(connection.request.headers.get('x-auth-token')).toEqual('654321');
           let url = connection.request.url;
-          let expUrl = 'events/stats/dates?starting_after=111&ending_before=222&values=aaa&values=bbb&values=ccc';
+          let expUrl = 'events/stats/dates?starting_after=111&ending_before=222&values=aaa&values=bbb&values=ccc' +
+                        '&sites=abc&sites=qwe';
           expect(url.indexOf(expUrl, url.length - expUrl.length)).not.toEqual(-1);
           connection.mockRespond(new Response(new ResponseOptions({
             body: JSON.stringify(mockResponse)
@@ -432,7 +548,8 @@ export function main() {
         let req = comp.getDataByDates({
           starting_after: 111,
           ending_before: 222,
-          values: ['aaa', 'bbb', 'ccc']
+          values: ['aaa', 'bbb', 'ccc'],
+          sites: ['abc', 'qwe']
         });
         req.subscribe((res: any) => {
           expect(res).toEqual([{aaa: 'bbb'}]);
@@ -1175,16 +1292,63 @@ export function main() {
 
     });
 
+    describe('siteChanged function', () => {
+
+      let spyGet: any, spyLoad: any;
+
+      beforeEach(() => {
+        spyGet = spyOn(comp, 'getCheckedDropdownCheckboxItems').and.returnValue([1, 2, 3]);
+        spyLoad = spyOn(comp, 'loadData').and.returnValue(true);
+      });
+
+      it('should call getCheckedDropdownCheckboxItems with items, set currentSiteValues to result ' +
+          'and call loadData', () => {
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let res = comp.siteChanged({
+              items: ['a', 'b', 'c']
+            });
+            expect(spyGet.calls.count()).toEqual(1);
+            expect(spyGet.calls.first().args[0]).toEqual(['a', 'b', 'c']);
+            expect(comp.currentSiteValues).toEqual([1, 2, 3]);
+            expect(spyLoad.calls.count()).toEqual(1);
+          });
+      });
+
+      it('should call getCheckedDropdownCheckboxItems with items, set currentSiteValues to result ' +
+          'and set incidents and incidentsByDates to empty arrays', () => {
+        comp.incidents = [{ events: {} }, { events: {} }, { events: {} }];
+        comp.incidentsByDates = [{ events: {} }, { events: {} }, { events: {} }];
+        spyGet.and.returnValue([]);
+        fixture.detectChanges();
+        TestBed
+          .compileComponents()
+          .then(() => {
+            let res = comp.siteChanged({
+              items: ['a', 'b', 'c']
+            });
+            expect(spyGet.calls.count()).toEqual(1);
+            expect(spyGet.calls.first().args[0]).toEqual(['a', 'b', 'c']);
+            expect(comp.currentSiteValues).toEqual([]);
+            expect(spyLoad.calls.count()).toEqual(0);
+            expect(comp.incidents).toEqual([]);
+            expect(comp.incidentsByDates).toEqual([]);
+          });
+      });
+
+    });
+
     describe('incidentsTypeChanged function', () => {
 
       let spyGet: any, spyLoad: any;
 
       beforeEach(() => {
-        spyGet = spyOn(comp, 'getCheckedIncidentTypeValues').and.returnValue([1, 2, 3]);
+        spyGet = spyOn(comp, 'getCheckedDropdownCheckboxItems').and.returnValue([1, 2, 3]);
         spyLoad = spyOn(comp, 'loadData').and.returnValue(true);
       });
 
-      it('should call getCheckedIncidentTypeValues with items, set currentIncidentTypeValues to result ' +
+      it('should call getCheckedDropdownCheckboxItems with items, set currentIncidentTypeValues to result ' +
           'and call loadData', () => {
         TestBed
           .compileComponents()
@@ -1199,7 +1363,7 @@ export function main() {
           });
       });
 
-      it('should call getCheckedIncidentTypeValues with items, set currentIncidentTypeValues to result ' +
+      it('should call getCheckedDropdownCheckboxItems with items, set currentIncidentTypeValues to result ' +
           'and set incidents and incidentsByDates to empty arrays', () => {
         comp.incidents = [{ events: {} }, { events: {} }, { events: {} }];
         comp.incidentsByDates = [{ events: {} }, { events: {} }, { events: {} }];
