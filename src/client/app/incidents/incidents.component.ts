@@ -46,7 +46,8 @@ export class IncidentsComponent implements OnInit {
   };
 
   public mapDetails: any = {
-    zoom: 10
+    zoom: 10,
+    maxZoom: 17
   };
   public minCircleDiameter: number = 80;
   public maxCircleDiameter: number = 150;

@@ -29,7 +29,7 @@
   </div>
 
   <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon && incidents && incidents.length" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
-    [zoom]="mapDetails.zoom" [data]="incidents">
+    [zoom]="mapDetails.zoom" [maxZoom]="mapDetails.maxZoom" [data]="incidents">
     <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
     <rfcx-basemap layerType="positron"></rfcx-basemap>
     <rfcx-basemap layerType="satellite"></rfcx-basemap>

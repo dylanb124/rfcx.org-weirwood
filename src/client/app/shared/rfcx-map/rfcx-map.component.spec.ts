@@ -98,6 +98,7 @@ export function main() {
       comp.centerLon = -111.335511;
       comp.zoom = 13;
       comp.minZoom = 14;
+      comp.maxZoom = 17;
       comp.data = expectedData;
       fixture.detectChanges();
       TestBed
@@ -106,6 +107,7 @@ export function main() {
           expect(comp.rfcxMap.options.center).toEqual([40.223344, -111.335511]);;
           expect(comp.rfcxMap.options.zoom).toEqual(13);
           expect(comp.rfcxMap.options.minZoom).toEqual(14);
+          expect(comp.rfcxMap.options.maxZoom).toEqual(17);
           expect(comp.rfcxMap.options.scrollWheelZoom).toEqual(false);
           expect(comp.rfcxMap.getContainer().getAttribute('class').indexOf('rfcx-map')).not.toEqual(-1);
         });

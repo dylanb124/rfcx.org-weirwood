@@ -16,6 +16,7 @@ export class RfcxMapComponent implements OnInit, OnChanges {
   @Input() centerLon: number;
   @Input() zoom: number;
   @Input() minZoom?: number;
+  @Input() maxZoom?: number;
 
   constructor(private elementRef: ElementRef) { }
 
@@ -38,6 +39,9 @@ export class RfcxMapComponent implements OnInit, OnChanges {
     };
     if (this.minZoom) {
       mapOptions.minZoom = this.minZoom;
+    }
+    if (this.maxZoom) {
+      mapOptions.maxZoom = this.maxZoom;
     }
 
     this.rfcxMap = L.map(mapHtmlObj, mapOptions);
