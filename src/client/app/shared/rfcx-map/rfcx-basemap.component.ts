@@ -3,6 +3,11 @@ import { RfcxMapComponent } from './rfcx-map.component';
 import * as L from 'leaflet';
 
 let baseMapTypes: any = {
+  'satellite': {
+    'url': 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    // tslint:disable-next-line:max-line-length
+    'attribution': '&copy; <a href="http://www.esri.com/">Esri</a> i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+  },
   'positron': {
     'url': 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
     // tslint:disable-next-line:max-line-length

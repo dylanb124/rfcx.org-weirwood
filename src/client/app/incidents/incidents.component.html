@@ -32,6 +32,7 @@
     [zoom]="mapDetails.zoom" [data]="incidents">
     <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
     <rfcx-basemap layerType="positron"></rfcx-basemap>
+    <rfcx-basemap layerType="satellite"></rfcx-basemap>
     <ng-container *ngFor="let item of incidents">
       <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
       <rfcx-map-pie *ngIf="!!item.diameter" [centerLat]="item.coords.lat" [shortname]="item.shortname" [centerLon]="item.coords.lon"

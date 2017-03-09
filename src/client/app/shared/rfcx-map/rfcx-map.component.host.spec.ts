@@ -93,17 +93,19 @@ export function main() {
       de = fixture.debugElement;
     });
 
-    it('should create two map layer controls after 2 secs timeout: darkmatter and positron', (done) => {
+    it('should create 3 map layer controls after 2 secs timeout: darkmatter, positron and satellite', (done) => {
       TestBed
         .compileComponents()
         .then(() => {
           setTimeout(() => {
-            expect(el.querySelectorAll('.leaflet-control-layers-selector').length).toEqual(2);
+            expect(el.querySelectorAll('.leaflet-control-layers-selector').length).toEqual(3);
             let controls = el.querySelectorAll('.leaflet-control-layers-base > label > div > span');
             expect(el.querySelectorAll('.leaflet-control-layers-base label')[0].querySelector('div > span').textContent)
               .toContain('darkmatter');
             expect(el.querySelectorAll('.leaflet-control-layers-base label')[1].querySelector('div > span').textContent)
               .toContain('positron');
+            expect(el.querySelectorAll('.leaflet-control-layers-base label')[2].querySelector('div > span').textContent)
+              .toContain('satellite');
             done();
           }, 2001);
         });
@@ -132,6 +134,7 @@ export function main() {
               '[data]="incidents">' +
                 '<rfcx-basemap layerType="darkmatter"></rfcx-basemap>' +
                 '<rfcx-basemap layerType="positron"></rfcx-basemap>' +
+                '<rfcx-basemap layerType="satellite"></rfcx-basemap>' +
                 '<rfcx-map-marker [lat]="incidents[0].coords.lat" [lon]="incidents[0].coords.lon"></rfcx-map-marker>' +
                 '<rfcx-map-marker [lat]="incidents[1].coords.lat" [lon]="incidents[1].coords.lon"></rfcx-map-marker>' +
                 '<rfcx-map-pie [centerLat]="incidents[0].coords.lat" [shortname]="incidents[0].shortname" ' +
