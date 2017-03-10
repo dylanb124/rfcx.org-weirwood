@@ -169,10 +169,10 @@ export class IncidentsComponent implements OnInit {
     params.set('starting_after', this.currentdateStartingAfter);
     params.set('ending_before', this.currentdateEndingBefore);
     this.currentIncidentTypeValues.forEach((value: string) => {
-      params.append('values', value);
+      params.append('values[]', value);
     });
     this.currentSiteValues.forEach((value: string) => {
-      params.append('sites', value);
+      params.append('sites[]', value);
     });
 
     let headers = new Headers({
@@ -207,12 +207,12 @@ export class IncidentsComponent implements OnInit {
     }
     if (opts.values) {
       opts.values.forEach((value: string) => {
-        params.append('values', value);
+        params.append('values[]', value);
       });
     }
     if (opts.sites) {
       opts.sites.forEach((value: string) => {
-        params.append('sites', value);
+        params.append('sites[]', value);
       });
     }
 
