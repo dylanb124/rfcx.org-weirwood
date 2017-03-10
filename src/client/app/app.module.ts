@@ -11,6 +11,7 @@ import { StyleguideModule } from './styleguide/styleguide.module';
 import { LoginModule } from './login/login.module';
 import { HomeModule } from './home/home.module';
 import { IncidentsModule } from './incidents/incidents.module';
+import { AlertsModule } from './alerts/alerts.module';
 import { SharedModule } from './shared/shared.module';
 
 import { UserService } from './shared/user/user.service';
@@ -27,6 +28,7 @@ import { APP_CONFIG, AppConfig } from './app.config';
     LoginModule,
     HomeModule,
     IncidentsModule,
+    AlertsModule,
     SharedModule.forRoot(),
     FormsModule
   ],

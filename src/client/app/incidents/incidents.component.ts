@@ -4,6 +4,7 @@ import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-ite
 import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { CookieService } from 'angular2-cookie/core';
+import { SiteService } from '../shared/index';
 import { Config } from '../shared/config/env.config.js';
 
 import * as moment from 'moment';
@@ -67,6 +68,7 @@ export class IncidentsComponent implements OnInit {
   constructor(
     public http: Http,
     public cookieService: CookieService,
+    public siteService: SiteService
   ) { }
 
   ngOnInit() {
@@ -130,7 +132,7 @@ export class IncidentsComponent implements OnInit {
   }
 
   initSitesFilter(cb: Function) {
-    let observ = this.getSites();
+    let observ = this.siteService.getSites();
     observ.subscribe(
       data => {
         this.sitesList = data.map((item: any) => {
@@ -148,19 +150,19 @@ export class IncidentsComponent implements OnInit {
     return observ;
   }
 
-  getSites() {
-    let headers = new Headers({
-      'x-auth-user': 'user/' + this.cookieService.get('guid'),
-      'x-auth-token': this.cookieService.get('token')
-    });
-    let options = new RequestOptions({
-      headers: headers
-    });
+  // getSites() {
+  //   let headers = new Headers({
+  //     'x-auth-user': 'user/' + this.cookieService.get('guid'),
+  //     'x-auth-token': this.cookieService.get('token')
+  //   });
+  //   let options = new RequestOptions({
+  //     headers: headers
+  //   });
 
-    return this.http.get(Config.API + 'sites', options)
-                    .map((res) => res.json())
-                    .share();
-  }
+  //   return this.http.get(Config.API + 'sites', options)
+  //                   .map((res) => res.json())
+  //                   .share();
+  // }
 
   getDataByGuardians() {
     let params: URLSearchParams = new URLSearchParams();

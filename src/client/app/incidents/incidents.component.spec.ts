@@ -11,6 +11,7 @@ import { CookieService } from 'angular2-cookie/core';
 
 import { IncidentsComponent } from './incidents.component';
 import { UserService } from '../shared/user/user.service';
+import { SiteService } from '../shared/services/site.service';
 import { SpinnerComponent } from '../shared/spinner/spinner.component';
 import { DropdownCheckboxesComponent } from '../shared/dropdown-checkboxes/dropdown-checkboxes.component';
 import { DropdownComponent } from '../shared/dropdown/dropdown.component';
@@ -39,6 +40,19 @@ export function main() {
         };
       }
     };
+    let mockSite = {
+      getSites: () => {
+        return {
+          subscribe: (success: Function, error: Function) => {
+            success([
+            { name: 'name111', guid: '111' },
+            { name: 'name222', guid: '222' },
+            { name: 'name333', guid: '333' }
+          ]);
+          }
+        };
+      }
+    };
     // async beforeEach
     beforeEach(async(() => {
       TestBed.configureTestingModule({
@@ -59,6 +73,7 @@ export function main() {
         ],
         providers: [
           { provide: UserService, useValue: mockUser },
+          { provide: SiteService, useValue: mockSite },
           {
             provide: Http, useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
               return new Http(mockBackend, options);
@@ -130,6 +145,7 @@ export function main() {
           spyFilter.and.callThrough();
           let spyRecalc = spyOn(comp, 'recalculateDates').and.returnValue(true);
           let spyRefr = spyOn(comp, 'refreshTimeBounds').and.returnValue(true);
+          let spyInit = spyOn(comp, 'initSitesFilter').and.returnValue(true);
           let spyGet = spyOn(comp, 'getCheckedDropdownCheckboxItems').and.returnValue({aa: 'bb'});
           let date = new Date();
           date.setDate(date.getDate() - comp.currentDaysCount);
@@ -139,6 +155,7 @@ export function main() {
           expect(spyRecalc.calls.count()).toEqual(1);
           expect(spyRefr.calls.count()).toEqual(1);
           expect(spyGet.calls.count()).toEqual(1);
+          expect(spyInit.calls.count()).toEqual(1);
           expect(comp.currentIncidentTypeValues).toEqual({aa: 'bb'});
         });
     });
@@ -324,7 +341,7 @@ export function main() {
       });
 
       it('should call getSites function', () => {
-        let spyGet = spyOn(comp, 'getSites').and.returnValue(mockSites);
+        let spyGet = spyOn(comp.siteService, 'getSites').and.returnValue(mockSites);
         TestBed
           .compileComponents()
           .then(() => {
@@ -334,7 +351,7 @@ export function main() {
       });
 
       it('should set sitesList to array with correct values, call getCheckedDropdownCheckboxItems and call callback method', () => {
-        spyOn(comp, 'getSites').and.returnValue(mockSites);
+        spyOn(comp.siteService, 'getSites').and.returnValue(mockSites);
         let spyGet = spyOn(comp, 'getCheckedDropdownCheckboxItems').and.returnValue(['111', '333']);
         let obj = {
           cb: () => { return; }
@@ -364,7 +381,7 @@ export function main() {
         mockSites = {
           subscribe: (success: Function, error: Function) => { error({message: 'some'}); }
         };
-        spyOn(comp, 'getSites').and.returnValue(mockSites);
+        spyOn(comp.siteService, 'getSites').and.returnValue(mockSites);
         TestBed
           .compileComponents()
           .then(() => {
@@ -377,46 +394,46 @@ export function main() {
 
     });
 
-    describe('getSites', () => {
+    // describe('getSites', () => {
 
-      beforeEach(() => {
-        spyOn(comp.cookieService, 'get').and.callFake((attr: string) => {
-          if (attr === 'guid') {
-            return '123456';
-          }
-          if (attr === 'token') {
-            return '654321';
-          }
-          return attr;
-        });
-      });
+      // beforeEach(() => {
+      //   spyOn(comp.cookieService, 'get').and.callFake((attr: string) => {
+      //     if (attr === 'guid') {
+      //       return '123456';
+      //     }
+      //     if (attr === 'token') {
+      //       return '654321';
+      //     }
+      //     return attr;
+      //   });
+      // });
 
-      it('should get data by guardians',
-        inject([MockBackend], (mockBackend: MockBackend) => {
+      // it('should get data by guardians',
+      //   inject([MockBackend], (mockBackend: MockBackend) => {
 
-        const mockResponse = [{
-          aaa: 'bbb'
-        }];
+      //   const mockResponse = [{
+      //     aaa: 'bbb'
+      //   }];
 
-        mockBackend.connections.subscribe((connection: MockConnection) => {
-          expect(connection.request.headers.get('x-auth-user')).toEqual('user/123456');
-          expect(connection.request.headers.get('x-auth-token')).toEqual('654321');
-          let url = connection.request.url;
-          let expUrl = 'sites';
-          expect(url.indexOf(expUrl, url.length - expUrl.length)).not.toEqual(-1);
-          connection.mockRespond(new Response(new ResponseOptions({
-            body: JSON.stringify(mockResponse)
-          })));
-        });
+      //   mockBackend.connections.subscribe((connection: MockConnection) => {
+      //     expect(connection.request.headers.get('x-auth-user')).toEqual('user/123456');
+      //     expect(connection.request.headers.get('x-auth-token')).toEqual('654321');
+      //     let url = connection.request.url;
+      //     let expUrl = 'sites';
+      //     expect(url.indexOf(expUrl, url.length - expUrl.length)).not.toEqual(-1);
+      //     connection.mockRespond(new Response(new ResponseOptions({
+      //       body: JSON.stringify(mockResponse)
+      //     })));
+      //   });
 
-        let req = comp.getSites();
-        req.subscribe((res: any) => {
-          expect(res).toEqual([{aaa: 'bbb'}]);
-        });
+      //   let req = comp.getSites();
+      //   req.subscribe((res: any) => {
+      //     expect(res).toEqual([{aaa: 'bbb'}]);
+      //   });
 
-      }));
+      // }));
 
-    });
+    // });
 
     describe('getDataByGuardians', () => {
 

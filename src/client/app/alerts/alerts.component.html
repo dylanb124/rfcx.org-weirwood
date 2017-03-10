@@ -1,0 +1,30 @@
+<div class="incidents alerts">
+  <div class="incidents__inner incidents-nav" [ngClass]="{'mobile-filters-opened': mobileFiltersOpened}">
+    <button class="icon-options incidents__mobile-filters-btn" (click)="toggleMobileFilters()"></button>
+    <div class="incidents-nav__left">
+      <h3 class="incidents__title">Incident alerts</h3>
+    </div>
+    <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
+      <spinner [size]="30" [ngClass]="{'loading': isLoading}"></spinner>
+      <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_site" *ngIf="sitesList && sitesList.length">
+        <dropdown-checkboxes [block]="true" title="Site" [items]="sitesList" [noborder]="true" (onChange)="siteChanged($event)"
+          allItemsTitle="All sites"></dropdown-checkboxes>
+      </div>
+      <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
+        <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true" (onChange)="incidentsTypeChanged($event)"
+          allItemsTitle="All incidents"></dropdown-checkboxes>
+      </div>
+    </div>
+  </div>
+
+  <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
+    [zoom]="mapDetails.zoom" [maxZoom]="mapDetails.maxZoom" [data]="incidents">
+    <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
+    <rfcx-basemap layerType="positron"></rfcx-basemap>
+    <rfcx-basemap layerType="satellite"></rfcx-basemap>
+    <ng-container *ngFor="let item of incidents">
+      <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
+    </ng-container>
+  </rfcx-map>
+</div>
+<rfcx-footer></rfcx-footer>

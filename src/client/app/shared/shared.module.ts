@@ -12,6 +12,7 @@ import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent, RfcxMapMarkerComponent, RfcxMapPieComponent } from './rfcx-map/index';
 import { DateTimePickerComponent } from './date-time-picker/index';
 import { UserService } from './user/user.service';
+import { SiteService } from './services/site.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 /**
@@ -59,7 +60,8 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         UserService,
-        CookieService
+        CookieService,
+        SiteService
       ]
     };
   }
