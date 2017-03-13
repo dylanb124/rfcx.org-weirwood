@@ -34,11 +34,15 @@ export class AlertsComponent implements OnInit {
     maxZoom: 17
   };
 
-  public incidents: Array<any>;
+  public incidents: Array<any> = [];
+  public mapIncidents: Array<any> = [];
   public currentIncidentTypeValues: Array<string>;
   public currentSiteValues: Array<string>;
   public mobileFiltersOpened: boolean = false;
   public isLoading: boolean = false;
+  // check request will be sent every intervalSec seconds
+  public intervalSec: number = 30;
+  public latestSyncTime: any = moment().subtract(this.intervalSec, 'seconds');
 
   constructor(
     public http: Http,
@@ -49,11 +53,14 @@ export class AlertsComponent implements OnInit {
   ngOnInit() {
     // start loading initial data only after loading all sites
     this.initSitesFilter(() => {
-      this.loadData({ initial: true });
+      this.loadData();
+      this.startCleaner();
     });
   }
 
   initSitesFilter(cb: Function) {
+    this.currentIncidentTypeValues = this.getCheckedDropdownCheckboxItems(this.incidentTypes);
+
     let observ = this.siteService.getSites();
     observ.subscribe(
       data => {
@@ -72,7 +79,93 @@ export class AlertsComponent implements OnInit {
   }
 
   loadData(opts?: any) {
-    console.log('load data');
+    this.getDataByDates()
+      .subscribe(
+        data => {
+          let incidents = this.parseIncidentsByGuardians(data.events);
+          console.log('response', incidents);
+          let isRefreshed = this.appendNewIncidents(incidents);
+          console.log('incidents', this.incidents);
+          if (isRefreshed) {
+            // we use separate array for map data input because angular ngOnChanges handler
+            // doesn't fire when we just append new items to array, so we need this dirty hack
+            this.mapIncidents = this.incidents.slice(0);
+          }
+        },
+        err => console.log('Error loading incidents', err)
+      )
+  }
+
+  getDataByDates(): Observable<any> {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('starting_after', this.latestSyncTime.toISOString());
+    this.currentIncidentTypeValues.forEach((value: string) => {
+      params.append('values[]', value);
+    });
+    this.currentSiteValues.forEach((value: string) => {
+      params.append('sites[]', value);
+    });
+
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'x-auth-user': 'user/' + this.cookieService.get('guid'),
+      'x-auth-token': this.cookieService.get('token')
+    });
+    let options = new RequestOptions({
+      headers: headers,
+      search: params
+    });
+
+    this.latestSyncTime.add(this.intervalSec, 'seconds').toISOString();
+
+    // create timer which will be sent every intervalSec seconds starting from 0
+    return Observable
+             .timer(0, this.intervalSec * 1000)
+             .switchMap(() => { return this.http.get(Config.API + 'events/event', options) })
+             .map((res) => res.json());
+  }
+
+  parseIncidentsByGuardians(incidents: Array<any>) {
+    let arr = incidents.map((item) => {
+      let obj: any = {
+        coords: {
+          lat: item.latitude,
+          lon: item.longitude
+        },
+        guid: item.guardian_guid,
+        shortname: item.guardian_shortname,
+        event_guid: item.event_guid,
+        events: {},
+        death_time: moment().add(3, 'minutes').toDate()
+      }
+      obj.events[item.value] = 1;
+      return obj;
+    });
+    return arr;
+  };
+
+  appendNewIncidents(incidents: Array<any>): Boolean {
+    let isAppended = false;
+    incidents.forEach((item) => {
+      if (!this.incidents.find((searchItem) => {
+        return searchItem.event_guid === item.event_guid;
+      })) {
+        isAppended = true;
+        this.incidents.push(item);
+      }
+    });
+    return isAppended
+  };
+
+  startCleaner() {
+    setInterval(() => {
+      console.log('Checking death events');
+      let oldCount = this.incidents.length;
+      this.incidents = this.incidents.filter((item) => {
+        return item.death_time.getTime() > new Date().getTime();
+      });
+      console.log((oldCount - this.incidents.length) + ' will be removed');
+    }, 30 * 1000);
   }
 
   toggleMobileFilters() {

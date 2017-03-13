@@ -150,20 +150,6 @@ export class IncidentsComponent implements OnInit {
     return observ;
   }
 
-  // getSites() {
-  //   let headers = new Headers({
-  //     'x-auth-user': 'user/' + this.cookieService.get('guid'),
-  //     'x-auth-token': this.cookieService.get('token')
-  //   });
-  //   let options = new RequestOptions({
-  //     headers: headers
-  //   });
-
-  //   return this.http.get(Config.API + 'sites', options)
-  //                   .map((res) => res.json())
-  //                   .share();
-  // }
-
   getDataByGuardians() {
     let params: URLSearchParams = new URLSearchParams();
     params.set('starting_after', this.currentdateStartingAfter);

@@ -18,12 +18,12 @@
   </div>
 
   <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
-    [zoom]="mapDetails.zoom" [maxZoom]="mapDetails.maxZoom" [data]="incidents">
+    [zoom]="mapDetails.zoom" [maxZoom]="mapDetails.maxZoom" [data]="mapIncidents">
     <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
     <rfcx-basemap layerType="positron"></rfcx-basemap>
     <rfcx-basemap layerType="satellite"></rfcx-basemap>
     <ng-container *ngFor="let item of incidents">
-      <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon"></rfcx-map-marker>
+      <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon" pulse="true" [pulseDuration]="12000"></rfcx-map-marker>
     </ng-container>
   </rfcx-map>
 </div>
