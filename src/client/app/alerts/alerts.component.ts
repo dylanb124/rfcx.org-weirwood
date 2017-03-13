@@ -43,6 +43,7 @@ export class AlertsComponent implements OnInit {
   // check request will be sent every intervalSec seconds
   public intervalSec: number = 30;
   public latestSyncTime: any = moment().subtract(this.intervalSec, 'seconds');
+  public audio: any;
 
   constructor(
     public http: Http,
@@ -52,10 +53,17 @@ export class AlertsComponent implements OnInit {
 
   ngOnInit() {
     // start loading initial data only after loading all sites
+    this.initAudio();
     this.initSitesFilter(() => {
       this.loadData();
       this.startCleaner();
     });
+  }
+
+  initAudio() {
+    this.audio = new Audio();
+    this.audio.src = "/assets/mp3/alert.mp3";
+    this.audio.load();
   }
 
   initSitesFilter(cb: Function) {
@@ -87,6 +95,7 @@ export class AlertsComponent implements OnInit {
           let isRefreshed = this.appendNewIncidents(incidents);
           console.log('incidents', this.incidents);
           if (isRefreshed) {
+            this.audio.play();
             // we use separate array for map data input because angular ngOnChanges handler
             // doesn't fire when we just append new items to array, so we need this dirty hack
             this.mapIncidents = this.incidents.slice(0);
