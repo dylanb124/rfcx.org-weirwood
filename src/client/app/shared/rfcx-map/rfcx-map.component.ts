@@ -68,7 +68,7 @@ export class RfcxMapComponent implements OnInit, OnChanges {
       // iterate through all map layers
       this.rfcxMap.eachLayer(function (layer: any) {
         if (layer.options && layer.options.icon && layer.options.icon.options &&
-          layer.options.icon.options.className === 'rfcx-map-marker') {
+          layer.options.icon.options.className === 'rfcx-map-marker' && !layer.options.isDeleting) {
           markers.push(layer.getLatLng());
         }
       });

@@ -1,4 +1,6 @@
 @import '../../../scss/main';
+@import '../../../scss/keyframes';
+
 .rfcx-map {
   display: block;
   width: 100%;
@@ -7,8 +9,39 @@
     margin: .4rem 5px;
     height: auto;
   }
-  .leaflet-marker-icon {
-    height: auto !important;
+  .leaflet-div-icon {
+    &.rfcx-map-marker {
+      background: transparent;
+      border: none;
+    }
+  }
+  .rfcx-map-marker {
+    &.pulse {
+      &:after {
+        display: block;
+        content: "";
+        box-shadow: 0 0 6px 3px #30ac4a inset;
+        animation: pulsate 1.5s ease-out;
+        animation-iteration-count: infinite;
+        animation-delay: 1s;
+        border-radius: 100%;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        left: 50%;
+        margin-top: -10px;
+        margin-left: -10px;
+      }
+    }
+    .rfcx-map-marker-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      position: relative;
+      z-index: 2;
+    }
   }
 }
 
