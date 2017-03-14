@@ -42,7 +42,7 @@ export class AlertsComponent implements OnInit {
   public isLoading: boolean = false;
   // check request will be sent every intervalSec seconds
   public intervalSec: number = 30;
-  public latestSyncTime: any = moment().subtract(this.intervalSec, 'seconds');
+  public deathTimeMin: number = 5;
   public audio: any;
 
   constructor(
@@ -106,32 +106,37 @@ export class AlertsComponent implements OnInit {
   }
 
   getDataByDates(): Observable<any> {
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'x-auth-user': 'user/' + this.cookieService.get('guid'),
+      'x-auth-token': this.cookieService.get('token')
+    });
+
+    // create timer which will be sent every intervalSec seconds starting from 0
+    return Observable
+             .timer(0, this.intervalSec * 1000)
+             .switchMap(() => {
+               return this.http.get(Config.API + 'events/event', new RequestOptions({
+                 headers: headers,
+                 search: this.combineUrlParams()
+               }));
+             })
+             .map((res) => res.json());
+  }
+
+  combineUrlParams() {
     let params: URLSearchParams = new URLSearchParams();
-    params.set('starting_after', this.latestSyncTime.toISOString());
+    params.set('created_after', moment().subtract(30, 'seconds').toISOString());
+    params.set('created_before', moment().toISOString());
+    params.set('starting_after', moment().subtract(5, 'minutes').toISOString());
+    params.set('ending_before', moment().toISOString());
     this.currentIncidentTypeValues.forEach((value: string) => {
       params.append('values[]', value);
     });
     this.currentSiteValues.forEach((value: string) => {
       params.append('sites[]', value);
     });
-
-    let headers = new Headers({
-      'Content-Type': 'application/json',
-      'x-auth-user': 'user/' + this.cookieService.get('guid'),
-      'x-auth-token': this.cookieService.get('token')
-    });
-    let options = new RequestOptions({
-      headers: headers,
-      search: params
-    });
-
-    this.latestSyncTime.add(this.intervalSec, 'seconds').toISOString();
-
-    // create timer which will be sent every intervalSec seconds starting from 0
-    return Observable
-             .timer(0, this.intervalSec * 1000)
-             .switchMap(() => { return this.http.get(Config.API + 'events/event', options); })
-             .map((res) => res.json());
+    return params;
   }
 
   parseIncidentsByGuardians(incidents: Array<any>) {
@@ -145,7 +150,7 @@ export class AlertsComponent implements OnInit {
         shortname: item.guardian_shortname,
         event_guid: item.event_guid,
         events: {},
-        death_time: moment().add(3, 'minutes').toDate()
+        death_time: moment().add(this.deathTimeMin, 'minutes').toDate()
       };
       obj.events[item.value] = 1;
       return obj;

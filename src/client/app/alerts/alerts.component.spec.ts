@@ -88,8 +88,6 @@ export function main() {
       TestBed
         .compileComponents()
         .then(() => {
-          var date = new Date();
-          jasmine.clock().mockDate(date);
           expect(comp.incidentTypes[0]).toEqual({ value: 'vehicle', label: 'Vehicles', checked: true });
           expect(comp.incidentTypes[1]).toEqual({ value: 'shot', label: 'Shots', checked: true });
           expect(comp.incidentTypes[2]).toEqual({ value: 'chainsaw', label: 'Chainsaws', checked: true });
@@ -102,7 +100,7 @@ export function main() {
           expect(comp.mobileFiltersOpened).toEqual(false);
           expect(comp.isLoading).toEqual(false);
           expect(comp.intervalSec).toEqual(30);
-          expect(date.getTime() - comp.latestSyncTime).toEqual(30000);
+          expect(comp.deathTimeMin).toEqual(5);
           expect(spyAud.calls.count()).toEqual(1);
           expect(spyFilt.calls.count()).toEqual(1);
           expect(spyLoad.calls.count()).toEqual(1);
