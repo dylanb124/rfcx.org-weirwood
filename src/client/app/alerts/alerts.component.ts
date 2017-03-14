@@ -54,7 +54,7 @@ export class AlertsComponent implements OnInit {
   ngOnInit() {
     // start loading initial data only after loading all sites
     this.initAudio();
-    this.initSitesFilter(() => {
+    this.intializeFilterValues(() => {
       this.loadData();
       this.startCleaner();
     });
@@ -62,11 +62,11 @@ export class AlertsComponent implements OnInit {
 
   initAudio() {
     this.audio = new Audio();
-    this.audio.src = "/assets/mp3/alert.mp3";
+    this.audio.src = '/assets/mp3/alert.mp3';
     this.audio.load();
   }
 
-  initSitesFilter(cb: Function) {
+  intializeFilterValues(cb: Function) {
     this.currentIncidentTypeValues = this.getCheckedDropdownCheckboxItems(this.incidentTypes);
 
     let observ = this.siteService.getSites();
@@ -102,7 +102,7 @@ export class AlertsComponent implements OnInit {
           }
         },
         err => console.log('Error loading incidents', err)
-      )
+      );
   }
 
   getDataByDates(): Observable<any> {
@@ -130,7 +130,7 @@ export class AlertsComponent implements OnInit {
     // create timer which will be sent every intervalSec seconds starting from 0
     return Observable
              .timer(0, this.intervalSec * 1000)
-             .switchMap(() => { return this.http.get(Config.API + 'events/event', options) })
+             .switchMap(() => { return this.http.get(Config.API + 'events/event', options); })
              .map((res) => res.json());
   }
 
@@ -146,7 +146,7 @@ export class AlertsComponent implements OnInit {
         event_guid: item.event_guid,
         events: {},
         death_time: moment().add(3, 'minutes').toDate()
-      }
+      };
       obj.events[item.value] = 1;
       return obj;
     });
@@ -163,7 +163,7 @@ export class AlertsComponent implements OnInit {
         this.incidents.push(item);
       }
     });
-    return isAppended
+    return isAppended;
   };
 
   startCleaner() {
