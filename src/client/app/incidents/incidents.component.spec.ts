@@ -448,8 +448,8 @@ export function main() {
           expect(connection.request.headers.get('x-auth-user')).toEqual('user/123456');
           expect(connection.request.headers.get('x-auth-token')).toEqual('654321');
           let url = connection.request.url;
-          let expUrl = 'events/stats/guardian?starting_after=abcdef&ending_before=fedcba&values=111&values=222&values=333' +
-                        '&sites=asd&sites=aaa&sites=bbb';
+          let expUrl = 'events/stats/guardian?starting_after=abcdef&ending_before=fedcba&values%5B%5D=111' +
+                        '&values%5B%5D=222&values%5B%5D=333&sites%5B%5D=asd&sites%5B%5D=aaa&sites%5B%5D=bbb';
           expect(url.indexOf(expUrl, url.length - expUrl.length)).not.toEqual(-1);
           connection.mockRespond(new Response(new ResponseOptions({
             body: JSON.stringify(mockResponse)
@@ -537,8 +537,8 @@ export function main() {
           expect(connection.request.headers.get('x-auth-user')).toEqual('user/123456');
           expect(connection.request.headers.get('x-auth-token')).toEqual('654321');
           let url = connection.request.url;
-          let expUrl = 'events/stats/dates?starting_after=111&ending_before=222&values=aaa&values=bbb&values=ccc' +
-                        '&sites=abc&sites=qwe';
+          let expUrl = 'events/stats/dates?starting_after=111&ending_before=222&values%5B%5D=aaa&' +
+                        'values%5B%5D=bbb&values%5B%5D=ccc&sites%5B%5D=abc&sites%5B%5D=qwe';
           expect(url.indexOf(expUrl, url.length - expUrl.length)).not.toEqual(-1);
           connection.mockRespond(new Response(new ResponseOptions({
             body: JSON.stringify(mockResponse)
