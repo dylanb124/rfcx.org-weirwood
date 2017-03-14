@@ -149,13 +149,18 @@ export class AlertsComponent implements OnInit {
         guid: item.guardian_guid,
         shortname: item.guardian_shortname,
         event_guid: item.event_guid,
-        events: {},
-        death_time: moment().add(this.deathTimeMin, 'minutes').toDate()
+        event: item.value,
+        death_time: moment().add(this.deathTimeMin, 'minutes').toDate(),
+        html: this.generageItemHtml(item)
       };
-      obj.events[item.value] = 1;
       return obj;
     });
     return arr;
+  };
+
+  generageItemHtml(item: any) {
+    return '<p class=\"d3-tip__row\">' + item.value + '</p>' +
+           '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>';
   };
 
   appendNewIncidents(incidents: Array<any>): Boolean {

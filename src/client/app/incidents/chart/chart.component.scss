@@ -1,4 +1,6 @@
 @import "../../../scss/main";
+@import "../../../scss/d3-tip";
+
 incidents-chart {
   display: block;
   overflow: hidden;
@@ -119,47 +121,6 @@ incidents-chart {
           display: none;
         }
       }
-    }
-  }
-}
-
-.d3-tip {
-  display: block;
-  padding: .4rem 40px 0.8rem 11px;
-  color: $white;
-  background: $charcoal-grey;
-  z-index: 10000;
-  border-radius: 4px;
-  @include box-shadow(0 2px 8px 0 rgba(0, 0, 0, 0.1));
-  &__row {
-    color: $white;
-    margin: 0 auto;
-    font-size: 1rem;
-    line-height: 1.6rem;
-    &_date {
-      font-weight: bold;
-    }
-  }
-  &:after {
-    display: block;
-    content: "";
-    position: absolute;
-    top: auto;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -6px;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 6px 6px 6px;
-    border-color: transparent transparent $charcoal-grey transparent;
-  }
-  &.n {
-    &:after {
-      top: 100%;
-      bottom: auto;
-      border-width: 6px 6px 0 6px;
-      border-color: $charcoal-grey transparent transparent transparent;
     }
   }
 }

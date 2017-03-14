@@ -17,6 +17,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   @Input() pulse?: boolean;
   @Input() pulseDuration: number = 8000;
   @Input() fadeOutDuration: number = 3000;
+  @Input() popupHtml: string;
   public rfcxMapComp: any;
   public marker: any;
 
@@ -28,6 +29,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.appendToMap();
+    if (this.popupHtml) {
+      this.createPopup();
+    }
   }
 
   ngOnDestroy() {
@@ -59,5 +63,18 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
   removeFromMap() {
     this.rfcxMapComp.rfcxMap.removeLayer(this.marker);
+  }
+
+  createPopup() {
+    let popup = L.popup({ className: 'd3-tip n' })
+      .setLatLng([this.lat, this.lon])
+      .setContent(() => { return this.popupHtml; });
+    this.marker.bindPopup(popup);
+    this.marker.on('mouseover', function () {
+      this.openPopup();
+    });
+    this.marker.on('mouseout', function () {
+      this.closePopup();
+    });
   }
 }
