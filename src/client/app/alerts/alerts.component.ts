@@ -44,6 +44,7 @@ export class AlertsComponent implements OnInit {
   public intervalSec: number = 30;
   public deathTimeMin: number = 5;
   public audio: any;
+  public loadSubscription: any;
 
   constructor(
     public http: Http,
@@ -87,7 +88,10 @@ export class AlertsComponent implements OnInit {
   }
 
   loadData(opts?: any) {
-    this.getDataByDates()
+    if (this.loadSubscription) {
+      this.loadSubscription.unsubscribe();
+    }
+    this.loadSubscription = this.getDataByDates()
       .subscribe(
         data => {
           let incidents = this.parseIncidentsByGuardians(data.events);
