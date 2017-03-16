@@ -38,6 +38,7 @@ export class AlertsComponent implements OnInit {
   public mapIncidents: Array<any> = [];
   public currentIncidentTypeValues: Array<string>;
   public currentSiteValues: Array<string>;
+  public currentSiteBounds: Array<string>;
   public mobileFiltersOpened: boolean = false;
   public isLoading: boolean = false;
   // check request will be sent every intervalSec seconds
@@ -77,14 +78,26 @@ export class AlertsComponent implements OnInit {
           return {
             label: item.name,
             value: item.guid,
+            bounds: item.bounds,
             checked: true
           };
         });
         this.currentSiteValues = this.getCheckedDropdownCheckboxItems(this.sitesList);
+        this.currentSiteBounds = this.getActiveSiteBounds();
         cb();
       },
       err => console.log('Error loading sites', err)
     );
+  }
+
+  getActiveSiteBounds() {
+    let arr: Array<any> = [];
+    this.sitesList.forEach((site: any) => {
+      if (site.bounds !== null) {
+        arr.push(site.bounds);
+      }
+    });
+    return arr;
   }
 
   loadData(opts?: any) {
@@ -207,6 +220,7 @@ export class AlertsComponent implements OnInit {
 
   siteChanged(event: any) {
     this.currentSiteValues = this.getCheckedDropdownCheckboxItems(event.items);
+    this.currentSiteBounds = this.getActiveSiteBounds();
     if (this.currentSiteValues.length) {
       this.loadData();
     }

@@ -1,3 +1,5 @@
+import * as L from 'leaflet';
+
 let iconSize: any = [20, 28];
 
 export let rfcxMapIcon = L.divIcon({
