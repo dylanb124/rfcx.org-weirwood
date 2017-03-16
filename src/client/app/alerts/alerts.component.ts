@@ -93,7 +93,7 @@ export class AlertsComponent implements OnInit {
   getActiveSiteBounds() {
     let arr: Array<any> = [];
     this.sitesList.forEach((site: any) => {
-      if (site.bounds !== null) {
+      if (site.bounds !== null && site.checked) {
         arr.push(site.bounds);
       }
     });
