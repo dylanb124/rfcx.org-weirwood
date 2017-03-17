@@ -38,7 +38,7 @@ export class RfcxMapSiteBoundComponent implements OnInit, OnDestroy {
         }
       },
       geometry: this.bounds
-    }
+    };
     this.layer = L.geoJSON(opts, {
       style: (feature: any) => {
         return feature.properties.style;

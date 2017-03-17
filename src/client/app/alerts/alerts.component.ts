@@ -39,7 +39,7 @@ export class AlertsComponent implements OnInit {
     chainsaw: '#FF0000',
     shot: '#FF0000',
     vehicle: '#FF0000'
-  }
+  };
 
   public incidents: Array<any> = [];
   public mapIncidents: Array<any> = [];
