@@ -5,6 +5,7 @@ import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { CookieService } from 'angular2-cookie/core';
 import { SiteService } from '../shared/index';
+import { PulseOptions } from '../shared/rfcx-map/index';
 import { Config } from '../shared/config/env.config.js';
 
 import * as moment from 'moment';
@@ -33,6 +34,12 @@ export class AlertsComponent implements OnInit {
     zoom: 10,
     maxZoom: 17
   };
+
+  public pulseColors: any = {
+    chainsaw: '#FF0000',
+    shot: '#FF0000',
+    vehicle: '#FF0000'
+  }
 
   public incidents: Array<any> = [];
   public mapIncidents: Array<any> = [];
@@ -168,7 +175,14 @@ export class AlertsComponent implements OnInit {
         event_guid: item.event_guid,
         event: item.value,
         death_time: moment().add(this.deathTimeMin, 'minutes').toDate(),
-        html: this.generageItemHtml(item)
+        html: this.generageItemHtml(item),
+        pulseOpts: {
+          duration: {
+            pulse: 12000,
+            fadeOut: 3000
+          },
+          shadowColor: this.pulseColors[item.value] || '#30ac4a'
+        }
       };
       return obj;
     });
