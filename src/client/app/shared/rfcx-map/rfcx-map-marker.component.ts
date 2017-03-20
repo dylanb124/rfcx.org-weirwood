@@ -17,6 +17,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   @Input() lon: number;
   @Input() pulseOpts?: PulseOptions;
   @Input() popupHtml: string;
+  @Input() data: any;
   @Output() onPlayClick = new EventEmitter();
   public rfcxMapComp: any;
   public marker: any;
@@ -69,7 +70,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   bindAdditionalEvents() {
     if (this.onPlayClick) {
       jQuery('.js-tip-btn').click(() => {
-        this.onPlayClick.emit();
+        this.onPlayClick.emit({
+          audio_guid: this.data.audio_guid
+        });
       });
     }
   }

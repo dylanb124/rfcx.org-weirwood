@@ -1,0 +1,25 @@
+@import '../../../scss/colors';
+
+.streamer {
+  padding: 2rem 20px 2rem 0;
+  text-align: center;
+  &__btn-play-pause {
+    display: inline-block;
+    vertical-align: middle;
+    border: none;
+    background: transparent;
+    color: $warm-grey;
+    padding: 0.2rem;
+    height: auto;
+    margin-right: 10px;
+    i {
+      font-size: 1.6rem;
+    }
+  }
+  &__label {
+    display: inline-block;
+    vertical-align: middle;
+    color: $warm-grey;
+    font-size: 1.6rem;
+  }
+}

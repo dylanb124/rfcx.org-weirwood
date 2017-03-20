@@ -46,6 +46,7 @@ export class AlertsComponent implements OnInit {
   public currentIncidentTypeValues: Array<string>;
   public currentSiteValues: Array<string>;
   public currentSiteBounds: Array<string>;
+  public currentAudioGuid: string;
   public mobileFiltersOpened: boolean = false;
   public isLoading: boolean = false;
   // check request will be sent every intervalSec seconds
@@ -170,7 +171,12 @@ export class AlertsComponent implements OnInit {
           lat: item.latitude,
           lon: item.longitude
         },
+        time: {
+          begins_at: item.begins_at,
+          ends_at: item.ends_at
+        },
         guid: item.guardian_guid,
+        audio_guid: item.audio_guid,
         shortname: item.guardian_shortname,
         event_guid: item.event_guid,
         event: item.value,
@@ -195,8 +201,8 @@ export class AlertsComponent implements OnInit {
            '<p class=\"d3-tip__row d3-tip__row_stream\"><button class="btn btn-xs d3-tip__btn js-tip-btn">Listen Stream</button></p>';
   };
 
-  onPlayClicked() {
-    console.log('onPlayClicked');
+  onPlayClicked(event: any) {
+    this.currentAudioGuid = event.audio_guid
   }
 
   appendNewIncidents(incidents: Array<any>): Boolean {

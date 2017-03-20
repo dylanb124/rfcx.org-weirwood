@@ -24,11 +24,12 @@
     <rfcx-basemap layerType="satellite"></rfcx-basemap>
     <ng-container *ngFor="let item of incidents">
       <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon" [pulseOpts]="item.pulseOpts"
-                       [popupHtml]="item.html" (onPlayClick)="onPlayClicked()"></rfcx-map-marker>
+                       [popupHtml]="item.html" [data]="item" (onPlayClick)="onPlayClicked($event)"></rfcx-map-marker>
     </ng-container>
     <ng-container *ngFor="let bounds of currentSiteBounds">
       <rfcx-map-site-bound [bounds]="bounds"></rfcx-map-site-bound>
     </ng-container>
   </rfcx-map>
 </div>
+<rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid"></rfcx-streamer>
 <rfcx-footer></rfcx-footer>
