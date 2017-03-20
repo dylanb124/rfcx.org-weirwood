@@ -1,3 +1,5 @@
+@import "./colors";
+
 .d3-tip {
   display: block;
   padding: .4rem 40px 0.8rem 11px;
@@ -13,6 +15,9 @@
     line-height: 1.6rem;
     &_date {
       font-weight: bold;
+    }
+    &_stream {
+      padding-top: 0.5rem;
     }
   }
   &:after {
@@ -35,6 +40,16 @@
       bottom: auto;
       border-width: 6px 6px 0 6px;
       border-color: $charcoal-grey transparent transparent transparent;
+    }
+  }
+  &__btn {
+    background: $dodger-blue;
+    height: auto;
+    color: $white;
+    outline: none;
+    &:hover {
+      color: $white;
+      background: $dodger-blue-darken-10;
     }
   }
 }

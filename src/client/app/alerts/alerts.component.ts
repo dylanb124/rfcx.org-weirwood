@@ -191,8 +191,13 @@ export class AlertsComponent implements OnInit {
 
   generageItemHtml(item: any) {
     return '<p class=\"d3-tip__row\">' + item.value + '</p>' +
-           '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>';
+           '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>' +
+           '<p class=\"d3-tip__row d3-tip__row_stream\"><button class="btn btn-xs d3-tip__btn js-tip-btn">Listen Stream</button></p>';
   };
+
+  onPlayClicked() {
+    console.log('onPlayClicked');
+  }
 
   appendNewIncidents(incidents: Array<any>): Boolean {
     let isAppended = false;

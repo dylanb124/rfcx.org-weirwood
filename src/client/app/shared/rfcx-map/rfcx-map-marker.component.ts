@@ -1,4 +1,4 @@
-import { Component, Input, Inject, forwardRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, Inject, forwardRef, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
 import { rfcxMapIcon } from './icon';
 import { PulseOptions } from './pulse-options';
@@ -17,6 +17,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   @Input() lon: number;
   @Input() pulseOpts?: PulseOptions;
   @Input() popupHtml: string;
+  @Output() onPlayClick = new EventEmitter();
   public rfcxMapComp: any;
   public marker: any;
 
@@ -65,16 +66,23 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     this.rfcxMapComp.rfcxMap.removeLayer(this.marker);
   }
 
+  bindAdditionalEvents() {
+    if (this.onPlayClick) {
+      jQuery('.js-tip-btn').click(() => {
+        this.onPlayClick.emit();
+      });
+    }
+  }
+
   createPopup() {
+    let self = this;
     let popup = L.popup({ className: 'd3-tip n' })
       .setLatLng([this.lat, this.lon])
       .setContent(() => { return this.popupHtml; });
     this.marker.bindPopup(popup);
-    this.marker.on('mouseover', function () {
+    this.marker.on('click', function () {
       this.openPopup();
-    });
-    this.marker.on('mouseout', function () {
-      this.closePopup();
+      self.bindAdditionalEvents();
     });
   }
 }
