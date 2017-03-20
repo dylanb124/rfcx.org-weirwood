@@ -12,8 +12,10 @@ import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent, RfcxMapMarkerComponent,
          RfcxMapPieComponent, RfcxMapSiteBoundComponent } from './rfcx-map/index';
 import { DateTimePickerComponent } from './date-time-picker/index';
+import { RfcxStreamerComponent } from './rfcx-streamer/index';
 import { UserService } from './user/user.service';
 import { SiteService } from './services/site.service';
+import { AudioService } from './services/audio.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 /**
@@ -38,7 +40,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RfcxMapMarkerComponent,
     RfcxMapPieComponent,
     RfcxMapSiteBoundComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    RfcxStreamerComponent
   ],
   exports: [
     NavbarComponent,
@@ -54,7 +57,8 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RfcxMapMarkerComponent,
     RfcxMapPieComponent,
     RfcxMapSiteBoundComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    RfcxStreamerComponent
   ]
 })
 export class SharedModule {
@@ -64,7 +68,8 @@ export class SharedModule {
       providers: [
         UserService,
         CookieService,
-        SiteService
+        SiteService,
+        AudioService
       ]
     };
   }
