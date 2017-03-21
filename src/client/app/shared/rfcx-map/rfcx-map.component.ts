@@ -75,7 +75,8 @@ export class RfcxMapComponent implements OnInit, OnChanges {
       if (markers.length) {
         let bounds = L.latLngBounds(markers);
         this.rfcxMap.flyToBounds(bounds, {
-          padding: [30, 30]
+          padding: [30, 30],
+          maxZoom: 13
         });
       }
     }, 2000);
