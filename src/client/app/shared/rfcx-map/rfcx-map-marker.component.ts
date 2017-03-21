@@ -1,6 +1,6 @@
 import { Component, Input, Output, Inject, forwardRef, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
-import { rfcxMapIcon } from './icon';
+import { rfcxMapIcon, rfcxMapRedIcon } from './icon';
 import { PulseOptions } from './pulse-options';
 
 import * as L from 'leaflet';
@@ -18,6 +18,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   @Input() pulseOpts?: PulseOptions;
   @Input() popupHtml: string;
   @Input() data: any;
+  @Input() danger: boolean;
   @Output() onPlayClick = new EventEmitter();
   public rfcxMapComp: any;
   public marker: any;
@@ -54,7 +55,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   }
 
   appendToMap() {
-    this.marker = L.marker([this.lat, this.lon], { icon: rfcxMapIcon });
+    this.marker = L.marker([this.lat, this.lon], { icon: this.danger? rfcxMapRedIcon : rfcxMapIcon });
     this.marker.addTo(this.rfcxMapComp.rfcxMap);
     // if maker is pulsated, then append pulse css class to it's icon
     if (this.pulseOpts) {

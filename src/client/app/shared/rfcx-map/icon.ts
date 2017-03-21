@@ -8,3 +8,10 @@ export let rfcxMapIcon = L.divIcon({
   iconAnchor: [10, 28],
   className: 'rfcx-map-marker'
 });
+
+export let rfcxMapRedIcon = L.divIcon({
+  html: '<img class="rfcx-map-marker-img" src="assets/img/map/location-marker-red@2x.png" alt="">',
+  iconSize: iconSize,
+  iconAnchor: [10, 28],
+  className: 'rfcx-map-marker'
+});

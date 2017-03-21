@@ -1,16 +1,16 @@
 <div class="streamer">
-  <div class="streamer__left">
+  <!--<div class="streamer__left">-->
     <button class="streamer__btn-play-pause" [ngClass]="{ 'hidden': !isPlaying }" (click)="pause()">
       <i class="fa fa-pause" aria-hidden="true"></i>
     </button>
     <button class="streamer__btn-play-pause" [ngClass]="{ 'hidden': isPlaying }" (click)="play()">
       <i class="fa fa-play" aria-hidden="true"></i>
     </button>
-  </div>
-  <div class="streamer__right">
+  <!--</div>-->
+  <!--<div class="streamer__right">-->
     <div class="streamer__label">
-      <div class="streamer__title">{{title}}</div>
-      <div class="streamer__time">{{labelTime}}</div>
+      <span class="streamer__title">{{title}}</span>
+      <span class="streamer__time">{{labelTime}}</span>
     </div>
-  </div>
+  <!--</div>-->
 </div>

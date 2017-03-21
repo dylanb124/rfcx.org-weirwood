@@ -36,10 +36,16 @@ export class AlertsComponent implements OnInit {
   };
 
   public pulseColors: any = {
-    chainsaw: '#FF0000',
-    shot: '#FF0000',
-    vehicle: '#FF0000'
+    chainsaw: '#ff4155',
+    shot: '#ff4155',
+    vehicle: '#ff4155'
   };
+
+  public dangerAttr: any = {
+    chainsaw: true,
+    shot: true,
+    vehicle: true
+  }
 
   public incidents: Array<any> = [];
   public mapIncidents: Array<any> = [];
@@ -191,7 +197,8 @@ export class AlertsComponent implements OnInit {
             fadeOut: 3000
           },
           shadowColor: this.pulseColors[item.value] || '#30ac4a'
-        }
+        },
+        danger: this.dangerAttr[item.value] || false
       };
       return obj;
     });
