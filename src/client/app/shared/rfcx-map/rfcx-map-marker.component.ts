@@ -21,6 +21,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   @Output() onPlayClick = new EventEmitter();
   public rfcxMapComp: any;
   public marker: any;
+  public popup: any;
 
   constructor(
     @Inject(forwardRef(() => RfcxMapComponent)) map: RfcxMapComponent
@@ -65,6 +66,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
   removeFromMap() {
     this.rfcxMapComp.rfcxMap.removeLayer(this.marker);
+    if (this.popup) {
+      this.rfcxMapComp.rfcxMap.closePopup();
+    }
   }
 
   bindAdditionalEvents() {
@@ -81,10 +85,10 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
   createPopup() {
     let self = this;
-    let popup = L.popup({ className: 'd3-tip n' })
+    this.popup = L.popup({ className: 'd3-tip n' })
       .setLatLng([this.lat, this.lon])
       .setContent(() => { return this.popupHtml; });
-    this.marker.bindPopup(popup);
+    this.marker.bindPopup(this.popup);
     this.marker.on('click', function () {
       this.openPopup();
       self.bindAdditionalEvents();
