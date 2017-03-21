@@ -114,7 +114,7 @@ export class RfcxStreamerComponent implements OnInit {
     audio.loop = false;
     // to allow analysing audio from foreign server
     audio.crossOrigin  = "anonymous";
-    audio.onended      = this._onAudioEnded;
+    audio.onended      = this._onAudioEnded.bind(this);
     audio.ontimeupdate = this._onAudioTimeUpdate.bind(this);
     audio.onplay       = this._onAudioPlay;
     var source = this.context.createMediaElementSource(audio);
@@ -143,6 +143,7 @@ export class RfcxStreamerComponent implements OnInit {
 
   _onAudioEnded() {
     this.isPlaying = false;
+    this.labelTime = undefined;
   }
 
   _onAudioTimeUpdate(event: any) {
