@@ -37,6 +37,7 @@ export class ProjectConfig extends SeedConfig {
       {src: 'normalize.css/normalize.css', inject: true},
       {src: 'leaflet/dist/leaflet.css', inject: true},
       {src: 'moment/moment.js', inject: 'libs'},
+      {src: 'moment-timezone/builds/moment-timezone-with-data-2010-2020.js', inject: 'libs'},
       {src: 'eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', inject: 'libs'},
       {src: 'eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css', inject: true}
     ];
@@ -57,7 +58,8 @@ export class ProjectConfig extends SeedConfig {
       'leaflet': 'node_modules/leaflet/dist/leaflet.js',
       'd3': 'node_modules/d3/build/d3.min.js',
       'd3-tip': 'node_modules/d3-tip/index.js',
-      'moment': 'node_modules/moment/moment.js'
+      'moment': 'node_modules/moment/moment.js',
+      'moment-timezone': 'node_modules/moment-timezone/builds/moment-timezone-with-data-2010-2020.js'
     });
     this.mergeObject(this.SYSTEM_BUILDER_CONFIG['packages'], {
       'angular2-cookie': {
