@@ -69,6 +69,10 @@ export class ProjectConfig extends SeedConfig {
       'd3': {
         main: 'build/d3.min.js',
         defaultExtension: 'js'
+      },
+      'moment-timezone': {
+        main: 'builds/moment-timezone-with-data-2010-2020.min.js',
+        defaultExtension: 'js'
       }
     });
   }
