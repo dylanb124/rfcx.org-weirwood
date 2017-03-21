@@ -33,6 +33,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     this.appendToMap();
     if (this.popupHtml) {
       this.createPopup();
+      setTimeout(() => {
+        this.emitPlayBtnEvent();
+      });
     }
   }
 
@@ -74,11 +77,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   bindAdditionalEvents() {
     if (this.onPlayClick) {
       jQuery('.js-tip-btn').click(() => {
-        this.onPlayClick.emit({
-          audioGuid: this.data.audioGuid,
-          autoplay: true,
-          streamTitle: this.data.shortname + ', ' + this.data.site
-        });
+        this.emitPlayBtnEvent();
       });
     }
   }
@@ -92,6 +91,14 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     this.marker.on('click', function () {
       this.openPopup();
       self.bindAdditionalEvents();
+    });
+  }
+
+  emitPlayBtnEvent() {
+    this.onPlayClick.emit({
+      audioGuid: this.data.audioGuid,
+      autoplay: true,
+      streamTitle: this.data.shortname + ', ' + this.data.site
     });
   }
 }

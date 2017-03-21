@@ -46,7 +46,7 @@ export class AlertsComponent implements OnInit {
   public currentIncidentTypeValues: Array<string>;
   public currentSiteValues: Array<string>;
   public currentSiteBounds: Array<string>;
-  public currentAudioGuid: string;
+  public currentAudioGuid: string = undefined;
   public autoplayStream: boolean = false;
   public streamTitle: string;
   public mobileFiltersOpened: boolean = false;
@@ -200,11 +200,13 @@ export class AlertsComponent implements OnInit {
 
   generageItemHtml(item: any) {
     return '<p class=\"d3-tip__row\">' + item.value + '</p>' +
-           '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>' +
-           '<p class=\"d3-tip__row d3-tip__row_stream\"><button class="btn btn-xs d3-tip__btn js-tip-btn">Listen Stream</button></p>';
+           '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>';
+          //  '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>' +
+          //  '<p class=\"d3-tip__row d3-tip__row_stream\"><button class="btn btn-xs d3-tip__btn js-tip-btn">Listen Stream</button></p>';
   };
 
   onPlayClicked(event: any) {
+    console.log('onPlayClicked');
     this.currentAudioGuid = event.audioGuid;
     this.autoplayStream = !!event.autoplay;
     this.streamTitle = event.streamTitle;
