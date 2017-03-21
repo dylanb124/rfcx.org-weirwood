@@ -71,7 +71,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     if (this.onPlayClick) {
       jQuery('.js-tip-btn').click(() => {
         this.onPlayClick.emit({
-          audio_guid: this.data.audio_guid
+          audioGuid: this.data.audioGuid,
+          autoplay: true,
+          streamTitle: this.data.shortname + ', ' + this.data.site
         });
       });
     }

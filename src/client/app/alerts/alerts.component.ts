@@ -47,6 +47,8 @@ export class AlertsComponent implements OnInit {
   public currentSiteValues: Array<string>;
   public currentSiteBounds: Array<string>;
   public currentAudioGuid: string;
+  public autoplayStream: boolean = false;
+  public streamTitle: string;
   public mobileFiltersOpened: boolean = false;
   public isLoading: boolean = false;
   // check request will be sent every intervalSec seconds
@@ -152,9 +154,9 @@ export class AlertsComponent implements OnInit {
   combineUrlParams() {
     let params: URLSearchParams = new URLSearchParams();
     params.set('created_after', moment().subtract(30, 'seconds').toISOString());
-    params.set('created_before', moment().toISOString());
+    // params.set('created_before', moment().toISOString());
     params.set('starting_after', moment().subtract(5, 'minutes').toISOString());
-    params.set('ending_before', moment().toISOString());
+    // params.set('ending_before', moment().toISOString());
     this.currentIncidentTypeValues.forEach((value: string) => {
       params.append('values[]', value);
     });
@@ -176,11 +178,12 @@ export class AlertsComponent implements OnInit {
           ends_at: item.ends_at
         },
         guid: item.guardian_guid,
-        audio_guid: item.audio_guid,
+        audioGuid: item.audio_guid,
         shortname: item.guardian_shortname,
-        event_guid: item.event_guid,
+        site: item.site,
+        eventGuid: item.event_guid,
         event: item.value,
-        death_time: moment().add(this.deathTimeMin, 'minutes').toDate(),
+        deathTime: moment().add(this.deathTimeMin, 'minutes').toDate(),
         html: this.generageItemHtml(item),
         pulseOpts: {
           duration: {
@@ -202,14 +205,16 @@ export class AlertsComponent implements OnInit {
   };
 
   onPlayClicked(event: any) {
-    this.currentAudioGuid = event.audio_guid
+    this.currentAudioGuid = event.audioGuid;
+    this.autoplayStream = !!event.autoplay;
+    this.streamTitle = event.streamTitle;
   }
 
   appendNewIncidents(incidents: Array<any>): Boolean {
     let isAppended = false;
     incidents.forEach((item) => {
       if (!this.incidents.find((searchItem) => {
-        return searchItem.event_guid === item.event_guid;
+        return searchItem.eventGuid === item.eventGuid;
       })) {
         isAppended = true;
         this.incidents.push(item);
@@ -223,7 +228,7 @@ export class AlertsComponent implements OnInit {
       console.log('Checking death events');
       let oldCount = this.incidents.length;
       this.incidents = this.incidents.filter((item) => {
-        return item.death_time.getTime() > new Date().getTime();
+        return item.deathTime.getTime() > new Date().getTime();
       });
       console.log((oldCount - this.incidents.length) + ' will be removed');
     }, 30 * 1000);

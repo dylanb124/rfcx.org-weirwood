@@ -30,6 +30,10 @@
       <rfcx-map-site-bound [bounds]="bounds"></rfcx-map-site-bound>
     </ng-container>
   </rfcx-map>
+
+  <div class="streamer-wrapper">
+    <rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid" [autoplay]="autoplayStream" [title]="streamTitle"></rfcx-streamer>
+  </div>
 </div>
-<rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid"></rfcx-streamer>
+
 <rfcx-footer></rfcx-footer>

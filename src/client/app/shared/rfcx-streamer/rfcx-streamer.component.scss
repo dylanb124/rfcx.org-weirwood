@@ -1,25 +1,59 @@
 @import '../../../scss/colors';
+@import '../../../scss/mixins';
+
+:host {
+  display: inline-block;
+}
 
 .streamer {
-  padding: 2rem 20px 2rem 0;
-  text-align: center;
+  width: auto;
+  max-width: 300px;
+  padding: 1rem;
+  background: $dodger-blue;
+  border-radius: 10px;
+  display: inline-block;
+  font-size: 0;
+  &__left,
+  &__right {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.4rem;
+  }
+  &__left {
+    text-align: center;
+    width: 15%;
+  }
+  &__right {
+    text-align: left;
+    width: 85%;
+  }
   &__btn-play-pause {
     display: inline-block;
     vertical-align: middle;
     border: none;
     background: transparent;
-    color: $warm-grey;
+    color: $white;
     padding: 0.2rem;
     height: auto;
     margin-right: 10px;
     i {
       font-size: 1.6rem;
     }
+    @include mq(desktop) {
+      @include transition(color .3s);
+    }
+    &:hover {
+      color: $white-darken-10;
+    }
   }
   &__label {
     display: inline-block;
     vertical-align: middle;
-    color: $warm-grey;
-    font-size: 1.6rem;
+    color: $white;
+    font-size: 1.4rem;
+    text-align: left;
+  }
+  &__time {
+    font-size: 0.8em;
   }
 }

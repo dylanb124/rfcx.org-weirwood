@@ -47,6 +47,14 @@
     height: auto;
     color: $white;
     outline: none;
+    @include mq(desktop) {
+      @include transition(all .3s);
+    }
+    &:active,
+    &:focus {
+      color: $white;
+      background: $dodger-blue;
+    }
     &:hover {
       color: $white;
       background: $dodger-blue-darken-10;
