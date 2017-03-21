@@ -34,9 +34,6 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     this.appendToMap();
     if (this.popupHtml) {
       this.createPopup();
-      setTimeout(() => {
-        this.emitPlayBtnEvent();
-      });
     }
   }
 
