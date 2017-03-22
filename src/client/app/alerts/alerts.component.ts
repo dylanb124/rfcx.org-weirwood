@@ -45,7 +45,7 @@ export class AlertsComponent implements OnInit {
     chainsaw: true,
     shot: true,
     vehicle: true
-  }
+  };
 
   public incidents: Array<any> = [];
   public mapIncidents: Array<any> = [];

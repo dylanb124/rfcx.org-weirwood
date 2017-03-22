@@ -43,32 +43,50 @@ export class RfcxStreamerComponent implements OnInit {
             this.play();
           }
         }
-      )
+      );
   }
 
-  loadData() {
-    let observ = this.audioService.getAudioByGuid({
-      guid: this.audioGuid
-    })
+  loadData(opts?: any) {
+    let observ;
+    if (opts && !!opts.next && !!opts.guid) {
+      console.log('111');
+      observ = this.audioService.getNextAudioByGuid({
+        guid: opts.guid
+      });
+    }
+    else {
+      console.log('000');
+      observ = this.audioService.getAudioByGuid({
+        guid: this.audioGuid
+      });
+    }
 
     observ.subscribe(
       data => {
         console.log('audio', data);
-        this.audioList.push({
-          guid: data.guid,
-          audio: this.createAudio(data[0]),
-          data: data[0]
-        });
-        this.updateLoopAttr();
+        if (!this.doesAudioExist(data[0])) {
+          this.audioList.push({
+            audio: this.createAudio(data[0]),
+            data: data[0]
+          });
+          this.updateLoopAttr();
+        }
+        console.log('audioList', this.audioList);
       },
       err => console.log('Error loading audio', err)
     );
     return observ;
   }
 
+  doesAudioExist(data: any) {
+    return !!this.audioList.find((item: any) => {
+      return item.guid === data.guid;
+    });
+  }
+
   updateLoopAttr() {
     this.audioList.forEach((item) => {
-      item.loop = false;
+      item.audio.loop = false;
     });
     this.audioList[this.audioList.length - 1].loop = true;
   }
@@ -104,7 +122,7 @@ export class RfcxStreamerComponent implements OnInit {
 
       // store scriptprocessor in global scope to avoid it being garbage collected
       (<any>window).javascriptNode = this.context.createScriptProcessor(1024, 1, 1);
-      (<any>window).javascriptNode.onaudioprocess = this._onAudioProcess;
+      // (<any>window).javascriptNode.onaudioprocess = this._onAudioProcess;
       (<any>window).javascriptNode.connect(this.context.destination);
     };
 
@@ -113,12 +131,11 @@ export class RfcxStreamerComponent implements OnInit {
     audio.src = data.urls[this.format];
     audio.loop = false;
     // to allow analysing audio from foreign server
-    audio.crossOrigin  = "anonymous";
+    audio.crossOrigin  = 'anonymous';
     audio.onended      = this._onAudioEnded.bind(this);
     audio.ontimeupdate = this._onAudioTimeUpdate.bind(this);
-    audio.onplay       = this._onAudioPlay;
     var source = this.context.createMediaElementSource(audio);
-      // create audio splitter to play both audio channels but render graphs only for left channel
+    // create audio splitter to play both audio channels but render graphs only for left channel
     let splitter = this.context.createChannelSplitter();
     source.connect(splitter);
     splitter.connect(this.analyserLeftChannel,0,0);
@@ -129,6 +146,7 @@ export class RfcxStreamerComponent implements OnInit {
 
   play() {
     this.audioList[this.currentIndex].audio.play();
+    console.log('playing', this.currentIndex+1, 'audio');
     this.isPlaying = true;
   }
 
@@ -137,22 +155,31 @@ export class RfcxStreamerComponent implements OnInit {
     this.isPlaying = false;
   }
 
-  _onAudioProcess() {
-
-  }
+  // _onAudioProcess() {}
 
   _onAudioEnded() {
-    this.isPlaying = false;
-    this.labelTime = undefined;
+    if (this.currentIndex + 1 < this.audioList.length) {
+      this.currentIndex++;
+      this.play();
+    }
+    else {
+      this.isPlaying = false;
+      this.labelTime = undefined;
+    }
   }
 
   _onAudioTimeUpdate(event: any) {
+    let time = parseInt(event.target.currentTime);
     let audioData = this.audioList[this.currentIndex].data;
-    this.labelTime = moment.tz(audioData.measured_at, audioData.timezone).add(event.target.currentTime, 'seconds').format('HH:mm:ss');
-  }
-
-  _onAudioPlay() {
-
+    this.labelTime = moment.tz(audioData.measured_at, audioData.timezone).add(time, 'seconds').format('HH:mm:ss');
+    let percPlayed = Math.round((time * 1000) / audioData.duration * 100);
+    if (!audioData.isNextFileRequested && audioData.duration !== 0 && percPlayed > 10) {
+      this.loadData({
+        next: true,
+        guid: audioData.guid
+      });
+      audioData.isNextFileRequested = true;
+    }
   }
 
 }

@@ -27,6 +27,20 @@ export class AudioService {
                     .share();
   }
 
+  getNextAudioByGuid(opts: any) {
+    let headers = new Headers({
+      'x-auth-user': 'user/' + this.cookieService.get('guid'),
+      'x-auth-token': this.cookieService.get('token')
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
+
+    return this.http.get(Config.API + 'audio/nextafter/' + opts.guid, options)
+                    .map((res) => res.json())
+                    .share();
+  }
+
   getAudioByGuardian(opts: any) {
     let params: URLSearchParams = new URLSearchParams();
     params.set('starting_after', opts.starting_after);
