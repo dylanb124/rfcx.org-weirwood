@@ -67,6 +67,54 @@
   &:active {
     @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));
   }
+  &_info {
+    background: $tealish;
+    @include mq(desktop) {
+      &:hover {
+        background: $tealish-darken-10;
+        @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
+      }
+    }
+    &:active {
+      background: $tealish-darken-10;
+    }
+  }
+  &_primary {
+    background: $dodger-blue;
+    @include mq(desktop) {
+      &:hover {
+        background: $dodger-blue-darken-10;
+        @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
+      }
+    }
+    &:active {
+      background: $dodger-blue-darken-10;
+    }
+  }
+  &_danger {
+    background: $watermelon;
+    @include mq(desktop) {
+      &:hover {
+        background: $watermelon-darken-10;
+        @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
+      }
+    }
+    &:active {
+      background: $watermelon-darken-10;
+    }
+  }
+  &_warning {
+    background: $squash;
+    @include mq(desktop) {
+      &:hover {
+        background: $squash-darken-10;
+        @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
+      }
+    }
+    &:active {
+      background: $squash-darken-10;
+    }
+  }
   &:disabled {
     background: $white-three;
     color: #a2a2a2;
