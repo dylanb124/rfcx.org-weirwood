@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { AudioService } from '../services/audio.service';
 
 import * as moment from 'moment';
@@ -10,7 +10,7 @@ import 'moment-timezone';
   templateUrl: 'rfcx-streamer.component.html',
   styleUrls: ['rfcx-streamer.component.css'],
 })
-export class RfcxStreamerComponent implements OnInit {
+export class RfcxStreamerComponent implements OnInit, OnDestroy {
 
   public isPlaying: boolean = false;
   public audioList: Array<any> = [];
@@ -46,16 +46,18 @@ export class RfcxStreamerComponent implements OnInit {
       );
   }
 
+  ngOnDestroy() {
+    this.pause();
+  }
+
   loadData(opts?: any) {
     let observ;
     if (opts && !!opts.next && !!opts.guid) {
-      console.log('111');
       observ = this.audioService.getNextAudioByGuid({
         guid: opts.guid
       });
     }
     else {
-      console.log('000');
       observ = this.audioService.getAudioByGuid({
         guid: this.audioGuid
       });
@@ -173,7 +175,8 @@ export class RfcxStreamerComponent implements OnInit {
     let audioData = this.audioList[this.currentIndex].data;
     this.labelTime = moment.tz(audioData.measured_at, audioData.timezone).add(time, 'seconds').format('HH:mm:ss');
     let percPlayed = Math.round((time * 1000) / audioData.duration * 100);
-    if (!audioData.isNextFileRequested && audioData.duration !== 0 && percPlayed > 10) {
+    // request new audio file if user played 10% of file, or audio data has zero duration
+    if (!audioData.isNextFileRequested && (audioData.duration === 0 || percPlayed > 10)) {
       this.loadData({
         next: true,
         guid: audioData.guid

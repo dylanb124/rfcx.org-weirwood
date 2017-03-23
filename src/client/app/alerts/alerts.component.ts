@@ -212,10 +212,17 @@ export class AlertsComponent implements OnInit {
   };
 
   onPlayClicked(event: any) {
-    console.log('onPlayClicked');
-    this.currentAudioGuid = event.audioGuid;
-    this.autoplayStream = !!event.autoplay;
-    this.streamTitle = event.streamTitle;
+    if (this.currentAudioGuid === event.audioGuid) {
+      return;
+    }
+    // remove previously playing stream
+    this.currentAudioGuid = null;
+    // wait some time and create new one
+    setTimeout(() => {
+      this.currentAudioGuid = event.audioGuid;
+      this.autoplayStream = !!event.autoplay;
+      this.streamTitle = event.streamTitle;
+    }, 100);
   }
 
   appendNewIncidents(incidents: Array<any>): Boolean {
