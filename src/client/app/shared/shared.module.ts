@@ -10,7 +10,7 @@ import { SpinnerComponent } from './spinner/index';
 import { DropdownComponent } from './dropdown/index';
 import { DropdownCheckboxesComponent } from './dropdown-checkboxes/index';
 import { RfcxMapComponent, RfcxBaseMapComponent, RfcxMapMarkerComponent,
-         RfcxMapPieComponent, RfcxMapSiteBoundComponent } from './rfcx-map/index';
+         RfcxMapPieComponent, RfcxMapSiteBoundComponent, RfcxMapGraticuleComponent } from './rfcx-map/index';
 import { DateTimePickerComponent } from './date-time-picker/index';
 import { RfcxStreamerComponent } from './rfcx-streamer/index';
 import { UserService } from './user/user.service';
@@ -40,6 +40,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RfcxMapMarkerComponent,
     RfcxMapPieComponent,
     RfcxMapSiteBoundComponent,
+    RfcxMapGraticuleComponent,
     DateTimePickerComponent,
     RfcxStreamerComponent
   ],
@@ -57,6 +58,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
     RfcxMapMarkerComponent,
     RfcxMapPieComponent,
     RfcxMapSiteBoundComponent,
+    RfcxMapGraticuleComponent,
     DateTimePickerComponent,
     RfcxStreamerComponent
   ]

@@ -19,6 +19,7 @@
 
   <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
     [zoom]="mapDetails.zoom" [maxZoom]="mapDetails.maxZoom" [data]="mapIncidents">
+    <rfcx-map-graticule></rfcx-map-graticule>
     <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
     <rfcx-basemap layerType="positron"></rfcx-basemap>
     <rfcx-basemap layerType="satellite"></rfcx-basemap>
@@ -34,18 +35,21 @@
   <div class="streamer-wrapper">
     <rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid" [autoplay]="autoplayStream" [title]="streamTitle"></rfcx-streamer>
   </div>
-  <div class="row alerts-notifications" *ngIf="incidents && incidents.length">
-    <form class="col-md-4 col-md-offset-4 alerts-notifications__form">
-      <p class="alerts-notifications__descr">You will be able to send an alert to rangers near the incident</p>
-      <div class="row">
-        <div class="col-md-8">
-          <input type="text" class="input alerts-notifications__input" placeholder="Message (optional)" disabled>
+
+  <div class="container-fluid alerts-notifications" *ngIf="incidents && incidents.length">
+    <div class="row">
+      <form class="col-md-4 col-md-offset-4 alerts-notifications__form">
+        <p class="alerts-notifications__descr">You will be able to send an alert to rangers near the incident</p>
+        <div class="row">
+          <div class="col-md-8">
+            <input type="text" class="input alerts-notifications__input" placeholder="Message (optional)" disabled>
+          </div>
+          <div class="col-md-4">
+            <button class="button button_danger" type="submit" disabled>Send</button>
+          </div>
         </div>
-        <div class="col-md-4">
-          <button class="button button_danger" type="submit" disabled>Send</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 
