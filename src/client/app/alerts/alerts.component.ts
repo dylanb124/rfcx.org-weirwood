@@ -25,7 +25,9 @@ export class AlertsComponent implements OnInit {
   public incidentTypes: Array<DropdownCheckboxItem> = [
     { value: 'vehicle', label: 'Vehicles', checked: true },
     { value: 'shot', label: 'Shots', checked: true },
-    { value: 'chainsaw', label: 'Chainsaws', checked: true }
+    { value: 'chainsaw', label: 'Chainsaws', checked: true },
+    { value: 'amazon parrot', label: 'Amazon Parrot', checked: true },
+    { value: 'macaw', label: 'Macaw', checked: true }
   ];
 
   public mapDetails: any = {
@@ -38,13 +40,17 @@ export class AlertsComponent implements OnInit {
   public pulseColors: any = {
     chainsaw: '#ff4155',
     shot: '#ff4155',
-    vehicle: '#ff4155'
+    vehicle: '#ff4155',
+    'amazon parrot': '#2fb04a',
+    macaw: '#2fb04a'
   };
 
   public dangerAttr: any = {
     chainsaw: true,
     shot: true,
-    vehicle: true
+    vehicle: true,
+    'amazon parrot': false,
+    macaw: false
   };
 
   public incidents: Array<any> = [];
