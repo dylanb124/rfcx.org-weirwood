@@ -167,7 +167,7 @@ export class AlertsComponent implements OnInit {
     let params: URLSearchParams = new URLSearchParams();
     params.set('created_after', moment().subtract(30, 'seconds').toISOString());
     // params.set('created_before', moment().toISOString());
-    params.set('starting_after', moment().subtract(5, 'minutes').toISOString());
+    params.set('starting_after', moment().subtract(30, 'minutes').toISOString());
     // params.set('ending_before', moment().toISOString());
     this.currentIncidentTypeValues.forEach((value: string) => {
       params.append('values[]', value);
