@@ -24,7 +24,9 @@ export class IncidentsComponent implements OnInit {
   public incidentTypes: Array<DropdownCheckboxItem> = [
     { value: 'vehicle', label: 'Vehicles', checked: true },
     { value: 'shot', label: 'Shots', checked: true },
-    { value: 'chainsaw', label: 'Chainsaws', checked: true }
+    { value: 'chainsaw', label: 'Chainsaws', checked: true },
+    { value: 'amazon parrot', label: 'Amazon Parrot', checked: true },
+    { value: 'macaw', label: 'Macaw', checked: true }
   ];
 
   public daysCount: Array<DropdownItem> = [
@@ -43,7 +45,9 @@ export class IncidentsComponent implements OnInit {
   public colors: any = {
     vehicle: 'rgba(34, 176, 163, 1)',
     shot: 'rgba(240, 65, 84, 1)',
-    chainsaw: 'rgba(245, 166, 35, 1)'
+    chainsaw: 'rgba(245, 166, 35, 1)',
+    'amazon parrot': 'rgba(74, 144, 255, 1)',
+    macaw: 'rgba(47, 176, 74, 1)'
   };
 
   public mapDetails: any = {
@@ -51,7 +55,7 @@ export class IncidentsComponent implements OnInit {
     maxZoom: 17
   };
   public minCircleDiameter: number = 80;
-  public maxCircleDiameter: number = 150;
+  public maxCircleDiameter: number = 130;
   public incidents: Array<any>;
   public incidentsByYear: any;
   public incidentsByDates: Array<any>;
