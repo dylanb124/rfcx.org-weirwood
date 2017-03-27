@@ -24,6 +24,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   public marker: any;
   public icon: any;
   public popup: any;
+  public arrow: any;
 
   constructor(
     @Inject(forwardRef(() => RfcxMapComponent)) map: RfcxMapComponent
@@ -36,6 +37,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     this.appendToMap();
     if (this.popupHtml) {
       this.createPopup();
+    }
+    if (this.type === 'ranger') {
+      this.bindArrowDraw();
     }
   }
 
@@ -106,6 +110,57 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
       this.openPopup();
       self.bindAdditionalEvents();
     });
+  }
+
+  bindArrowDraw() {
+    let self = this;
+    this.marker.on('mousedown', function (event: any) {
+      self.rfcxMapComp.rfcxMap.dragging.disable();
+      self.rfcxMapComp.rfcxMap.on('mousemove', self.onMouseMove, self);
+      self.rfcxMapComp.rfcxMap.on('mouseup', self.onMouseUp, self);
+      self.createOrUpdateArrow({
+        from: event.latlng
+      });
+    });
+  }
+
+  onMouseUp(event: any) {
+    this.rfcxMapComp.rfcxMap.off('mousemove', this.onMouseMove, this);
+    this.rfcxMapComp.rfcxMap.off('mouseup', this.onMouseUp, this);
+    this.rfcxMapComp.rfcxMap.dragging.enable();
+  }
+
+  onMouseMove(event: any) {
+    this.createOrUpdateArrow({
+      to: event.latlng
+    });
+  }
+
+  createOrUpdateArrow(opts: any) {
+    if (!this.arrow) {
+      this.createArrow(opts);
+    }
+    else {
+      if (!opts.to) {
+        return;
+      }
+      this.arrow.setLatLngs([this.arrow.getLatLngs()[0], opts.to]);
+    }
+  }
+
+  createArrow(opts: any) {
+    this.arrow = L.polyline([opts.from, opts.from], {
+      color: '#ff4155',
+      weight: 4,
+      opacity: 0.8
+    });
+    this.arrow.addTo(this.rfcxMapComp.rfcxMap);
+  }
+
+  removeArrow() {
+    if (this.arrow) {
+      this.rfcxMapComp.rfcxMap.removeLayer(this.arrow);
+    }
   }
 
   emitPlayBtnEvent() {
