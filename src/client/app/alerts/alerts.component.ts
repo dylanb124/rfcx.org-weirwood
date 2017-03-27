@@ -45,12 +45,12 @@ export class AlertsComponent implements OnInit {
     macaw: '#2fb04a'
   };
 
-  public dangerAttr: any = {
-    chainsaw: true,
-    shot: true,
-    vehicle: true,
-    'amazon parrot': false,
-    macaw: false
+  public icon: any = {
+    chainsaw: 'danger',
+    shot: 'danger',
+    vehicle: 'danger',
+    'amazon parrot': 'default',
+    macaw: 'default'
   };
 
   public incidents: Array<any> = [];
@@ -204,7 +204,7 @@ export class AlertsComponent implements OnInit {
           },
           shadowColor: this.pulseColors[item.value] || '#30ac4a'
         },
-        danger: this.dangerAttr[item.value] || false
+        icon: this.icon[item.value] || 'default'
       };
       return obj;
     });
