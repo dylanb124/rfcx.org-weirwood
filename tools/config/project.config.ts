@@ -56,6 +56,7 @@ export class ProjectConfig extends SeedConfig {
     this.mergeObject(this.SYSTEM_CONFIG_DEV['paths'], {
       'angular2-cookie': 'node_modules/angular2-cookie/bundles/angular2-cookie.js',
       'leaflet': 'node_modules/leaflet/dist/leaflet.js',
+      'leaflet-polylinedecorator': 'node_modules/leaflet-polylinedecorator/leaflet.polylineDecorator.js',
       'd3': 'node_modules/d3/build/d3.min.js',
       'd3-tip': 'node_modules/d3-tip/index.js',
       'moment': 'node_modules/moment/moment.js',

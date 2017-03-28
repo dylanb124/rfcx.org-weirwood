@@ -252,8 +252,8 @@ export class AlertsComponent implements OnInit {
         isAppended = true;
         this.incidents.push(item);
         let itemTemp = jQuery.extend(true, {}, item);
-        itemTemp.coords.lat = itemTemp.coords.lat + 3;
-        itemTemp.coords.lon = itemTemp.coords.lon - 3;
+        itemTemp.coords.lat = itemTemp.coords.lat + 0.01;
+        itemTemp.coords.lon = itemTemp.coords.lon - 0.001;
         this.rangers.push(itemTemp);
       }
     });

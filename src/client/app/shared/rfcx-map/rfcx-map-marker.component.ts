@@ -4,6 +4,7 @@ import { rfcxMapIcon, rfcxMapRedIcon, rfcxRangerIcon } from './icon';
 import { PulseOptions } from './pulse-options';
 
 import * as L from 'leaflet';
+import 'leaflet-polylinedecorator';
 let jQuery: any = (window as any)['$'];
 
 @Component({
@@ -25,6 +26,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   public marker: any;
   public icon: any;
   public popup: any;
+  public path: any;
   public arrow: any;
 
   constructor(
@@ -140,29 +142,48 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   }
 
   createOrUpdateArrow(opts: any) {
-    if (!this.arrow) {
+    if (!this.path) {
       this.createArrow(opts);
     }
     else {
       if (!opts.to) {
         return;
       }
-      this.arrow.setLatLngs([this.arrow.getLatLngs()[0], opts.to]);
+      this.path.setLatLngs([this.path.getLatLngs()[0], opts.to]);
+      this.arrow.setPaths([this.path.getLatLngs()[0], opts.to]);
     }
   }
 
   createArrow(opts: any) {
-    this.arrow = L.polyline([opts.from, opts.from], {
-      color: '#ff4155',
-      weight: 4,
-      opacity: 0.8
+    let color = '#ff4155';
+    this.path = L.polyline([opts.from, opts.from], {
+      color: color,
+      weight: 4
     });
+    this.arrow = (<any>L).polylineDecorator(this.path, {
+      patterns: [
+        {
+          offset: '100%',
+          repeat: 0,
+          symbol: (<any>L).Symbol.arrowHead({
+            headAngle: 45,
+            pixelSize: 16,
+            pathOptions: {
+              fillOpacity: 1,
+              color: color,
+              weight: 2
+            }
+          })
+        }
+      ]
+    });
+    this.path.addTo(this.rfcxMapComp.rfcxMap);
     this.arrow.addTo(this.rfcxMapComp.rfcxMap);
   }
 
   removeArrow() {
-    if (this.arrow) {
-      this.rfcxMapComp.rfcxMap.removeLayer(this.arrow);
+    if (this.path) {
+      this.rfcxMapComp.rfcxMap.removeLayer(this.path);
     }
   }
 
