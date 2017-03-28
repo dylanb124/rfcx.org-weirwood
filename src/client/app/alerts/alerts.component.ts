@@ -9,6 +9,16 @@ import { PulseOptions } from '../shared/rfcx-map/index';
 import { Config } from '../shared/config/env.config.js';
 
 import * as moment from 'moment';
+let jQuery: any = (window as any)['$'];
+
+interface RangerMessage {
+  message?: string;
+  rangerGuid?: string;
+  coords?: {
+    lat: number,
+    lon: number
+  };
+}
 
 @Component({
   moduleId: module.id,
@@ -55,6 +65,7 @@ export class AlertsComponent implements OnInit {
 
   public incidents: Array<any> = [];
   public mapIncidents: Array<any> = [];
+  public rangers: Array<any> = [];
   public currentIncidentTypeValues: Array<string>;
   public currentSiteValues: Array<string>;
   public currentSiteBounds: Array<string>;
@@ -68,6 +79,7 @@ export class AlertsComponent implements OnInit {
   public deathTimeMin: number = 5;
   public audio: any;
   public loadSubscription: any;
+  public rangerMessage: RangerMessage = {};
 
   constructor(
     public http: Http,
@@ -239,6 +251,10 @@ export class AlertsComponent implements OnInit {
       })) {
         isAppended = true;
         this.incidents.push(item);
+        let itemTemp = jQuery.extend(true, {}, item);
+        itemTemp.coords.lat = itemTemp.coords.lat + 3;
+        itemTemp.coords.lon = itemTemp.coords.lon - 3;
+        this.rangers.push(itemTemp);
       }
     });
     return isAppended;
@@ -288,6 +304,12 @@ export class AlertsComponent implements OnInit {
     else {
       this.incidents = [];
     }
+  }
+
+  onArrowCreated(event: any) {
+    console.log('onArrowCreated', event);
+    this.rangerMessage.coords = event.coords;
+    this.rangerMessage.rangerGuid = event.guid;
   }
 
 }

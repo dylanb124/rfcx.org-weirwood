@@ -20,6 +20,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   @Input() data: any;
   @Input() type: string;
   @Output() onPlayClick = new EventEmitter();
+  @Output() onArrowCreated = new EventEmitter();
   public rfcxMapComp: any;
   public marker: any;
   public icon: any;
@@ -90,6 +91,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     if (this.popup) {
       this.rfcxMapComp.rfcxMap.closePopup();
     }
+    this.removeArrow();
   }
 
   bindAdditionalEvents() {
@@ -128,6 +130,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     this.rfcxMapComp.rfcxMap.off('mousemove', this.onMouseMove, this);
     this.rfcxMapComp.rfcxMap.off('mouseup', this.onMouseUp, this);
     this.rfcxMapComp.rfcxMap.dragging.enable();
+    this.emitArrowCreatedEvent(event.latlng);
   }
 
   onMouseMove(event: any) {
@@ -168,6 +171,16 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
       audioGuid: this.data.audioGuid,
       autoplay: true,
       streamTitle: this.data.shortname + ', ' + this.data.site
+    });
+  }
+
+  emitArrowCreatedEvent(coords: any) {
+    this.onArrowCreated.emit({
+      guid: this.data.guid,
+      coords: {
+        lat: coords.lat,
+        lon: coords.lng
+      }
     });
   }
 }

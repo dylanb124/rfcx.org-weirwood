@@ -22,8 +22,12 @@
     <rfcx-basemap layerType="darkmatter"></rfcx-basemap>
     <rfcx-basemap layerType="positron"></rfcx-basemap>
     <rfcx-basemap layerType="satellite"></rfcx-basemap>
+    <ng-container *ngFor="let ranger of rangers">
+      <rfcx-map-marker [lat]="ranger.coords.lat" [lon]="ranger.coords.lon" [type]="'ranger'"
+                       [data]="ranger" (onArrowCreated)="onArrowCreated($event)"></rfcx-map-marker>
+    </ng-container>
     <ng-container *ngFor="let item of incidents">
-      <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon" [pulseOpts]="item.pulseOpts" [type]="item.icon"
+      <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon" [pulseOpts]="item.pulseOpts" [type]="item.type"
                        [popupHtml]="item.html" [data]="item" (onPlayClick)="onPlayClicked($event)"></rfcx-map-marker>
     </ng-container>
     <ng-container *ngFor="let bounds of currentSiteBounds">
@@ -37,9 +41,29 @@
   <div class="row alerts-notifications" *ngIf="incidents && incidents.length">
     <form class="col-md-4 col-md-offset-4 alerts-notifications__form">
       <p class="alerts-notifications__descr">You will be able to send an alert to rangers near the incident</p>
-      <div class="row">
+      <div class="row form-group" *ngIf="rangerMessage.rangerGuid">
+        <div class="col-md-12">
+          <label for="rangerMessageGuid">Ranger</label>
+          <input type="text" class="input alerts-notifications__input" name="rangerGuid" id="rangerMessageGuid"
+                 [(ngModel)]="rangerMessage.rangerGuid" placeholder="Ranger" readonly disabled>
+        </div>
+      </div>
+      <div class="row form-group" *ngIf="rangerMessage.coords">
+        <div class="col-md-6">
+          <label for="rangerMessageLat">Latitude</label>
+          <input type="text" class="input alerts-notifications__input" name="lat" id="rangerMessageLat"
+                 [(ngModel)]="rangerMessage.coords.lat" placeholder="Latitude" readonly disabled>
+        </div>
+        <div class="col-md-6">
+          <label for="rangerMessageLon">Latitude</label>
+          <input type="text" class="input alerts-notifications__input" name="lon" id="rangerMessageLon"
+                 [(ngModel)]="rangerMessage.coords.lon" placeholder="Longitude" readonly disabled>
+        </div>
+      </div>
+      <div class="row form-group">
         <div class="col-md-8">
-          <input type="text" class="input alerts-notifications__input" placeholder="Message (optional)" disabled>
+          <input type="text" class="input alerts-notifications__input"
+                 placeholder="Message (optional)" disabled>
         </div>
         <div class="col-md-4">
           <button class="button button_danger" type="submit" disabled>Send</button>
