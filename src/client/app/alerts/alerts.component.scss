@@ -1,3 +1,4 @@
+@import "../../scss/main";
 @import "../../scss/incidents";
 
 .alerts {
@@ -16,5 +17,17 @@
 
   .alerts-notifications {
     margin-bottom: 3rem;
+  }
+
+  .alerts-notifications-form {
+    &__controls {
+      position: relative;
+      spinner {
+        position: absolute;
+        top: 50%;
+        right: 5%;
+        @include translate(-50%, -50%);
+      }
+    }
   }
 }

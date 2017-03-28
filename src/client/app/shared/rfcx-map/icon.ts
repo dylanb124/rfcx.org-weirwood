@@ -22,3 +22,10 @@ export let rfcxRangerIcon = L.divIcon({
   iconAnchor: [8, 28],
   className: 'rfcx-map-marker'
 });
+
+export let rfcxRangerGrayIcon = L.divIcon({
+  html: '<img class="rfcx-map-marker-img" src="assets/img/map/ranger-marker-gray@2x.png" alt="">',
+  iconSize: [17, 28],
+  iconAnchor: [8, 28],
+  className: 'rfcx-map-marker'
+});

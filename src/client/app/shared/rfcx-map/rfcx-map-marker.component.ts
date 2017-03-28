@@ -1,6 +1,6 @@
 import { Component, Input, Output, Inject, forwardRef, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
-import { rfcxMapIcon, rfcxMapRedIcon, rfcxRangerIcon } from './icon';
+import { rfcxMapIcon, rfcxMapRedIcon, rfcxRangerIcon, rfcxRangerGrayIcon } from './icon';
 import { PulseOptions } from './pulse-options';
 
 import * as L from 'leaflet';
@@ -67,6 +67,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
         break;
       case 'ranger':
         this.icon = rfcxRangerIcon;
+        break;
+      case 'ranger-ghost':
+        this.icon = rfcxRangerGrayIcon;
         break;
       case 'default':
       default:

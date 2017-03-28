@@ -63,9 +63,11 @@ export class AlertsComponent implements OnInit {
     macaw: 'default'
   };
 
+  public isAlertFormLoading: Boolean = false;
   public incidents: Array<any> = [];
   public mapIncidents: Array<any> = [];
   public rangers: Array<any> = [];
+  public rangersGhosts: Array<any> = [];
   public currentIncidentTypeValues: Array<string>;
   public currentSiteValues: Array<string>;
   public currentSiteBounds: Array<string>;
@@ -252,8 +254,10 @@ export class AlertsComponent implements OnInit {
         isAppended = true;
         this.incidents.push(item);
         let itemTemp = jQuery.extend(true, {}, item);
-        itemTemp.coords.lat = itemTemp.coords.lat + 0.01;
-        itemTemp.coords.lon = itemTemp.coords.lon - 0.001;
+        // itemTemp.coords.lat = itemTemp.coords.lat + 0.01;
+        // itemTemp.coords.lon = itemTemp.coords.lon - 0.001;
+        itemTemp.coords.lat = itemTemp.coords.lat + 3;
+        itemTemp.coords.lon = itemTemp.coords.lon - 3;
         this.rangers.push(itemTemp);
       }
     });
@@ -310,6 +314,40 @@ export class AlertsComponent implements OnInit {
     console.log('onArrowCreated', event);
     this.rangerMessage.coords = event.coords;
     this.rangerMessage.rangerGuid = event.guid;
+  }
+
+  createRangerGhost() {
+    let ranger = this.rangers.find((ranger: any) => {
+      return ranger.guid === this.rangerMessage.rangerGuid;
+    });
+    let rangerGhost = this.rangersGhosts.find((ranger: any) => {
+      return ranger.forGuid === this.rangerMessage.rangerGuid;
+    });
+
+    if(rangerGhost) {
+      this.rangersGhosts = this.rangersGhosts.filter((ranger) => {
+        return ranger.guid !== rangerGhost.guid;
+      });
+    }
+    rangerGhost = jQuery.extend(true, {}, ranger);
+    rangerGhost.coords = this.rangerMessage.coords;
+    rangerGhost.forGuid = this.rangerMessage.rangerGuid;
+    this.rangersGhosts.push(rangerGhost);
+  }
+
+  clearFormData() {
+    this.rangerMessage = {};
+  }
+
+  onSubmitAlert() {
+    this.isAlertFormLoading = true;
+    setTimeout(() => {
+      if (this.rangerMessage.rangerGuid) {
+        this.createRangerGhost();
+      }
+      this.clearFormData();
+      this.isAlertFormLoading = false;
+    }, 2000);
   }
 
 }
