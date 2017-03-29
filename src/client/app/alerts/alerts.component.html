@@ -42,39 +42,41 @@
   <div class="streamer-wrapper">
     <rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid" [autoplay]="autoplayStream" [title]="streamTitle"></rfcx-streamer>
   </div>
-  <div class="row alerts-notifications" *ngIf="incidents && incidents.length">
-    <form class="col-md-4 col-md-offset-4 alerts-notifications-form" (ngSubmit)="onSubmitAlert()" #alertForm="ngForm">
-      <p class="alerts-notifications-form__descr">You will be able to send an alert to rangers near the incident</p>
-      <div class="row form-group" *ngIf="rangerMessage.rangerGuid">
-        <div class="col-md-12">
-          <label for="rangerMessageGuid">Ranger</label>
-          <input type="text" class="input alerts-notifications-form__input" name="rangerGuid" id="rangerMessageGuid"
-                 [(ngModel)]="rangerMessage.rangerGuid" placeholder="Ranger" readonly>
+  <div class="container-fluid alerts-notifications" *ngIf="incidents && incidents.length">
+    <div class="row">
+      <form class="col-md-4 col-md-offset-4 alerts-notifications-form" (ngSubmit)="onSubmitAlert()" #alertForm="ngForm">
+        <p class="alerts-notifications-form__descr">You will be able to send an alert to rangers near the incident</p>
+        <div class="row form-group" *ngIf="rangerMessage.rangerGuid">
+          <div class="col-md-12">
+            <label for="rangerMessageGuid">Ranger</label>
+            <input type="text" class="input alerts-notifications-form__input" name="rangerGuid" id="rangerMessageGuid"
+                  [(ngModel)]="rangerMessage.rangerGuid" placeholder="Ranger" readonly>
+          </div>
         </div>
-      </div>
-      <div class="row form-group" *ngIf="rangerMessage.coords">
-        <div class="col-md-6">
-          <label for="rangerMessageLat">Latitude</label>
-          <input type="text" class="input alerts-notifications-form__input" name="lat" id="rangerMessageLat"
-                 [(ngModel)]="rangerMessage.coords.lat" placeholder="Latitude" readonly>
+        <div class="row form-group" *ngIf="rangerMessage.coords">
+          <div class="col-md-6">
+            <label for="rangerMessageLat">Latitude</label>
+            <input type="text" class="input alerts-notifications-form__input" name="lat" id="rangerMessageLat"
+                  [(ngModel)]="rangerMessage.coords.lat" placeholder="Latitude" readonly>
+          </div>
+          <div class="col-md-6">
+            <label for="rangerMessageLon">Latitude</label>
+            <input type="text" class="input alerts-notifications-form__input" name="lon" id="rangerMessageLon"
+                  [(ngModel)]="rangerMessage.coords.lon" placeholder="Longitude" readonly>
+          </div>
         </div>
-        <div class="col-md-6">
-          <label for="rangerMessageLon">Latitude</label>
-          <input type="text" class="input alerts-notifications-form__input" name="lon" id="rangerMessageLon"
-                 [(ngModel)]="rangerMessage.coords.lon" placeholder="Longitude" readonly>
+        <div class="row form-group">
+          <div class="col-md-8">
+            <input type="text" class="input alerts-notifications-form__input"
+                  placeholder="Message (optional)">
+          </div>
+          <div class="col-md-4 alerts-notifications-form__controls">
+            <spinner size="28" *ngIf="isAlertFormLoading"></spinner>
+            <button class="button button_danger" type="submit" [disabled]="isAlertFormLoading">Send</button>
+          </div>
         </div>
-      </div>
-      <div class="row form-group">
-        <div class="col-md-8">
-          <input type="text" class="input alerts-notifications-form__input"
-                 placeholder="Message (optional)">
-        </div>
-        <div class="col-md-4 alerts-notifications-form__controls">
-          <spinner size="28" *ngIf="isAlertFormLoading"></spinner>
-          <button class="button button_danger" type="submit" [disabled]="isAlertFormLoading">Send</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 
