@@ -137,6 +137,16 @@ export class AlertsComponent implements OnInit {
     return arr;
   }
 
+  resetData() {
+    if (this.loadSubscription) {
+      this.loadSubscription.unsubscribe();
+    }
+    this.incidents = [];
+    this.mapIncidents = [];
+    this.rangers = [];
+    this.rangersGhosts = [];
+  }
+
   loadData(opts?: any) {
     if (this.loadSubscription) {
       this.loadSubscription.unsubscribe();
@@ -153,6 +163,15 @@ export class AlertsComponent implements OnInit {
             // we use separate array for map data input because angular ngOnChanges handler
             // doesn't fire when we just append new items to array, so we need this dirty hack
             this.mapIncidents = this.incidents.slice(0);
+
+            if (this.streamingMode === 'eventDriven') {
+              let latestIncident = this.incidents[this.incidents.length-1];
+              this.updateStreamerData({
+                audioGuid: latestIncident.audioGuid,
+                autoplay: true,
+                streamTitle: latestIncident.shortname + ', ' + latestIncident.site
+              });
+            }
           }
         },
         err => console.log('Error loading incidents', err)
@@ -227,22 +246,31 @@ export class AlertsComponent implements OnInit {
   };
 
   generageItemHtml(item: any) {
-    return '<p class=\"d3-tip__row\">' + item.value + '</p>' +
-           '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>' +
-           '<p class=\"d3-tip__row d3-tip__row_stream\"><button class="btn btn-xs d3-tip__btn js-tip-btn">Listen Stream</button></p>';
+    let html = '<p class=\"d3-tip__row\">' + item.value + '</p>' +
+               '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>';
+    if (this.streamingMode !== 'eventDriven') {
+      html += '<p class=\"d3-tip__row d3-tip__row_stream\">' +
+                '<button class="btn btn-xs d3-tip__btn js-tip-btn">Listen Stream</button>' +
+              '</p>';
+    }
+    return html;
   };
 
   onPlayClicked(event: any) {
     if (this.currentAudioGuid === event.audioGuid) {
       return;
     }
+    this.updateStreamerData(event);
+  }
+
+  updateStreamerData(data: any) {
     // remove previously playing stream
     this.currentAudioGuid = null;
     // wait some time and create new one
     setTimeout(() => {
-      this.currentAudioGuid = event.audioGuid;
-      this.autoplayStream = !!event.autoplay;
-      this.streamTitle = event.streamTitle;
+      this.currentAudioGuid = data.audioGuid;
+      this.autoplayStream = !!data.autoplay;
+      this.streamTitle = data.streamTitle;
     }, 100);
   }
 
@@ -354,6 +382,11 @@ export class AlertsComponent implements OnInit {
       return;
     }
     this.streamingMode = mode;
+    this.resetData();
+    setTimeout(() => {
+      this.loadData();
+    }, 3000);
+
   }
 
 }

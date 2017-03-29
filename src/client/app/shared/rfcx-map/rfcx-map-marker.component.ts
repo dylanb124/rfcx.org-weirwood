@@ -1,4 +1,4 @@
-import { Component, Input, Output, Inject, forwardRef, OnInit, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, Input, Output, Inject, forwardRef, ElementRef, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
 import { rfcxMapIcon, rfcxMapRedIcon, rfcxRangerIcon, rfcxRangerGrayIcon } from './icon';
 import { PulseOptions } from './pulse-options';
@@ -30,7 +30,8 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   public arrow: any;
 
   constructor(
-    @Inject(forwardRef(() => RfcxMapComponent)) map: RfcxMapComponent
+    @Inject(forwardRef(() => RfcxMapComponent)) map: RfcxMapComponent,
+    public element: ElementRef
   ) {
     this.rfcxMapComp = map;
   }
@@ -101,7 +102,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
 
   bindAdditionalEvents() {
     if (this.onPlayClick) {
-      jQuery('.js-tip-btn').click(() => {
+      jQuery(this.popup.getElement()).find('.js-tip-btn').click(() => {
         this.emitPlayBtnEvent();
       });
     }
