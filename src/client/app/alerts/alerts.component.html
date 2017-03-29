@@ -44,33 +44,33 @@
   </div>
   <div class="container-fluid alerts-notifications" *ngIf="incidents && incidents.length">
     <div class="row">
-      <form class="col-md-4 col-md-offset-4 alerts-notifications-form" (ngSubmit)="onSubmitAlert()" #alertForm="ngForm">
+      <form class="col-xs-12 col-md-4 col-md-offset-4 alerts-notifications-form" (ngSubmit)="onSubmitAlert()" #alertForm="ngForm">
         <p class="alerts-notifications-form__descr">You will be able to send an alert to rangers near the incident</p>
         <div class="row form-group" *ngIf="rangerMessage.rangerGuid">
-          <div class="col-md-12">
+          <div class="col-xs-12 col-md-12">
             <label for="rangerMessageGuid">Ranger</label>
             <input type="text" class="input alerts-notifications-form__input" name="rangerGuid" id="rangerMessageGuid"
                   [(ngModel)]="rangerMessage.rangerGuid" placeholder="Ranger" readonly>
           </div>
         </div>
         <div class="row form-group" *ngIf="rangerMessage.coords">
-          <div class="col-md-6">
+          <div class="col-xs-6 col-md-6">
             <label for="rangerMessageLat">Latitude</label>
             <input type="text" class="input alerts-notifications-form__input" name="lat" id="rangerMessageLat"
                   [(ngModel)]="rangerMessage.coords.lat" placeholder="Latitude" readonly>
           </div>
-          <div class="col-md-6">
+          <div class="col-xs-6 col-md-6">
             <label for="rangerMessageLon">Latitude</label>
             <input type="text" class="input alerts-notifications-form__input" name="lon" id="rangerMessageLon"
                   [(ngModel)]="rangerMessage.coords.lon" placeholder="Longitude" readonly>
           </div>
         </div>
         <div class="row form-group">
-          <div class="col-md-8">
+          <div class="col-xs-8 col-md-8">
             <input type="text" class="input alerts-notifications-form__input"
                   placeholder="Message (optional)">
           </div>
-          <div class="col-md-4 alerts-notifications-form__controls">
+          <div class="col-xs-4 col-md-4 alerts-notifications-form__controls">
             <spinner size="28" *ngIf="isAlertFormLoading"></spinner>
             <button class="button button_danger" type="submit" [disabled]="isAlertFormLoading">Send</button>
           </div>
