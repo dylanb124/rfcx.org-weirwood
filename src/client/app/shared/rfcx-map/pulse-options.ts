@@ -1,7 +1,5 @@
 export interface PulseOptions {
-  duration: {
-    pulse: number,
-    fadeOut: number
-  };
+  type: string,
+  duration: number;
   shadowColor?: string;
 };

@@ -231,15 +231,16 @@ export class AlertsComponent implements OnInit {
         event: item.value,
         deathTime: moment().add(this.deathTimeMin, 'minutes').toDate(),
         html: this.generageItemHtml(item),
-        pulseOpts: {
-          duration: {
-            pulse: 12000,
-            fadeOut: 3000
-          },
-          shadowColor: this.pulseColors[item.value] || '#30ac4a'
-        },
+        fadeOutTime: 3000,
         icon: this.icon[item.value] || 'default'
       };
+      if (this.streamingMode === 'static') {
+        obj.pulseOpts = {
+          type: 'appearing',
+          duration: 12000,
+          shadowColor: this.pulseColors[item.value] || '#30ac4a'
+        };
+      }
       return obj;
     });
     return arr;

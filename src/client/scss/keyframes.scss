@@ -17,3 +17,17 @@
         filter: alpha(opacity=0);
     }
 }
+
+@keyframes shake {
+  from, to {
+    transform: scale(1);
+  }
+
+  10%, 30%, 50%, 70%, 90% {
+    transform: scale(2, 2);
+  }
+
+  20%, 40%, 60%, 80% {
+    transform: scale(0.5, 0.5);
+  }
+}

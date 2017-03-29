@@ -20,6 +20,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   @Input() popupHtml: string;
   @Input() data: any;
   @Input() type: string;
+  @Input() fadeOutTime?: number;
   @Output() onPlayClick = new EventEmitter();
   @Output() onArrowCreated = new EventEmitter();
   public rfcxMapComp: any;
@@ -48,11 +49,11 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // if item is pulsated, then delete it with fade effect
-    if (this.pulseOpts) {
+    // if fadeOutTime specified, then delete item with fade effect
+    if (this.fadeOutTime) {
       // this attribute is required for map component, so it ignores this item when wants to calculate new map bounds
       this.marker.options.isDeleting = true;
-      jQuery(this.marker._icon).fadeOut(this.pulseOpts.duration.fadeOut, () => {
+      jQuery(this.marker._icon).fadeOut(this.fadeOutTime, () => {
         this.removeFromMap();
       });
     }
@@ -84,11 +85,13 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     // if maker is pulsated, then append pulse css class to it's icon
     if (this.pulseOpts) {
       jQuery(this.marker._icon).css('color', this.pulseOpts.shadowColor);
-      jQuery(this.marker._icon).addClass('pulse');
-      // and remove that class after 8 secs
-      setTimeout(() => {
-        jQuery(this.marker._icon).removeClass('pulse');
-      }, this.pulseOpts.duration.pulse);
+      jQuery(this.marker._icon).addClass('pulse pulse-' + this.pulseOpts.type);
+      // and remove that class after specified time
+      if (this.pulseOpts.duration) {
+        setTimeout(() => {
+          jQuery(this.marker._icon).removeClass('pulse');
+        }, this.pulseOpts.duration);
+      }
     }
   }
 
