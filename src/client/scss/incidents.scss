@@ -13,6 +13,15 @@
     @include mq(phone) {
       padding: 2.8rem 6.5% 0;
     }
+    &_no-padding-top {
+      padding-top: 0;
+      @include mq(tablet) {
+        padding-top: 0;
+      }
+      @include mq(phone) {
+        padding-top: 0;
+      }
+    }
   }
   .incidents-nav {
     @include clearfix;

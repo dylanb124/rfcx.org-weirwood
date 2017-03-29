@@ -39,6 +39,7 @@
 }
 
 .button {
+  color: $white;
   background: $medium-green;
   outline: none;
   width: 100%;
@@ -50,10 +51,15 @@
   height: 3.2rem;
   line-height: 1;
   letter-spacing: -0.1px;
+  &:focus,
+  &:active {
+    color: $white;
+  }
   @include box-shadow(0 1px 4px 0 rgba(0, 0, 0, 0.1));
   @include mq(desktop) {
     @include transition(all .3s);
     &:hover {
+      color: $white;
       background: #309849;
       @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
     }
@@ -61,10 +67,9 @@
   &_block {
     max-width: none;
   }
-  &:active {
+  &:active,
+  &.selected {
     background: #309849;
-  }
-  &:active {
     @include box-shadow(0 1px 1px 0 rgba(0, 0, 0, 0.24));
   }
   &_info {
@@ -75,7 +80,8 @@
         @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
       }
     }
-    &:active {
+    &:active,
+    &.selected {
       background: $tealish-darken-10;
     }
   }
@@ -87,7 +93,8 @@
         @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
       }
     }
-    &:active {
+    &:active,
+    &.selected {
       background: $dodger-blue-darken-10;
     }
   }
@@ -99,7 +106,8 @@
         @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
       }
     }
-    &:active {
+    &:active,
+    &.selected {
       background: $watermelon-darken-10;
     }
   }
@@ -111,7 +119,8 @@
         @include box-shadow(0 1px 8px 0 rgba(0, 0, 0, 0.24));
       }
     }
-    &:active {
+    &:active,
+    &.selected {
       background: $squash-darken-10;
     }
   }
@@ -120,6 +129,13 @@
     color: #a2a2a2;
     cursor: no-drop;
     @include box-shadow(none);
+  }
+}
+
+.btn-group {
+  .button {
+    display: inline-block;
+    width: auto;
   }
 }
 

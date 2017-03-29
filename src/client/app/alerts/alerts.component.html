@@ -16,6 +16,23 @@
       </div>
     </div>
   </div>
+  <div class="incidents__inner incidents__inner_no-padding-top alerts-streaming-mode">
+    <p class="alerts-streaming-mode__label">Streaming mode</p>
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn button button_primary" [ngClass]="{'selected': streamingMode === 'static'}"
+        (click)="changeStreamingMode('static')">
+        Static
+      </button>
+      <button type="button" class="btn button button_primary" [ngClass]="{'selected': streamingMode === 'eventDriven'}"
+        (click)="changeStreamingMode('eventDriven')">
+        Event-driven
+      </button>
+      <button type="button" class="btn button button_primary" [ngClass]="{'selected': streamingMode === 'serial'}"
+        (click)="changeStreamingMode('serial')">
+        Serial
+      </button>
+    </div>
+  </div>
 
   <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"
     [zoom]="mapDetails.zoom" [maxZoom]="mapDetails.maxZoom" [data]="mapIncidents">

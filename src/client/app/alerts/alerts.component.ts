@@ -82,6 +82,7 @@ export class AlertsComponent implements OnInit {
   public audio: any;
   public loadSubscription: any;
   public rangerMessage: RangerMessage = {};
+  public streamingMode: string = 'static';
 
   constructor(
     public http: Http,
@@ -346,6 +347,13 @@ export class AlertsComponent implements OnInit {
       this.clearFormData();
       this.isAlertFormLoading = false;
     }, 2000);
+  }
+
+  changeStreamingMode(mode: string) {
+    if (this.streamingMode === mode) {
+      return;
+    }
+    this.streamingMode = mode;
   }
 
 }
