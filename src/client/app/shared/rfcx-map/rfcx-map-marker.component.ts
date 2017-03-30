@@ -1,4 +1,4 @@
-import { Component, Input, Output, Inject, forwardRef, ElementRef, OnInit, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, Input, Output, Inject, forwardRef, ElementRef, OnInit, OnDestroy, OnChanges, EventEmitter } from '@angular/core';
 import { RfcxMapComponent } from './rfcx-map.component';
 import { rfcxMapIcon, rfcxMapRedIcon, rfcxRangerIcon, rfcxRangerGrayIcon } from './icon';
 import { PulseOptions } from './pulse-options';
@@ -12,7 +12,7 @@ let jQuery: any = (window as any)['$'];
   selector: 'rfcx-map-marker',
   template: ''
 })
-export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
+export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() lat: number;
   @Input() lon: number;
@@ -62,6 +62,12 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnChanges(changes: any) {
+    if (changes.pulseOpts && !changes.pulseOpts.isFirstChange()) {
+      this.updatePulse();
+    }
+  }
+
   defineIconType() {
     switch (this.type) {
       case 'danger':
@@ -83,16 +89,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
     this.marker = L.marker([this.lat, this.lon], { icon: this.icon });
     this.marker.addTo(this.rfcxMapComp.rfcxMap);
     // if maker is pulsated, then append pulse css class to it's icon
-    if (this.pulseOpts) {
-      jQuery(this.marker._icon).css('color', this.pulseOpts.shadowColor);
-      jQuery(this.marker._icon).addClass('pulse pulse-' + this.pulseOpts.type);
-      // and remove that class after specified time
-      if (this.pulseOpts.duration) {
-        setTimeout(() => {
-          jQuery(this.marker._icon).removeClass('pulse');
-        }, this.pulseOpts.duration);
-      }
-    }
+    this.updatePulse();
   }
 
   removeFromMap() {
@@ -108,6 +105,22 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy {
       jQuery(this.popup.getElement()).find('.js-tip-btn').click(() => {
         this.emitPlayBtnEvent();
       });
+    }
+  }
+
+  updatePulse() {
+    if (this.pulseOpts) {
+      jQuery(this.marker._icon).css('color', this.pulseOpts.shadowColor);
+      jQuery(this.marker._icon).addClass('pulse pulse-' + this.pulseOpts.type);
+      // and remove that class after specified time
+      if (this.pulseOpts.duration) {
+        setTimeout(() => {
+          jQuery(this.marker._icon).removeClass('pulse');
+        }, this.pulseOpts.duration);
+      }
+    }
+    else {
+      jQuery(this.marker._icon).removeClass('pulse');
     }
   }
 

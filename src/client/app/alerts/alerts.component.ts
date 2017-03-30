@@ -164,15 +164,7 @@ export class AlertsComponent implements OnInit {
             // we use separate array for map data input because angular ngOnChanges handler
             // doesn't fire when we just append new items to array, so we need this dirty hack
             this.mapIncidents = this.incidents.slice(0);
-
-            if (this.streamingMode === 'eventDriven') {
-              let latestIncident = this.incidents[this.incidents.length-1];
-              this.updateStreamerData({
-                audioGuid: latestIncident.audioGuid,
-                autoplay: true,
-                streamTitle: latestIncident.shortname + ', ' + latestIncident.site
-              });
-            }
+            this.updateStreamingLogic();
           }
         },
         err => console.log('Error loading incidents', err)
@@ -390,7 +382,30 @@ export class AlertsComponent implements OnInit {
       this.loadData();
       this.isStreamingModeLoading = false;
     }, 3000);
+  }
 
+  clearAllPulseOpts() {
+    this.incidents.forEach((incident: any) => {
+      if (incident.pulseOpts) {
+        delete incident.pulseOpts;
+      }
+    });
+  }
+
+  updateStreamingLogic() {
+    if (this.streamingMode === 'eventDriven') {
+      this.clearAllPulseOpts();
+      let latestIncident = this.incidents[this.incidents.length-1];
+      latestIncident.pulseOpts = {
+        type: 'streaming',
+        shadowColor: '#4a90ff'
+      }
+      this.updateStreamerData({
+        audioGuid: latestIncident.audioGuid,
+        autoplay: true,
+        streamTitle: latestIncident.shortname + ', ' + latestIncident.site
+      });
+    }
   }
 
 }
