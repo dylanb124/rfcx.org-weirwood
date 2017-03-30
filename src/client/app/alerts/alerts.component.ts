@@ -257,9 +257,15 @@ export class AlertsComponent implements OnInit {
     this.updateStreamerData(event);
   }
 
+  clearStreamerData() {
+    this.currentAudioGuid = null;
+    this.autoplayStream = false;
+    this.streamTitle = '';
+  }
+
   updateStreamerData(data: any) {
     // remove previously playing stream
-    this.currentAudioGuid = null;
+    this.clearStreamerData();
     // wait some time and create new one
     setTimeout(() => {
       this.currentAudioGuid = data.audioGuid;
@@ -377,6 +383,7 @@ export class AlertsComponent implements OnInit {
     }
     this.isStreamingModeLoading = true;
     this.streamingMode = mode;
+    this.clearStreamerData();
     this.resetData();
     setTimeout(() => {
       this.loadData();
