@@ -17,18 +17,21 @@
     </div>
   </div>
   <div class="incidents__inner incidents__inner_no-padding-top alerts-streaming-mode">
-    <p class="alerts-streaming-mode__label">Streaming mode</p>
+    <div class="alerts-streaming-mode__heading">
+      <p class="alerts-streaming-mode__label">Streaming mode</p>
+      <spinner size="24" *ngIf="isStreamingModeLoading"></spinner>
+    </div>
     <div class="btn-group" role="group" aria-label="...">
       <button type="button" class="btn button button_primary" [ngClass]="{'selected': streamingMode === 'static'}"
-        (click)="changeStreamingMode('static')">
+        (click)="changeStreamingMode('static')" [disabled]="isStreamingModeLoading">
         Static
       </button>
       <button type="button" class="btn button button_primary" [ngClass]="{'selected': streamingMode === 'eventDriven'}"
-        (click)="changeStreamingMode('eventDriven')">
+        (click)="changeStreamingMode('eventDriven')" [disabled]="isStreamingModeLoading">
         Event-driven
       </button>
       <button type="button" class="btn button button_primary" [ngClass]="{'selected': streamingMode === 'serial'}"
-        (click)="changeStreamingMode('serial')">
+        (click)="changeStreamingMode('serial')" [disabled]="isStreamingModeLoading">
         Serial
       </button>
     </div>

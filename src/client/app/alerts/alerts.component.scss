@@ -21,8 +21,17 @@
 
   .alerts-streaming-mode {
     margin-bottom: 2rem;
+    &__heading {
+      margin-bottom: 1rem;
+    }
     &__label {
-      margin: 0 0 1rem;
+      margin: 0 10px 0 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    spinner {
+      display: inline-block;
+      vertical-align: middle;
     }
   }
 

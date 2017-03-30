@@ -64,6 +64,7 @@ export class AlertsComponent implements OnInit {
   };
 
   public isAlertFormLoading: Boolean = false;
+  public isStreamingModeLoading: Boolean = false;
   public incidents: Array<any> = [];
   public mapIncidents: Array<any> = [];
   public rangers: Array<any> = [];
@@ -382,10 +383,12 @@ export class AlertsComponent implements OnInit {
     if (this.streamingMode === mode) {
       return;
     }
+    this.isStreamingModeLoading = true;
     this.streamingMode = mode;
     this.resetData();
     setTimeout(() => {
       this.loadData();
+      this.isStreamingModeLoading = false;
     }, 3000);
 
   }
