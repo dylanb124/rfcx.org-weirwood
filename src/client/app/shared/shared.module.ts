@@ -14,8 +14,7 @@ import { RfcxMapComponent, RfcxBaseMapComponent, RfcxMapMarkerComponent,
 import { DateTimePickerComponent } from './date-time-picker/index';
 import { RfcxStreamerComponent } from './rfcx-streamer/index';
 import { UserService } from './user/user.service';
-import { SiteService } from './services/site.service';
-import { AudioService } from './services/audio.service';
+import { AudioService, GuardianService, SiteService } from './services/index';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 /**
@@ -69,7 +68,8 @@ export class SharedModule {
         UserService,
         CookieService,
         SiteService,
-        AudioService
+        AudioService,
+        GuardianService
       ]
     };
   }

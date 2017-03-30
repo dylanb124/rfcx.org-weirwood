@@ -4,7 +4,7 @@ import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-ite
 import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { CookieService } from 'angular2-cookie/core';
-import { SiteService } from '../shared/index';
+import { GuardianService, SiteService } from '../shared/index';
 import { PulseOptions } from '../shared/rfcx-map/index';
 import { Config } from '../shared/config/env.config.js';
 
@@ -84,11 +84,13 @@ export class AlertsComponent implements OnInit {
   public loadSubscription: any;
   public rangerMessage: RangerMessage = {};
   public streamingMode: string = 'static';
+  public cleanerInterval: any;
 
   constructor(
     public http: Http,
     public cookieService: CookieService,
-    public siteService: SiteService
+    public siteService: SiteService,
+    public guardianService: GuardianService
   ) { }
 
   ngOnInit() {
@@ -96,7 +98,6 @@ export class AlertsComponent implements OnInit {
     this.initAudio();
     this.intializeFilterValues(() => {
       this.loadData();
-      this.startCleaner();
     });
   }
 
@@ -148,7 +149,17 @@ export class AlertsComponent implements OnInit {
     this.rangersGhosts = [];
   }
 
-  loadData(opts?: any) {
+  loadData() {
+    this.stopCleaner();
+    if (this.streamingMode === 'static' || this.streamingMode === 'eventDriven') {
+      this.loadIncidents();
+    }
+    else if (this.streamingMode === 'serial') {
+      this.loadGuardians();
+    }
+  }
+
+  loadIncidents() {
     if (this.loadSubscription) {
       this.loadSubscription.unsubscribe();
     }
@@ -156,7 +167,6 @@ export class AlertsComponent implements OnInit {
       .subscribe(
         data => {
           let incidents = this.parseIncidentsByGuardians(data.events);
-          console.log('response', incidents);
           let isRefreshed = this.appendNewIncidents(incidents);
           console.log('incidents', this.incidents);
           if (isRefreshed) {
@@ -168,6 +178,23 @@ export class AlertsComponent implements OnInit {
           }
         },
         err => console.log('Error loading incidents', err)
+      );
+    this.startCleaner();
+  }
+
+  loadGuardians() {
+    let params: URLSearchParams = new URLSearchParams();
+    this.currentSiteValues.forEach((value: string) => {
+      params.append('sites[]', value);
+    });
+    this.guardianService.getGuardians({ search: params })
+      .subscribe(
+        data => {
+          console.log('guardians', data);
+          this.parseGuardians(data);
+          this.mapIncidents = this.incidents.slice(0);
+        },
+        err => console.log('Error loading guardians', err)
       );
   }
 
@@ -225,7 +252,7 @@ export class AlertsComponent implements OnInit {
         deathTime: moment().add(this.deathTimeMin, 'minutes').toDate(),
         html: this.generageItemHtml(item),
         fadeOutTime: 3000,
-        icon: this.icon[item.value] || 'default'
+        type: this.icon[item.value] || 'default'
       };
       if (this.streamingMode === 'static') {
         obj.pulseOpts = {
@@ -238,6 +265,22 @@ export class AlertsComponent implements OnInit {
     });
     return arr;
   };
+
+  parseGuardians(guardians: Array<any>) {
+    guardians = guardians.filter((guardian: any) => {
+      return guardian.location && guardian.location.latitude && guardian.location.longitude;
+    });
+    this.incidents = guardians.map((guardian: any) => {
+      return {
+        coords: {
+          lat: guardian.location.latitude,
+          lon: guardian.location.longitude
+        },
+        fadeOutTime: 3000,
+        type: 'guardian'
+      }
+    });
+  }
 
   generageItemHtml(item: any) {
     let html = '<p class=\"d3-tip__row\">' + item.value + '</p>' +
@@ -291,8 +334,15 @@ export class AlertsComponent implements OnInit {
     return isAppended;
   };
 
+  stopCleaner() {
+    if (this.cleanerInterval) {
+      clearInterval(this.cleanerInterval);
+    }
+  }
+
   startCleaner() {
-    setInterval(() => {
+    this.stopCleaner();
+    this.cleanerInterval = setInterval(() => {
       console.log('Checking death events');
       let oldCount = this.incidents.length;
       this.incidents = this.incidents.filter((item) => {
