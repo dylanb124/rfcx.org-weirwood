@@ -48,6 +48,9 @@ export class RfcxStreamerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.pause();
+    if (this.context.close) {
+      this.context.close();
+    }
   }
 
   loadData(opts?: any) {
