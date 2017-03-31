@@ -45,6 +45,12 @@ export class AudioService {
     let params: URLSearchParams = new URLSearchParams();
     params.set('starting_after', opts.starting_after);
     params.set('ending_before', opts.ending_before);
+    if (opts.order) {
+      params.set('order', opts.order);
+    }
+    if (opts.limit) {
+      params.set('limit', opts.limit);
+    }
 
     let headers = new Headers({
       'x-auth-user': 'user/' + this.cookieService.get('guid'),

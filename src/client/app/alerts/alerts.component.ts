@@ -4,7 +4,7 @@ import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-ite
 import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { CookieService } from 'angular2-cookie/core';
-import { GuardianService, SiteService } from '../shared/index';
+import { GuardianService, SiteService, AudioService } from '../shared/index';
 import { PulseOptions } from '../shared/rfcx-map/index';
 import { Config } from '../shared/config/env.config.js';
 
@@ -85,12 +85,14 @@ export class AlertsComponent implements OnInit {
   public rangerMessage: RangerMessage = {};
   public streamingMode: string = 'static';
   public cleanerInterval: any;
+  public currentSerialGuardianIndex: number = 0;
 
   constructor(
     public http: Http,
     public cookieService: CookieService,
     public siteService: SiteService,
-    public guardianService: GuardianService
+    public guardianService: GuardianService,
+    public audioService: AudioService
   ) { }
 
   ngOnInit() {
@@ -193,6 +195,7 @@ export class AlertsComponent implements OnInit {
           console.log('guardians', data);
           this.parseGuardians(data);
           this.mapIncidents = this.incidents.slice(0);
+          this.updateStreamingLogic();
         },
         err => console.log('Error loading guardians', err)
       );
@@ -250,7 +253,10 @@ export class AlertsComponent implements OnInit {
         eventGuid: item.event_guid,
         event: item.value,
         deathTime: moment().add(this.deathTimeMin, 'minutes').toDate(),
-        html: this.generageItemHtml(item),
+        html: this.generageItemHtml({
+          str1: item.value,
+          str2: item.guardian_shortname + ', ' + item.site
+        }),
         fadeOutTime: 3000,
         type: this.icon[item.value] || 'default'
       };
@@ -270,22 +276,30 @@ export class AlertsComponent implements OnInit {
     guardians = guardians.filter((guardian: any) => {
       return guardian.location && guardian.location.latitude && guardian.location.longitude;
     });
-    this.incidents = guardians.map((guardian: any) => {
-      return {
-        coords: {
-          lat: guardian.location.latitude,
-          lon: guardian.location.longitude
-        },
-        fadeOutTime: 3000,
-        type: 'guardian'
-      }
-    });
+    this.incidents = guardians.map(this.combineGuardianObject.bind(this));
   }
 
-  generageItemHtml(item: any) {
-    let html = '<p class=\"d3-tip__row\">' + item.value + '</p>' +
-               '<p class=\"d3-tip__row\">' + item.guardian_shortname + ', ' + item.site + '</p>';
-    if (this.streamingMode !== 'eventDriven') {
+  combineGuardianObject(guardian: any) {
+    return {
+      guid: guardian.guid,
+      coords: {
+        lat: guardian.location.latitude,
+        lon: guardian.location.longitude
+      },
+      html: this.generageItemHtml({
+        str1: guardian.shortname
+      }),
+      fadeOutTime: 3000,
+      type: 'guardian'
+    }
+  }
+
+  generageItemHtml(data: any) {
+    let html = '<p class=\"d3-tip__row\">' + data.str1 + '</p>';
+    if (data.str2) {
+      html += '<p class=\"d3-tip__row\">' + data.str2 + '</p>';
+    }
+    if (this.streamingMode === 'static') {
       html += '<p class=\"d3-tip__row d3-tip__row_stream\">' +
                 '<button class="btn btn-xs d3-tip__btn js-tip-btn">Listen Stream</button>' +
               '</p>';
@@ -449,19 +463,75 @@ export class AlertsComponent implements OnInit {
     });
   }
 
+  loadAudioForGuardian(guardian: any) {
+    return this.audioService.getAudioByGuardian({
+      guid: guardian.guid,
+      starting_after: moment().subtract(30, 'minutes').toISOString(),
+      ending_before: moment().add(1, 'minute').toISOString(),
+      order: 'descending',
+      limit: 1
+    });
+  }
+
+  playNextGuardianAudio() {
+    if (!this.incidents.length) {
+      return;
+    }
+    let guardian = this.incidents[this.currentSerialGuardianIndex];
+    this.loadAudioForGuardian(guardian)
+      .subscribe(
+        data => {
+          this.clearAllPulseOpts();
+          guardian.pulseOpts = {
+            type: 'streaming',
+            shadowColor: '#4a90ff'
+          };
+          this.updateStreamerData({
+            audioGuid: data[0].guid,
+            autoplay: true,
+            streamTitle: guardian.shortname
+          });
+          this.increaseCurrentSerialGuardianIndex();
+          setTimeout(this.playNextGuardianAudio.bind(this), 30000);
+        },
+        err => {
+          console.log('Error loading audio for guardians', err);
+          this.increaseCurrentSerialGuardianIndex();
+          this.playNextGuardianAudio();
+        }
+      )
+  }
+
+  increaseCurrentSerialGuardianIndex() {
+    if (this.currentSerialGuardianIndex + 1 < this.incidents.length) {
+      this.currentSerialGuardianIndex++;
+    }
+    else {
+      this.currentSerialGuardianIndex = 0;
+    }
+  }
+
+  playLatestAlertAudio() {
+    let latestIncident = this.incidents[this.incidents.length-1];
+    latestIncident.pulseOpts = {
+      type: 'streaming',
+      shadowColor: '#4a90ff'
+    }
+    this.updateStreamerData({
+      audioGuid: latestIncident.audioGuid,
+      autoplay: true,
+      streamTitle: latestIncident.shortname + ', ' + latestIncident.site
+    });
+  }
+
   updateStreamingLogic() {
     if (this.streamingMode === 'eventDriven') {
       this.clearAllPulseOpts();
-      let latestIncident = this.incidents[this.incidents.length-1];
-      latestIncident.pulseOpts = {
-        type: 'streaming',
-        shadowColor: '#4a90ff'
-      }
-      this.updateStreamerData({
-        audioGuid: latestIncident.audioGuid,
-        autoplay: true,
-        streamTitle: latestIncident.shortname + ', ' + latestIncident.site
-      });
+      this.playLatestAlertAudio();
+    }
+    else if (this.streamingMode === 'serial') {
+      this.clearAllPulseOpts();
+      this.playNextGuardianAudio();
     }
   }
 
