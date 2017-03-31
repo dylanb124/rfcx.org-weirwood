@@ -87,6 +87,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public cleanerInterval: any;
   public serialModeTimeout: any;
   public currentSerialGuardianIndex: number = 0;
+  public successfullSerialLoopPlaybacks: number = 0;
 
   constructor(
     public http: Http,
@@ -105,7 +106,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.clearSerialModeTimeout();
+    this.clearSerialModeData();
   }
 
   initAudio() {
@@ -500,12 +501,18 @@ export class AlertsComponent implements OnInit, OnDestroy {
             streamTitle: guardian.shortname
           });
           this.increaseCurrentSerialGuardianIndex();
+          this.successfullSerialLoopPlaybacks++;
           this.serialModeTimeout = setTimeout(this.playNextGuardianAudio.bind(this), 30000);
         },
         err => {
           console.log('Error loading audio for guardians', err);
-          this.increaseCurrentSerialGuardianIndex();
-          this.playNextGuardianAudio();
+          if (this.increaseCurrentSerialGuardianIndex()) {
+            this.playNextGuardianAudio();
+          }
+          else {
+            // try again in 1 minute
+            this.serialModeTimeout = setTimeout(this.playNextGuardianAudio.bind(this), 60000);
+          }
         }
       )
   }
@@ -513,9 +520,17 @@ export class AlertsComponent implements OnInit, OnDestroy {
   increaseCurrentSerialGuardianIndex() {
     if (this.currentSerialGuardianIndex + 1 < this.incidents.length) {
       this.currentSerialGuardianIndex++;
+      return true;
     }
     else {
       this.currentSerialGuardianIndex = 0;
+      if (this.successfullSerialLoopPlaybacks > 0) {
+        this.successfullSerialLoopPlaybacks = 0;
+        return true;
+      }
+      else {
+        return false;
+      }
     }
   }
 
@@ -533,7 +548,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   updateStreamingLogic() {
-    this.clearSerialModeTimeout();
+    this.clearSerialModeData();
     if (this.streamingMode === 'eventDriven') {
       this.clearAllPulseOpts();
       this.playLatestAlertAudio();
@@ -544,7 +559,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
     }
   }
 
-  clearSerialModeTimeout() {
+  clearSerialModeData() {
+    this.successfullSerialLoopPlaybacks = 0;
     if (this.serialModeTimeout) {
       clearTimeout(this.serialModeTimeout);
     }
