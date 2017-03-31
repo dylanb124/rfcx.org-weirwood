@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
 import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
@@ -28,7 +28,7 @@ interface RangerMessage {
   encapsulation: ViewEncapsulation.None
 })
 
-export class AlertsComponent implements OnInit {
+export class AlertsComponent implements OnInit, OnDestroy {
 
   public sitesList: Array<DropdownCheckboxItem> = [];
 
@@ -85,6 +85,7 @@ export class AlertsComponent implements OnInit {
   public rangerMessage: RangerMessage = {};
   public streamingMode: string = 'static';
   public cleanerInterval: any;
+  public serialModeTimeout: any;
   public currentSerialGuardianIndex: number = 0;
 
   constructor(
@@ -101,6 +102,10 @@ export class AlertsComponent implements OnInit {
     this.intializeFilterValues(() => {
       this.loadData();
     });
+  }
+
+  ngOnDestroy() {
+    this.clearSerialModeTimeout();
   }
 
   initAudio() {
@@ -495,7 +500,7 @@ export class AlertsComponent implements OnInit {
             streamTitle: guardian.shortname
           });
           this.increaseCurrentSerialGuardianIndex();
-          setTimeout(this.playNextGuardianAudio.bind(this), 30000);
+          this.serialModeTimeout = setTimeout(this.playNextGuardianAudio.bind(this), 30000);
         },
         err => {
           console.log('Error loading audio for guardians', err);
@@ -528,6 +533,7 @@ export class AlertsComponent implements OnInit {
   }
 
   updateStreamingLogic() {
+    this.clearSerialModeTimeout();
     if (this.streamingMode === 'eventDriven') {
       this.clearAllPulseOpts();
       this.playLatestAlertAudio();
@@ -535,6 +541,12 @@ export class AlertsComponent implements OnInit {
     else if (this.streamingMode === 'serial') {
       this.clearAllPulseOpts();
       this.playNextGuardianAudio();
+    }
+  }
+
+  clearSerialModeTimeout() {
+    if (this.serialModeTimeout) {
+      clearTimeout(this.serialModeTimeout);
     }
   }
 
