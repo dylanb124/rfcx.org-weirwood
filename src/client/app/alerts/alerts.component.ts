@@ -246,11 +246,11 @@ export class AlertsComponent implements OnInit {
           begins_at: item.begins_at,
           ends_at: item.ends_at
         },
-        guid: item.guardian_guid,
+        guardianGuid: item.guardian_guid,
         audioGuid: item.audio_guid,
         shortname: item.guardian_shortname,
         site: item.site,
-        eventGuid: item.event_guid,
+        guid: item.event_guid,
         event: item.value,
         deathTime: moment().add(this.deathTimeMin, 'minutes').toDate(),
         html: this.generageItemHtml({
@@ -335,7 +335,9 @@ export class AlertsComponent implements OnInit {
     let isAppended = false;
     incidents.forEach((item) => {
       if (!this.incidents.find((searchItem) => {
-        return searchItem.eventGuid === item.eventGuid;
+        return searchItem.guid === item.guid ||
+               searchItem.audioGuid === item.audioGuid ||
+               searchItem.guardianGuid === item.guardianGuid;
       })) {
         isAppended = true;
         this.incidents.push(item);
