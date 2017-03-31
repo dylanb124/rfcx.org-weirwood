@@ -289,6 +289,7 @@ export class AlertsComponent implements OnInit {
       html: this.generageItemHtml({
         str1: guardian.shortname
       }),
+      shortname: guardian.shortname,
       fadeOutTime: 3000,
       type: 'guardian'
     }
