@@ -29,6 +29,8 @@ export class RfcxStreamerComponent implements OnInit, OnDestroy {
   @Input() autoplay: boolean;
   @Input() loadNext: boolean;
   @Input() title: string;
+  @Output() onAudioStarted = new EventEmitter();
+  @Output() onAudioPaused = new EventEmitter();
   @Output() onAudioEnded = new EventEmitter();
 
   constructor(
@@ -155,11 +157,17 @@ export class RfcxStreamerComponent implements OnInit, OnDestroy {
     this.audioList[this.currentIndex].audio.play();
     console.log('playing', this.currentIndex+1, 'audio');
     this.isPlaying = true;
+    if (this.onAudioStarted) {
+      this.onAudioStarted.emit();
+    }
   }
 
   pause() {
     this.audioList[this.currentIndex].audio.pause();
     this.isPlaying = false;
+    if (this.onAudioPaused) {
+      this.onAudioPaused.emit();
+    }
   }
 
   // _onAudioProcess() {}
