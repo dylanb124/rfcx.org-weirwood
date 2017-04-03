@@ -81,7 +81,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public intervalSec: number = 30;
   public deathTimeMin: number = 5;
   public audio: any;
-  public loadSubscription: any;
+  public loadIncidentsSubscription: any;
+  public loadGuardiansSubscription: any;
   public rangerMessage: RangerMessage = {};
   public streamingMode: string = 'static';
   public cleanerInterval: any;
@@ -148,8 +149,11 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   resetData() {
-    if (this.loadSubscription) {
-      this.loadSubscription.unsubscribe();
+    if (this.loadIncidentsSubscription) {
+      this.loadIncidentsSubscription.unsubscribe();
+    }
+    if (this.loadGuardiansSubscription) {
+      this.loadGuardiansSubscription.unsubscribe();
     }
     this.incidents = [];
     this.mapIncidents = [];
@@ -161,6 +165,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     this.stopCleaner();
     if (this.streamingMode === 'static' || this.streamingMode === 'eventDriven') {
       this.loadIncidents();
+      this.startCleaner();
     }
     else if (this.streamingMode === 'serial') {
       this.loadGuardians();
@@ -168,10 +173,10 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   loadIncidents() {
-    if (this.loadSubscription) {
-      this.loadSubscription.unsubscribe();
+    if (this.loadIncidentsSubscription) {
+      this.loadIncidentsSubscription.unsubscribe();
     }
-    this.loadSubscription = this.getDataByDates()
+    this.loadIncidentsSubscription = this.getDataByDates()
       .subscribe(
         data => {
           let incidents = this.parseIncidentsByGuardians(data.events);
@@ -187,15 +192,17 @@ export class AlertsComponent implements OnInit, OnDestroy {
         },
         err => console.log('Error loading incidents', err)
       );
-    this.startCleaner();
   }
 
   loadGuardians() {
+    if (this.loadGuardiansSubscription) {
+      this.loadGuardiansSubscription.unsubscribe();
+    }
     let params: URLSearchParams = new URLSearchParams();
     this.currentSiteValues.forEach((value: string) => {
       params.append('sites[]', value);
     });
-    this.guardianService.getGuardians({ search: params })
+    this.loadGuardiansSubscription = this.guardianService.getGuardians({ search: params })
       .subscribe(
         data => {
           console.log('guardians', data);
