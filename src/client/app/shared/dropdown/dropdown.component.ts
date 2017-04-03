@@ -11,7 +11,7 @@ import { DropdownItem } from './dropdown-item';
 })
 export class DropdownComponent implements OnInit {
 
-  @Output() onChange = new EventEmitter();
+  @Output() change = new EventEmitter();
   @Input() title: string = 'Choose';
   @Input() items: Array<DropdownItem> = [];
   @Input() dropup: boolean = false;
@@ -42,7 +42,7 @@ export class DropdownComponent implements OnInit {
 
   changeValue(item: DropdownItem) {
     this.currentItem = item;
-    this.onChange.emit({
+    this.change.emit({
       item: item
     });
   }

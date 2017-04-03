@@ -7,18 +7,18 @@
     <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
       <spinner [size]="30" [ngClass]="{'loading': isLoading}"></spinner>
       <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_site" *ngIf="sitesList && sitesList.length">
-        <dropdown-checkboxes [block]="true" title="Site" [items]="sitesList" [noborder]="true" (onChange)="siteChanged($event)"
+        <dropdown-checkboxes [block]="true" title="Site" [items]="sitesList" [noborder]="true" (change)="siteChanged($event)"
           allItemsTitle="All sites"></dropdown-checkboxes>
       </div>
       <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
-        <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true" (onChange)="incidentsTypeChanged($event)"
+        <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true" (change)="incidentsTypeChanged($event)"
           allItemsTitle="All incidents"></dropdown-checkboxes>
       </div>
       <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_range">
-        <dropdown title="Range" [items]="daysCount" [noborder]="true" (onChange)="daysCountChanged($event)"></dropdown>
+        <dropdown title="Range" [items]="daysCount" [noborder]="true" (change)="daysCountChanged($event)"></dropdown>
       </div>
       <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_date">
-        <date-time-picker-incidents [incidentsByYear]="incidentsByYear" [maxDate]="maxDate" (onChange)="dateChanged($event)" [disabled]="!currentDaysCount"
+        <date-time-picker-incidents [incidentsByYear]="incidentsByYear" [maxDate]="maxDate" (change)="dateChanged($event)" [disabled]="!currentDaysCount"
           [range]="currentDaysCount? currentDaysCount : 0" [date]="currentDate"></date-time-picker-incidents>
       </div>
     </div>
@@ -57,7 +57,7 @@
         </p>
       </div>
       <div class="incidents-download-data__right">
-        <dropdown title="Choose format" [download]="true" [items]="formats" (onChange)="formatChanged($event)"></dropdown>
+        <dropdown title="Choose format" [download]="true" [items]="formats" (change)="formatChanged($event)"></dropdown>
       </div>
     </div>
   </div>

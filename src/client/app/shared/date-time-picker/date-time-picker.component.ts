@@ -15,7 +15,7 @@ export class DateTimePickerComponent implements OnInit {
   @Input() minDate: Date;
   @Input() maxDate: Date;
   @Input() disabled: boolean;
-  @Output() onChange = new EventEmitter();
+  @Output() change = new EventEmitter();
   public dateTimePicker: any;
   public dateTimePickerEl: any;
 
@@ -37,7 +37,7 @@ export class DateTimePickerComponent implements OnInit {
 
     this.dateTimePickerEl.on('dp.change', () => {
       let newDate = this.dateTimePickerEl.data('DateTimePicker').date();
-      this.onChange.emit({
+      this.change.emit({
         date: newDate
       });
     });

@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class DropdownCheckboxesComponent implements OnInit {
 
-  @Output() onChange = new EventEmitter();
+  @Output() change = new EventEmitter();
   // internal id for twitter bootstrap dropdown interaction
   public elementId: number = Math.round(Math.random() * 10000000);
   public currentItems: Array<DropdownCheckboxItem> = [];
@@ -45,7 +45,7 @@ export class DropdownCheckboxesComponent implements OnInit {
       this.currentItems.splice(this.currentItems.indexOf(item), 1);
     }
 
-    this.onChange.emit({
+    this.change.emit({
       items: this.currentItems
     });
 

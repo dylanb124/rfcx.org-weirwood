@@ -7,11 +7,11 @@
     <div class="incidents-nav__right" [ngClass]="{'mobile-opened': mobileFiltersOpened}">
       <spinner [size]="30" [ngClass]="{'loading': isLoading}"></spinner>
       <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_site" *ngIf="sitesList && sitesList.length">
-        <dropdown-checkboxes [block]="true" title="Site" [items]="sitesList" [noborder]="true" (onChange)="siteChanged($event)"
+        <dropdown-checkboxes [block]="true" title="Site" [items]="sitesList" [noborder]="true" (change)="siteChanged($event)"
           allItemsTitle="All sites"></dropdown-checkboxes>
       </div>
       <div class="incidents-nav__inline-dropdown-wrapper incidents-nav__inline-dropdown-wrapper_type">
-        <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true" (onChange)="incidentsTypeChanged($event)"
+        <dropdown-checkboxes [block]="true" title="Event type" [items]="incidentTypes" [noborder]="true" (change)="incidentsTypeChanged($event)"
           allItemsTitle="All incidents"></dropdown-checkboxes>
       </div>
     </div>
@@ -50,15 +50,15 @@
     <rfcx-basemap layerType="satellite"></rfcx-basemap>
     <ng-container *ngFor="let ranger of rangers">
       <rfcx-map-marker [lat]="ranger.coords.lat" [lon]="ranger.coords.lon" [type]="'ranger'"
-                       [data]="ranger" (onArrowCreated)="onArrowCreated($event)"></rfcx-map-marker>
+                       [data]="ranger" (arrowCreated)="onArrowCreated($event)"></rfcx-map-marker>
     </ng-container>
     <ng-container *ngFor="let ranger of rangersGhosts">
       <rfcx-map-marker [lat]="ranger.coords.lat" [lon]="ranger.coords.lon" [type]="'ranger-ghost'"
-                       [data]="ranger" (onArrowCreated)="onArrowCreated($event)"></rfcx-map-marker>
+                       [data]="ranger" (arrowCreated)="onArrowCreated($event)"></rfcx-map-marker>
     </ng-container>
     <ng-container *ngFor="let item of incidents">
       <rfcx-map-marker [lat]="item.coords.lat" [lon]="item.coords.lon" [pulseOpts]="item.pulseOpts" [type]="item.type"
-                       [popupHtml]="item.html" [data]="item" (onPlayClick)="onPlayClicked($event)" [fadeOutTime]="item.fadeOutTime"
+                       [popupHtml]="item.html" [data]="item" (playClick)="onPlayClicked($event)" [fadeOutTime]="item.fadeOutTime"
                        ></rfcx-map-marker>
     </ng-container>
     <ng-container *ngFor="let bounds of currentSiteBounds">
@@ -68,7 +68,7 @@
 
   <div class="streamer-wrapper">
     <rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid" [autoplay]="autoplayStream"
-                   [title]="streamTitle" [loadNext]="streamLoadNext" (onAudioEnded)="onStreamEnded()"></rfcx-streamer>
+                   [title]="streamTitle" [loadNext]="streamLoadNext" (audioEnded)="onStreamEnded()"></rfcx-streamer>
   </div>
   <div class="container-fluid alerts-notifications" *ngIf="incidents && incidents.length">
     <div class="row">

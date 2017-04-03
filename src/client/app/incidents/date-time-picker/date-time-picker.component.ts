@@ -28,7 +28,7 @@ export class IncidentsDateTimePickerComponent implements OnInit, OnChanges {
   @Input() range: number = 0;
   @Input() disabled: boolean;
   @Input() incidentsByYear: any;
-  @Output() onChange = new EventEmitter();
+  @Output() change = new EventEmitter();
 
   constructor(
     public elementRef: ElementRef
@@ -76,7 +76,7 @@ export class IncidentsDateTimePickerComponent implements OnInit, OnChanges {
       this.isOpened = false;
       this.refreshSelectedDate();
       if (!!this.tempDate && !!this.selectedDate && (this.tempDate.getTime() !== this.selectedDate.getTime())) {
-        this.onChange.emit({
+        this.change.emit({
           date: this.selectedDate
         });
         this.updateLabel();
@@ -111,7 +111,7 @@ export class IncidentsDateTimePickerComponent implements OnInit, OnChanges {
           this.dateTimePickerEl.data('DateTimePicker').date(changes.maxDate.currentValue);
         }
         this.refreshSelectedDate();
-        this.onChange.emit({
+        this.change.emit({
           date: this.selectedDate
         });
         this.updateLabel();

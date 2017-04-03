@@ -21,8 +21,8 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() data: any;
   @Input() type: string;
   @Input() fadeOutTime?: number;
-  @Output() onPlayClick = new EventEmitter();
-  @Output() onArrowCreated = new EventEmitter();
+  @Output() playClick = new EventEmitter();
+  @Output() arrowCreated = new EventEmitter();
   public rfcxMapComp: any;
   public marker: any;
   public icon: any;
@@ -104,7 +104,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   bindAdditionalEvents() {
-    if (this.onPlayClick) {
+    if (this.playClick) {
       jQuery(this.popup.getElement()).find('.js-tip-btn').click(() => {
         this.emitPlayBtnEvent();
       });
@@ -211,7 +211,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   emitPlayBtnEvent() {
-    this.onPlayClick.emit({
+    this.playClick.emit({
       audioGuid: this.data.audioGuid,
       autoplay: true,
       loadNext: true,
@@ -220,7 +220,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   emitArrowCreatedEvent(coords: any) {
-    this.onArrowCreated.emit({
+    this.arrowCreated.emit({
       guid: this.data.guid,
       coords: {
         lat: coords.lat,
