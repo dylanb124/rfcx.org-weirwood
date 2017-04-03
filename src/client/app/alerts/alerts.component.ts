@@ -66,6 +66,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public isAlertFormLoading: Boolean = false;
   public isStreamingModeLoading: Boolean = false;
   public incidents: Array<any> = [];
+  public incidentsSerial: Array<any> = [];
   public mapIncidents: Array<any> = [];
   public rangers: Array<any> = [];
   public rangersGhosts: Array<any> = [];
@@ -74,6 +75,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public currentSiteBounds: Array<string>;
   public currentAudioGuid: string = undefined;
   public autoplayStream: boolean = false;
+  public streamLoadNext: boolean = true;
   public streamTitle: string;
   public mobileFiltersOpened: boolean = false;
   public isLoading: boolean = false;
@@ -83,6 +85,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public audio: any;
   public loadIncidentsSubscription: any;
   public loadGuardiansSubscription: any;
+  public loadGuardiansAudioSubscription: any;
   public rangerMessage: RangerMessage = {};
   public streamingMode: string = 'static';
   public cleanerInterval: any;
@@ -155,7 +158,11 @@ export class AlertsComponent implements OnInit, OnDestroy {
     if (this.loadGuardiansSubscription) {
       this.loadGuardiansSubscription.unsubscribe();
     }
+    if (this.loadGuardiansAudioSubscription) {
+      this.loadGuardiansAudioSubscription.unsubscribe();
+    }
     this.incidents = [];
+    this.incidentsSerial = [];
     this.mapIncidents = [];
     this.rangers = [];
     this.rangersGhosts = [];
@@ -164,7 +171,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   loadData() {
     this.stopCleaner();
     if (this.streamingMode === 'static' || this.streamingMode === 'eventDriven') {
-      this.loadIncidents();
+      this.loadIncidents(this.onLoadIncidentsCommom);
       this.startCleaner();
     }
     else if (this.streamingMode === 'serial') {
@@ -172,24 +179,26 @@ export class AlertsComponent implements OnInit, OnDestroy {
     }
   }
 
-  loadIncidents() {
+  onLoadIncidentsCommom(data: any) {
+    let incidents = this.parseIncidentsByGuardians(data.events);
+    let isRefreshed = this.appendNewIncidents(incidents, this.incidents);
+    console.log('incidents', this.incidents);
+    if (isRefreshed) {
+      this.audio.play();
+      // we use separate array for map data input because angular ngOnChanges handler
+      // doesn't fire when we just append new items to array, so we need this dirty hack
+      this.mapIncidents = this.incidents.slice(0);
+      this.updateStreamingLogic();
+    }
+  }
+
+  loadIncidents(cb: any) {
     if (this.loadIncidentsSubscription) {
       this.loadIncidentsSubscription.unsubscribe();
     }
     this.loadIncidentsSubscription = this.getDataByDates()
       .subscribe(
-        data => {
-          let incidents = this.parseIncidentsByGuardians(data.events);
-          let isRefreshed = this.appendNewIncidents(incidents);
-          console.log('incidents', this.incidents);
-          if (isRefreshed) {
-            this.audio.play();
-            // we use separate array for map data input because angular ngOnChanges handler
-            // doesn't fire when we just append new items to array, so we need this dirty hack
-            this.mapIncidents = this.incidents.slice(0);
-            this.updateStreamingLogic();
-          }
-        },
+        cb.bind(this),
         err => console.log('Error loading incidents', err)
       );
   }
@@ -341,24 +350,25 @@ export class AlertsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.currentAudioGuid = data.audioGuid;
       this.autoplayStream = !!data.autoplay;
+      this.streamLoadNext = data.loadNext === undefined? true : data.loadNext,
       this.streamTitle = data.streamTitle;
     }, 100);
   }
 
-  appendNewIncidents(incidents: Array<any>): Boolean {
+  appendNewIncidents(incidentsFrom: Array<any>, incidentsTo: Array<any>): Boolean {
     let isAppended = false;
-    incidents.forEach((item) => {
-      if (!this.incidents.find((searchItem) => {
+    incidentsFrom.forEach((item) => {
+      if (!incidentsTo.find((searchItem) => {
         return searchItem.guid === item.guid ||
                searchItem.audioGuid === item.audioGuid ||
                searchItem.guardianGuid === item.guardianGuid;
       })) {
         isAppended = true;
-        this.incidents.push(item);
-        let itemTemp = jQuery.extend(true, {}, item);
-        itemTemp.coords.lat = itemTemp.coords.lat + 0.01;
-        itemTemp.coords.lon = itemTemp.coords.lon - 0.001;
-        this.rangers.push(itemTemp);
+        incidentsTo.push(item);
+        // let itemTemp = jQuery.extend(true, {}, item);
+        // itemTemp.coords.lat = itemTemp.coords.lat + 0.01;
+        // itemTemp.coords.lon = itemTemp.coords.lon - 0.001;
+        // this.rangers.push(itemTemp);
       }
     });
     return isAppended;
@@ -483,6 +493,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     return this.audioService.getAudioByGuardian({
       guid: guardian.guid,
       starting_after: moment().subtract(30, 'minutes').toISOString(),
+      // starting_after: moment().subtract(6, 'months').toISOString(),
       ending_before: moment().add(1, 'minute').toISOString(),
       order: 'descending',
       limit: 1
@@ -493,8 +504,9 @@ export class AlertsComponent implements OnInit, OnDestroy {
     if (!this.incidents.length) {
       return;
     }
+    this.clearAudioDownloadSubscr();
     let guardian = this.incidents[this.currentSerialGuardianIndex];
-    this.loadAudioForGuardian(guardian)
+    this.loadGuardiansAudioSubscription = this.loadAudioForGuardian(guardian)
       .subscribe(
         data => {
           this.clearAllPulseOpts();
@@ -505,6 +517,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
           this.updateStreamerData({
             audioGuid: data[0].guid,
             autoplay: true,
+            loadNext: false,
             streamTitle: guardian.shortname
           });
           this.increaseCurrentSerialGuardianIndex();
@@ -550,6 +563,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     this.updateStreamerData({
       audioGuid: latestIncident.audioGuid,
       autoplay: true,
+      loadNext: true,
       streamTitle: latestIncident.shortname + ', ' + latestIncident.site
     });
   }
@@ -563,6 +577,13 @@ export class AlertsComponent implements OnInit, OnDestroy {
     else if (this.streamingMode === 'serial') {
       this.clearAllPulseOpts();
       this.playNextGuardianAudio();
+      this.startSerialAlertsChecker();
+    }
+  }
+
+  clearAudioDownloadSubscr() {
+    if (this.loadGuardiansAudioSubscription) {
+      this.loadGuardiansAudioSubscription.unsubscribe();
     }
   }
 
@@ -570,6 +591,44 @@ export class AlertsComponent implements OnInit, OnDestroy {
     this.successfullSerialLoopPlaybacks = 0;
     if (this.serialModeTimeout) {
       clearTimeout(this.serialModeTimeout);
+    }
+  }
+
+  startSerialAlertsChecker() {
+    this.loadIncidents((data: any) => {
+      let incidents = this.parseIncidentsByGuardians(data.events);
+      let isRefreshed = this.appendNewIncidents(incidents, this.incidentsSerial);
+      if (this.incidentsSerial.length && isRefreshed) {
+        let incident = this.incidentsSerial[this.incidentsSerial.length - 1];
+        let guardian = this.incidents.find((item: any) => {
+          return item.guid === incident.guardianGuid
+        });
+        if (guardian) {
+          this.clearAudioDownloadSubscr();
+          this.clearStreamerData();
+          this.clearSerialModeData();
+
+          this.audio.play();
+          this.clearAllPulseOpts();
+          guardian.pulseOpts = {
+            type: 'streaming',
+            shadowColor: this.pulseColors[incident.event] || '#4a90ff'
+          };
+          this.updateStreamerData({
+            audioGuid: incident.audioGuid,
+            autoplay: true,
+            loadNext: false,
+            streamTitle: guardian.shortname
+          });
+          this.mapIncidents = this.incidents.slice(0);
+        }
+      }
+    });
+  }
+
+  onStreamEnded() {
+    if (this.streamingMode === 'serial') {
+      this.updateStreamingLogic();
     }
   }
 

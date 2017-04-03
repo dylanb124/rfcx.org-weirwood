@@ -61,7 +61,8 @@
   </rfcx-map>
 
   <div class="streamer-wrapper">
-    <rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid" [autoplay]="autoplayStream" [title]="streamTitle"></rfcx-streamer>
+    <rfcx-streamer *ngIf="currentAudioGuid" [audioGuid]="currentAudioGuid" [autoplay]="autoplayStream"
+                   [title]="streamTitle" [loadNext]="streamLoadNext" (onAudioEnded)="onStreamEnded()"></rfcx-streamer>
   </div>
   <div class="container-fluid alerts-notifications" *ngIf="incidents && incidents.length">
     <div class="row">

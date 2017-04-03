@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { AudioService } from '../services/audio.service';
 
 import * as moment from 'moment';
@@ -27,7 +27,9 @@ export class RfcxStreamerComponent implements OnInit, OnDestroy {
   public labelTime: string;
   @Input() audioGuid: string;
   @Input() autoplay: boolean;
+  @Input() loadNext: boolean;
   @Input() title: string;
+  @Output() onAudioEnded = new EventEmitter();
 
   constructor(
     public audioService: AudioService,
@@ -170,6 +172,9 @@ export class RfcxStreamerComponent implements OnInit, OnDestroy {
     else {
       this.isPlaying = false;
       this.labelTime = undefined;
+      if (this.onAudioEnded) {
+        this.onAudioEnded.emit();
+      }
     }
   }
 
@@ -179,7 +184,7 @@ export class RfcxStreamerComponent implements OnInit, OnDestroy {
     this.labelTime = moment.tz(audioData.measured_at, audioData.timezone).add(time, 'seconds').format('HH:mm:ss');
     let percPlayed = Math.round((time * 1000) / audioData.duration * 100);
     // request new audio file if user played 10% of file, or audio data has zero duration
-    if (!audioData.isNextFileRequested && (audioData.duration === 0 || percPlayed > 10)) {
+    if (!!this.loadNext && !audioData.isNextFileRequested && (audioData.duration === 0 || percPlayed > 10)) {
       this.loadData({
         next: true,
         guid: audioData.guid

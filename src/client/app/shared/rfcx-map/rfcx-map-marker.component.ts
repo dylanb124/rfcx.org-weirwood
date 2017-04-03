@@ -214,6 +214,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
     this.onPlayClick.emit({
       audioGuid: this.data.audioGuid,
       autoplay: true,
+      loadNext: true,
       streamTitle: this.data.shortname + ', ' + this.data.site
     });
   }
