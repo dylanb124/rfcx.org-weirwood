@@ -90,6 +90,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public streamingMode: string = 'static';
   public cleanerInterval: any;
   public serialModeTimeout: any;
+  public changeStreamingModeTimeout: any;
   public currentSerialGuardianIndex: number = 0;
   public successfullSerialLoopPlaybacks: number = 0;
   public serialModePaused: Boolean = false;
@@ -113,6 +114,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.clearSerialModeData();
+    this.resetData();
   }
 
   initAudio() {
@@ -162,6 +164,9 @@ export class AlertsComponent implements OnInit, OnDestroy {
     }
     if (this.loadGuardiansAudioSubscription) {
       this.loadGuardiansAudioSubscription.unsubscribe();
+    }
+    if (this.changeStreamingModeTimeout) {
+      clearTimeout(this.changeStreamingModeTimeout);
     }
     this.incidents = [];
     this.incidentsSerial = [];
@@ -477,7 +482,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     this.streamingMode = mode;
     this.clearStreamerData();
     this.resetData();
-    setTimeout(() => {
+    this.changeStreamingModeTimeout = setTimeout(() => {
       this.loadData();
       this.isStreamingModeLoading = false;
     }, 3000);
