@@ -192,7 +192,7 @@ export class RfcxStreamerComponent implements OnInit, OnDestroy {
     this.labelTime = moment.tz(audioData.measured_at, audioData.timezone).add(time, 'seconds').format('HH:mm:ss');
     let percPlayed = Math.round((time * 1000) / audioData.duration * 100);
     // request new audio file if user played 10% of file, or audio data has zero duration
-    if (!!this.loadNext && !audioData.isNextFileRequested && (audioData.duration === 0 || percPlayed > 10)) {
+    if (!!this.loadNext && !audioData.isNextFileRequested && (audioData.duration === 0 || percPlayed > 50)) {
       this.loadData({
         next: true,
         guid: audioData.guid

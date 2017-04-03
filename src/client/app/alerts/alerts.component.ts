@@ -92,6 +92,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public serialModeTimeout: any;
   public currentSerialGuardianIndex: number = 0;
   public successfullSerialLoopPlaybacks: number = 0;
+  public serialModePaused: Boolean = false;
+  public serialModeStopped: Boolean = false;
 
   constructor(
     public http: Http,
@@ -493,7 +495,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
     return this.audioService.getAudioByGuardian({
       guid: guardian.guid,
       starting_after: moment().subtract(30, 'minutes').toISOString(),
-      // starting_after: moment().subtract(6, 'months').toISOString(),
       ending_before: moment().add(1, 'minute').toISOString(),
       order: 'descending',
       limit: 1
@@ -517,7 +518,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
           this.updateStreamerData({
             audioGuid: data[0].guid,
             autoplay: true,
-            loadNext: false,
+            loadNext: true,
             streamTitle: guardian.shortname
           });
           this.increaseCurrentSerialGuardianIndex();
@@ -626,8 +627,35 @@ export class AlertsComponent implements OnInit, OnDestroy {
     });
   }
 
+  playPauseSerialMode() {
+    if (!this.serialModePaused) {
+      this.clearSerialModeData();
+    }
+    else {
+      this.playNextGuardianAudio();
+    }
+    this.serialModePaused = !this.serialModePaused;
+  }
+
+  playStopSerialMode() {
+    if (!this.serialModeStopped) {
+      this.clearStreamerData();
+      this.clearAllPulseOpts();
+      this.clearSerialModeData();
+    }
+    else {
+      this.currentSerialGuardianIndex = 0;
+      this.playNextGuardianAudio();
+    }
+    this.serialModeStopped = !this.serialModeStopped;
+  }
+
   onStreamEnded() {
     if (this.streamingMode === 'serial') {
+      this.clearAllPulseOpts();
+      if (this.serialModePaused || this.serialModeStopped) {
+        return;
+      }
       this.updateStreamingLogic();
     }
   }

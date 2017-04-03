@@ -35,6 +35,12 @@
         Serial
       </button>
     </div>
+    <div class="alerts-streaming-mode__serial-controls" *ngIf="streamingMode === 'serial'">
+      <button type="button" class="button button_primary" *ngIf="!serialModeStopped" [disabled]="isStreamingModeLoading"
+              (click)="playPauseSerialMode()">{{serialModePaused? 'Continue' : 'Pause'}} Series</button>
+      <button type="button" class="button button_primary" [disabled]="isStreamingModeLoading"
+              (click)="playStopSerialMode()">{{serialModeStopped? 'Start' : 'Stop'}} Series</button>
+    </div>
   </div>
 
   <rfcx-map *ngIf="mapDetails.lat && mapDetails.lon" [centerLat]="mapDetails.lat" [centerLon]="mapDetails.lon"

@@ -33,6 +33,12 @@
       display: inline-block;
       vertical-align: middle;
     }
+    &__serial-controls {
+      padding-top: 1.5rem;
+      .button {
+        width: auto;
+      }
+    }
   }
 
   .alerts-notifications-form {
