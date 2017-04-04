@@ -67,7 +67,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   public colors: any = {
     dodgerBlue: '#4a90ff',
     rfcxGreen: '#30ac4a'
-  }
+  };
 
   public isAlertFormLoading: Boolean = false;
   public isStreamingModeLoading: Boolean = false;
@@ -155,10 +155,10 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   resetData() {
-    !!this.loadIncidentsSubscription && this.loadIncidentsSubscription.unsubscribe();
-    !!this.loadGuardiansSubscription && this.loadGuardiansSubscription.unsubscribe();
-    !!this.loadGuardiansAudioSubscription && this.loadGuardiansAudioSubscription.unsubscribe();
-    !!this.changeStreamingModeTimeout && clearTimeout(this.changeStreamingModeTimeout);
+    !!this.loadIncidentsSubscription && this.loadIncidentsSubscription.unsubscribe(); // tslint:disable-line
+    !!this.loadGuardiansSubscription && this.loadGuardiansSubscription.unsubscribe(); // tslint:disable-line
+    !!this.loadGuardiansAudioSubscription && this.loadGuardiansAudioSubscription.unsubscribe(); // tslint:disable-line
+    !!this.changeStreamingModeTimeout && clearTimeout(this.changeStreamingModeTimeout); // tslint:disable-line
     this.incidents = [];
     this.incidentsSerial = [];
     this.mapIncidents = [];
@@ -191,7 +191,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   loadIncidents(cb: any) {
-    !!this.loadIncidentsSubscription && this.loadIncidentsSubscription.unsubscribe();
+    !!this.loadIncidentsSubscription && this.loadIncidentsSubscription.unsubscribe(); // tslint:disable-line
     this.loadIncidentsSubscription = this.getDataByDates()
       .subscribe(
         cb.bind(this),
@@ -200,7 +200,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   loadGuardians() {
-    !!this.loadGuardiansSubscription && this.loadGuardiansSubscription.unsubscribe();
+    !!this.loadGuardiansSubscription && this.loadGuardiansSubscription.unsubscribe(); // tslint:disable-line
     let params: URLSearchParams = new URLSearchParams();
     this.currentSiteValues.forEach((value: string) => {
       params.append('sites[]', value);
@@ -304,7 +304,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
       shortname: guardian.shortname,
       fadeOutTime: 3000,
       type: 'guardian'
-    }
+    };
   }
 
   generageItemHtml(data: any) {
@@ -340,7 +340,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.currentAudioGuid = data.audioGuid;
       this.autoplayStream = !!data.autoplay;
-      this.streamLoadNext = data.loadNext === undefined? true : data.loadNext,
+      this.streamLoadNext = (data.loadNext === undefined? true : data.loadNext), // tslint:disable-line
       this.streamTitle = data.streamTitle;
     }, 100);
   }
@@ -476,7 +476,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
   clearAllPulseOpts() {
     this.incidents.forEach((incident: any) => {
-      !!incident.pulseOpts && delete incident.pulseOpts;
+      !!incident.pulseOpts && delete incident.pulseOpts; // tslint:disable-line
     });
   }
 
@@ -524,7 +524,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
             this.serialModeTimeout = setTimeout(this.playNextGuardianAudio.bind(this), 60000);
           }
         }
-      )
+      );
   }
 
   increaseCurrentSerialGuardianIndex() {
@@ -549,7 +549,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     latestIncident.pulseOpts = {
       type: 'streaming',
       shadowColor: this.colors.dodgerBlue
-    }
+    };
     this.updateStreamerData({
       audioGuid: latestIncident.audioGuid,
       autoplay: true,
@@ -572,12 +572,12 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   clearAudioDownloadSubscr() {
-    !!this.loadGuardiansAudioSubscription && this.loadGuardiansAudioSubscription.unsubscribe();
+    !!this.loadGuardiansAudioSubscription && this.loadGuardiansAudioSubscription.unsubscribe(); // tslint:disable-line
   }
 
   clearSerialModeData() {
     this.successfullSerialLoopPlaybacks = 0;
-    !!this.serialModeTimeout && clearTimeout(this.serialModeTimeout);
+    !!this.serialModeTimeout && clearTimeout(this.serialModeTimeout); // tslint:disable-line
   }
 
   startSerialAlertsChecker() {
@@ -587,7 +587,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
       if (this.incidentsSerial.length && isRefreshed) {
         let incident = this.incidentsSerial[this.incidentsSerial.length - 1];
         let guardian = this.incidents.find((item: any) => {
-          return item.guid === incident.guardianGuid
+          return item.guid === incident.guardianGuid;
         });
         if (guardian) {
           this.clearAudioDownloadSubscr();
