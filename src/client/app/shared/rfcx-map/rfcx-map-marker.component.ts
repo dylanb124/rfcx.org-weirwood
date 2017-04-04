@@ -205,9 +205,8 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   removeArrow() {
-    if (this.path) {
-      this.rfcxMapComp.rfcxMap.removeLayer(this.path);
-    }
+    !!this.path && this.rfcxMapComp.rfcxMap.removeLayer(this.path);
+    !!this.arrow && this.rfcxMapComp.rfcxMap.removeLayer(this.arrow);
   }
 
   emitPlayBtnEvent() {

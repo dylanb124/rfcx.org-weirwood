@@ -355,10 +355,13 @@ export class AlertsComponent implements OnInit, OnDestroy {
       })) {
         isAppended = true;
         incidentsTo.push(item);
-        // let itemTemp = jQuery.extend(true, {}, item);
-        // itemTemp.coords.lat = itemTemp.coords.lat + 0.01;
-        // itemTemp.coords.lon = itemTemp.coords.lon - 0.001;
-        // this.rangers.push(itemTemp);
+        if (!this.rangers.length) {
+          let itemTemp = jQuery.extend(true, {}, item);
+          itemTemp.coords.lat = itemTemp.coords.lat + 0.01;
+          itemTemp.coords.lon = itemTemp.coords.lon - 0.001;
+          this.rangers.push(itemTemp);
+        }
+
       }
     });
     return isAppended;
