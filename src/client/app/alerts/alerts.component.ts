@@ -480,7 +480,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   loadAudioForGuardian(guardian: any) {
     return this.audioService.getAudioByGuardian({
       guid: guardian.guid,
-      starting_after: moment().subtract(30, 'minutes').toISOString(),
+      starting_after: moment().subtract(3, 'minutes').toISOString(),
       ending_before: moment().add(1, 'minute').toISOString(),
       order: 'descending',
       limit: 1
