@@ -64,6 +64,11 @@ export class AlertsComponent implements OnInit, OnDestroy {
     macaw: 'default'
   };
 
+  public colors: any = {
+    dodgerBlue: '#4a90ff',
+    rfcxGreen: '#30ac4a'
+  }
+
   public isAlertFormLoading: Boolean = false;
   public isStreamingModeLoading: Boolean = false;
   public incidents: Array<any> = [];
@@ -287,7 +292,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
         obj.pulseOpts = {
           type: 'appearing',
           duration: 12000,
-          shadowColor: this.pulseColors[item.value] || '#30ac4a'
+          shadowColor: this.pulseColors[item.value] || this.colors.rfcxGreen
         };
       }
       return obj;
@@ -510,9 +515,10 @@ export class AlertsComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           this.clearAllPulseOpts();
+          console.log("this", this);
           guardian.pulseOpts = {
             type: 'streaming',
-            shadowColor: '#4a90ff'
+            shadowColor: this.colors.dodgerBlue
           };
           this.updateStreamerData({
             audioGuid: data[0].guid,
@@ -558,7 +564,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     let latestIncident = this.incidents[this.incidents.length-1];
     latestIncident.pulseOpts = {
       type: 'streaming',
-      shadowColor: '#4a90ff'
+      shadowColor: this.colors.dodgerBlue
     }
     this.updateStreamerData({
       audioGuid: latestIncident.audioGuid,
@@ -612,7 +618,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
           this.clearAllPulseOpts();
           guardian.pulseOpts = {
             type: 'streaming',
-            shadowColor: this.pulseColors[incident.event] || '#4a90ff'
+            shadowColor: this.pulseColors[incident.event] || this.colors.dodgerBlue
           };
           this.updateStreamerData({
             audioGuid: incident.audioGuid,
