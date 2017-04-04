@@ -155,18 +155,10 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   resetData() {
-    if (this.loadIncidentsSubscription) {
-      this.loadIncidentsSubscription.unsubscribe();
-    }
-    if (this.loadGuardiansSubscription) {
-      this.loadGuardiansSubscription.unsubscribe();
-    }
-    if (this.loadGuardiansAudioSubscription) {
-      this.loadGuardiansAudioSubscription.unsubscribe();
-    }
-    if (this.changeStreamingModeTimeout) {
-      clearTimeout(this.changeStreamingModeTimeout);
-    }
+    !!this.loadIncidentsSubscription && this.loadIncidentsSubscription.unsubscribe();
+    !!this.loadGuardiansSubscription && this.loadGuardiansSubscription.unsubscribe();
+    !!this.loadGuardiansAudioSubscription && this.loadGuardiansAudioSubscription.unsubscribe();
+    !!this.changeStreamingModeTimeout && clearTimeout(this.changeStreamingModeTimeout);
     this.incidents = [];
     this.incidentsSerial = [];
     this.mapIncidents = [];
@@ -199,9 +191,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   loadIncidents(cb: any) {
-    if (this.loadIncidentsSubscription) {
-      this.loadIncidentsSubscription.unsubscribe();
-    }
+    !!this.loadIncidentsSubscription && this.loadIncidentsSubscription.unsubscribe();
     this.loadIncidentsSubscription = this.getDataByDates()
       .subscribe(
         cb.bind(this),
@@ -210,9 +200,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   loadGuardians() {
-    if (this.loadGuardiansSubscription) {
-      this.loadGuardiansSubscription.unsubscribe();
-    }
+    !!this.loadGuardiansSubscription && this.loadGuardiansSubscription.unsubscribe();
     let params: URLSearchParams = new URLSearchParams();
     this.currentSiteValues.forEach((value: string) => {
       params.append('sites[]', value);
@@ -269,10 +257,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
         coords: {
           lat: item.latitude,
           lon: item.longitude
-        },
-        time: {
-          begins_at: item.begins_at,
-          ends_at: item.ends_at
         },
         guardianGuid: item.guardian_guid,
         audioGuid: item.audio_guid,
@@ -489,9 +473,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
   clearAllPulseOpts() {
     this.incidents.forEach((incident: any) => {
-      if (incident.pulseOpts) {
-        delete incident.pulseOpts;
-      }
+      !!incident.pulseOpts && delete incident.pulseOpts;
     });
   }
 
@@ -515,7 +497,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           this.clearAllPulseOpts();
-          console.log("this", this);
           guardian.pulseOpts = {
             type: 'streaming',
             shadowColor: this.colors.dodgerBlue
@@ -588,16 +569,12 @@ export class AlertsComponent implements OnInit, OnDestroy {
   }
 
   clearAudioDownloadSubscr() {
-    if (this.loadGuardiansAudioSubscription) {
-      this.loadGuardiansAudioSubscription.unsubscribe();
-    }
+    !!this.loadGuardiansAudioSubscription && this.loadGuardiansAudioSubscription.unsubscribe();
   }
 
   clearSerialModeData() {
     this.successfullSerialLoopPlaybacks = 0;
-    if (this.serialModeTimeout) {
-      clearTimeout(this.serialModeTimeout);
-    }
+    !!this.serialModeTimeout && clearTimeout(this.serialModeTimeout);
   }
 
   startSerialAlertsChecker() {
