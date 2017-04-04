@@ -16,6 +16,7 @@ import { RfcxStreamerComponent } from './rfcx-streamer/index';
 import { UserService } from './user/user.service';
 import { AudioService, GuardianService, SiteService } from './services/index';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { AudioNotifier } from './audio-notifier/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -69,7 +70,8 @@ export class SharedModule {
         CookieService,
         SiteService,
         AudioService,
-        GuardianService
+        GuardianService,
+        AudioNotifier
       ]
     };
   }

@@ -7,6 +7,7 @@ import { CookieService } from 'angular2-cookie/core';
 import { GuardianService, SiteService, AudioService } from '../shared/index';
 import { PulseOptions } from '../shared/rfcx-map/index';
 import { Config } from '../shared/config/env.config.js';
+import { AudioNotifier } from '../shared/audio-notifier/index';
 
 import * as moment from 'moment';
 let jQuery: any = (window as any)['$'];
@@ -82,7 +83,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
   // check request will be sent every intervalSec seconds
   public intervalSec: number = 30;
   public deathTimeMin: number = 5;
-  public audio: any;
   public loadIncidentsSubscription: any;
   public loadGuardiansSubscription: any;
   public loadGuardiansAudioSubscription: any;
@@ -101,12 +101,12 @@ export class AlertsComponent implements OnInit, OnDestroy {
     public cookieService: CookieService,
     public siteService: SiteService,
     public guardianService: GuardianService,
-    public audioService: AudioService
+    public audioService: AudioService,
+    public notifier: AudioNotifier
   ) { }
 
   ngOnInit() {
     // start loading initial data only after loading all sites
-    this.initAudio();
     this.intializeFilterValues(() => {
       this.loadData();
     });
@@ -115,12 +115,6 @@ export class AlertsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.clearSerialModeData();
     this.resetData();
-  }
-
-  initAudio() {
-    this.audio = new Audio();
-    this.audio.src = '/assets/mp3/alert.mp3';
-    this.audio.load();
   }
 
   intializeFilterValues(cb: Function) {
@@ -191,7 +185,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
     let isRefreshed = this.appendNewIncidents(incidents, this.incidents);
     console.log('incidents', this.incidents);
     if (isRefreshed) {
-      this.audio.play();
+      this.notifier.alert();
       // we use separate array for map data input because angular ngOnChanges handler
       // doesn't fire when we just append new items to array, so we need this dirty hack
       this.mapIncidents = this.incidents.slice(0);
@@ -614,7 +608,7 @@ export class AlertsComponent implements OnInit, OnDestroy {
           this.clearStreamerData();
           this.clearSerialModeData();
 
-          this.audio.play();
+          this.notifier.alert();
           this.clearAllPulseOpts();
           guardian.pulseOpts = {
             type: 'streaming',
