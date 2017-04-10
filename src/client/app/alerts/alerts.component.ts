@@ -443,6 +443,11 @@ export class AlertsComponent implements OnInit, OnDestroy {
     rangerGhost.coords = this.rangerMessage.coords;
     rangerGhost.forGuid = this.rangerMessage.rangerGuid;
     this.rangersGhosts.push(rangerGhost);
+
+    ranger.hideDirection = true;
+    setTimeout(function() {
+      ranger.hideDirection = false;
+    }, 1500);
   }
 
   clearFormData() {

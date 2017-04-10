@@ -21,6 +21,7 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
   @Input() data: any;
   @Input() type: string;
   @Input() fadeOutTime?: number;
+  @Input() hideDirection?: Boolean;
   @Output() playClick = new EventEmitter();
   @Output() arrowCreated = new EventEmitter();
   public rfcxMapComp: any;
@@ -65,6 +66,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges(changes: any) {
     if (changes.pulseOpts && !changes.pulseOpts.isFirstChange()) {
       this.updatePulse();
+    }
+    if (changes.hideDirection !== undefined && !changes.hideDirection.isFirstChange()) {
+      this.updateArrow(changes.hideDirection);
     }
   }
 
@@ -166,6 +170,9 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
 
   createOrUpdateArrow(opts: any) {
     if (!this.path) {
+      this.createPath(opts);
+    }
+    if (!this.arrow) {
       this.createArrow(opts);
     }
     else {
@@ -177,12 +184,17 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  createArrow(opts: any) {
+  createPath(opts: any) {
     let color = '#ff4155';
     this.path = L.polyline([opts.from, opts.from], {
       color: color,
       weight: 4
     });
+    this.path.addTo(this.rfcxMapComp.rfcxMap);
+  }
+
+  createArrow(opts: any) {
+    let color = '#ff4155';
     this.arrow = (<any>L).polylineDecorator(this.path, {
       patterns: [
         {
@@ -200,8 +212,16 @@ export class RfcxMapMarkerComponent implements OnInit, OnDestroy, OnChanges {
         }
       ]
     });
-    this.path.addTo(this.rfcxMapComp.rfcxMap);
     this.arrow.addTo(this.rfcxMapComp.rfcxMap);
+  }
+
+  updateArrow(hideDirection: Boolean) {
+    if (hideDirection) {
+      if (this.arrow) {
+        this.rfcxMapComp.rfcxMap.removeLayer(this.arrow);
+        this.arrow = null;
+      }
+    }
   }
 
   removeArrow() {

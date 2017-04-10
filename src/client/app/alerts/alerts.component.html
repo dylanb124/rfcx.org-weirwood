@@ -50,7 +50,7 @@
     <rfcx-basemap layerType="satellite"></rfcx-basemap>
     <ng-container *ngFor="let ranger of rangers">
       <rfcx-map-marker [lat]="ranger.coords.lat" [lon]="ranger.coords.lon" [type]="'ranger'"
-                       [data]="ranger" (arrowCreated)="onArrowCreated($event)"></rfcx-map-marker>
+                       [data]="ranger" [hideDirection]="!!ranger.hideDirection" (arrowCreated)="onArrowCreated($event)"></rfcx-map-marker>
     </ng-container>
     <ng-container *ngFor="let ranger of rangersGhosts">
       <rfcx-map-marker [lat]="ranger.coords.lat" [lon]="ranger.coords.lon" [type]="'ranger-ghost'"
