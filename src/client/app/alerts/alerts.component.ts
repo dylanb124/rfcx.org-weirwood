@@ -1,10 +1,10 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { DropdownItem } from '../shared/dropdown/dropdown-item';
 import { DropdownCheckboxItem } from '../shared/dropdown-checkboxes/dropdown-item';
-import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { CookieService } from 'angular2-cookie/core';
-import { GuardianService, SiteService, AudioService } from '../shared/index';
+import { GuardianService, SiteService, AudioService, MessageService } from '../shared/index';
 import { PulseOptions } from '../shared/rfcx-map/index';
 import { Config } from '../shared/config/env.config.js';
 import { AudioNotifier } from '../shared/audio-notifier/index';
@@ -13,7 +13,7 @@ import * as moment from 'moment';
 let jQuery: any = (window as any)['$'];
 
 interface RangerMessage {
-  message?: string;
+  text?: string;
   rangerGuid?: string;
   coords?: {
     lat: number,
@@ -107,7 +107,8 @@ export class AlertsComponent implements OnInit, OnDestroy {
     public siteService: SiteService,
     public guardianService: GuardianService,
     public audioService: AudioService,
-    public notifier: AudioNotifier
+    public notifier: AudioNotifier,
+    public messageService: MessageService
   ) { }
 
   ngOnInit() {
@@ -456,13 +457,28 @@ export class AlertsComponent implements OnInit, OnDestroy {
 
   onSubmitAlert() {
     this.isAlertFormLoading = true;
-    setTimeout(() => {
-      if (this.rangerMessage.rangerGuid) {
-        this.createRangerGhost();
-      }
-      this.clearFormData();
-      this.isAlertFormLoading = false;
-    }, 2000);
+    this.messageService
+      .sendMessage({
+        text: this.rangerMessage.text,
+        userTo: this.cookieService.get('guid'),
+        coords: {
+          latitude: this.rangerMessage.coords.lat,
+          longitude: this.rangerMessage.coords.lon
+        }
+      })
+      .subscribe(
+        res => {
+          console.log('Saving message', res);
+          if (this.rangerMessage.rangerGuid) {
+            this.createRangerGhost();
+          }
+          this.clearFormData();
+        },
+        err => console.log('Error loading incidents', err),
+        () => {
+          this.isAlertFormLoading = false;
+        }
+      );
   }
 
   changeStreamingMode(mode: string) {

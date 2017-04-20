@@ -6,6 +6,7 @@ export * from './spinner/index';
 export * from './user/user.service';
 export * from './user/logged-in.guard';
 export * from './services/site.service';
+export * from './services/message.service';
 export * from './services/guardian.service';
 export * from './services/audio.service';
 export * from './config/env.config';
