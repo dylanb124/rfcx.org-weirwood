@@ -146,7 +146,7 @@ export class IncidentsChartComponent implements OnInit, OnChanges {
     });
 
     this.yAxis
-      .ticks(yMax > 5 ? 5 : yMax)
+      .ticks(Number(yMax) > 5 ? 5 : yMax)
       .tickSize(-this.width);
 
     this.svg.selectAll('*').remove();
